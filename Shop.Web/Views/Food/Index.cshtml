@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Shop.Data.Models.Food>
+
+<div>
+    <h2>All drinks</h2>
+    @foreach (var food in Model)
+    {
+        <div>
+            <br />
+            <h4>Drink name: @food.Name</h4>
+            <p>Price: @food.Price.ToString("c")</p>
+        </div>
+    }
+</div>
