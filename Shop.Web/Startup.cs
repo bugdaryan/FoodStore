@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DrinkAndGo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shop.Data;
 using Shop.Data.Seeds;
+using Shop.Service;
 
 namespace Shop.Web
 {
@@ -24,8 +27,11 @@ namespace Shop.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ICategory, SeedCategory>();
-            services.AddTransient<IFood, SeedFood>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<ICategory, CategoryService>();
+            services.AddTransient<IFood, FoodService>();
             services.AddMvc();
         }
 
@@ -46,6 +52,7 @@ namespace Shop.Web
             }
 
             app.UseStaticFiles();
+            DbInitializer.Seed(app);
 
             app.UseMvc(routes =>
             {
