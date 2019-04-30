@@ -1,35 +1,46 @@
-﻿using Shop.Data.Models;
-using System;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Shop.Data;
+using Shop.Data.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Shop.Data.Seeds
+namespace DrinkAndGo.Data
 {
-    public class SeedFood : IFood
+    public class DbInitializer
     {
-        private readonly ICategory _category;
-        private readonly IEnumerable<Food> _foods;
-
-        public SeedFood()
+        public static void Seed(IApplicationBuilder applicationBuilder)
         {
-            _category = new SeedCategory();
-            _foods = new List<Food>
+            using (var serviceScope = applicationBuilder.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+                .CreateScope())
             {
-                new Food
+                ApplicationDbContext context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+
+                if (!context.Categories.Any())
                 {
-                    Name = "Eggplant",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Vegetable"),
-                    ImageUrl="https://images.pexels.com/photos/321551/pexels-photo-321551.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
-                    InStock=true,
-                    IsPreferedFood = false,
-                    ShortDescription = "The aubergine (also called eggplant) is a plant. Its fruit is eaten as a vegetable.",
-                    LongDescription = "The plant is in the nightshade family of plants. It is related to the potato and tomato. Originally it comes from India and Sri Lanka. The Latin/French term aubergine originally derives from the historical city of Vergina (Βεργίνα) in Greece.",
-                    Price = 4.5M
-                },
+                    context.Categories.AddRange(Categories.Select(c => c.Value));
+                }
+
+                //context.Drinks.RemoveRange(context.Drinks);
+                if (!context.Foods.Any())
+                {
+                    context.AddRange
+                    (
+                         new Food
+                         {
+                             Name = "Eggplant",
+                             Category = categories["Vegetable"],
+                             ImageUrl = "https://images.pexels.com/photos/321551/pexels-photo-321551.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                             InStock = true,
+                             IsPreferedFood = false,
+                             ShortDescription = "The aubergine (also called eggplant) is a plant. Its fruit is eaten as a vegetable.",
+                             LongDescription = "The plant is in the nightshade family of plants. It is related to the potato and tomato. Originally it comes from India and Sri Lanka. The Latin/French term aubergine originally derives from the historical city of Vergina (Βεργίνα) in Greece.",
+                             Price = 4.5M
+                         },
                 new Food
                 {
                     Name = "Cauliflower",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Vegetable"),
+                    Category = categories["Vegetable"],
                     ImageUrl = "https://images.pexels.com/photos/461245/pexels-photo-461245.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                     InStock = true,
                     IsPreferedFood = true,
@@ -40,7 +51,7 @@ namespace Shop.Data.Seeds
                 new Food
                 {
                     Name = "Broccoli",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Vegetable"),
+                    Category = categories["Vegetable"],
                     ImageUrl = "https://images.pexels.com/photos/47347/broccoli-vegetable-food-healthy-47347.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                     InStock = false,
                     IsPreferedFood = true,
@@ -51,18 +62,18 @@ namespace Shop.Data.Seeds
                 new Food
                 {
                     Name = "Apple",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Fruit"),
+                    Category = categories["Fruit"],
                     ImageUrl = "https://images.pexels.com/photos/39803/pexels-photo-39803.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                     InStock = true,
                     IsPreferedFood = true,
-                    ShortDescription="The apple tree (Malus domestica) is a tree that grows fruit (such as apples) in the rose family best known for its juicy, tasty fruit.",
+                    ShortDescription = "The apple tree (Malus domestica) is a tree that grows fruit (such as apples) in the rose family best known for its juicy, tasty fruit.",
                     LongDescription = "Apples are generally propagated by grafting, although wild apples grow readily from seed. Apple trees are large if grown from seed, but small if grafted onto roots (rootstock). There are more than 7,500 known cultivars of apples, with a range of desired characteristics. Different cultivars are bred for various tastes and uses: cooking, eating raw and cider production are the most common uses.",
                     Price = 2.7M
                 },
                 new Food
                 {
-                    Name ="Avocado",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Fruit"),
+                    Name = "Avocado",
+                    Category = categories["Fruit"],
                     ImageUrl = "https://images.pexels.com/photos/557659/pexels-photo-557659.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                     InStock = false,
                     IsPreferedFood = false,
@@ -74,7 +85,7 @@ Avocado trees come from Central America and Mexico. They can grow in many places
                 new Food
                 {
                     Name = "Banana",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Fruit"),
+                    Category = categories["Fruit"],
                     ImageUrl = "https://images.pexels.com/photos/38283/bananas-fruit-carbohydrates-sweet-38283.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                     InStock = true,
                     IsPreferedFood = true,
@@ -85,7 +96,7 @@ Avocado trees come from Central America and Mexico. They can grow in many places
                 new Food
                 {
                     Name = "Grapefruit",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Fruit"),
+                    Category = categories["Fruit"],
                     ImageUrl = "https://images.pexels.com/photos/209549/pexels-photo-209549.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                     InStock = true,
                     IsPreferedFood = false,
@@ -96,7 +107,7 @@ Avocado trees come from Central America and Mexico. They can grow in many places
                 new Food
                 {
                     Name = "Barley",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Grain"),
+                    Category = categories["Grain"],
                     ImageUrl = "https://images.pexels.com/photos/533346/pexels-photo-533346.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                     InStock = true,
                     IsPreferedFood = false,
@@ -107,7 +118,7 @@ Avocado trees come from Central America and Mexico. They can grow in many places
                 new Food
                 {
                     Name = "Beef",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Meat"),
+                    Category = categories["Meat"],
                     ImageUrl = "https://images.pexels.com/photos/618775/pexels-photo-618775.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                     InStock = true,
                     IsPreferedFood = true,
@@ -118,7 +129,7 @@ Avocado trees come from Central America and Mexico. They can grow in many places
                 new Food
                 {
                     Name = "Chicken",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Meat"),
+                    Category = categories["Meat"],
                     ImageUrl = "https://images.pexels.com/photos/616353/pexels-photo-616353.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                     InStock = true,
                     IsPreferedFood = true,
@@ -129,7 +140,7 @@ Avocado trees come from Central America and Mexico. They can grow in many places
                 new Food
                 {
                     Name = "Butter",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Milk"),
+                    Category = categories["Milk"],
                     ImageUrl = "https://images.pexels.com/photos/531334/pexels-photo-531334.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=450",
                     InStock = false,
                     IsPreferedFood = false,
@@ -140,7 +151,7 @@ Avocado trees come from Central America and Mexico. They can grow in many places
                 new Food
                 {
                     Name = "Cheese",
-                    Category = _category.GetAll().FirstOrDefault(c => c.Name == "Milk"),
+                    Category = categories["Milk"],
                     ImageUrl = "https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                     InStock = true,
                     IsPreferedFood = true,
@@ -148,26 +159,64 @@ Avocado trees come from Central America and Mexico. They can grow in many places
                     LongDescription = "It comprises proteins and fat from milk, usually the milk of cows, buffalo, goats, or sheep. During production, the milk is usually acidified, and adding the enzyme rennet causes coagulation. The solids are separated and pressed into final form.",
                     Price = 4.4M
                 }
-            };
-        }
-        public IEnumerable<Food> GetAll()
-        {
-            return _foods;
+                    );
+                }
+
+                context.SaveChanges();
+            }
         }
 
-        public Food GetById(int id)
+        private static Dictionary<string, Category> categories;
+        public static Dictionary<string, Category> Categories
         {
-            throw new NotImplementedException();
-        }
+            get
+            {
+                if (categories == null)
+                {
+                    var genresList = new Category[]
+                    {
+                        new Category
+                        {
+                            Name = "Vegetable",
+                            Description = "All vegetables and legumes/beans foods",
+                            ImageUrl = "https://images.pexels.com/photos/533360/pexels-photo-533360.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                        },
+                    new Category
+                    {
+                        Name = "Fruit",
+                        Description = "All fruits",
+                        ImageUrl = "https://images.pexels.com/photos/8066/fruits-market-colors.jpg?auto=compress&cs=tinysrgb&dpr=1&w=450"
+                    },
+                    new Category
+                    {
+                        Name = "Grain",
+                        Description = "Grain (cereal) foods, mostly wholegrain and/or high cereal fibre varieties",
+                        ImageUrl = "https://images.pexels.com/photos/1537169/pexels-photo-1537169.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450"
+                    },
+                    new Category
+                    {
+                        Name = "Meat",
+                        Description = "Lean meats and poultry, fish, eggs, tofu, nuts and seeds and legumes/beans",
+                        ImageUrl = "https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450"
+                    },
+                    new Category
+                    {
+                        Name = "Milk",
+                        Description = "Milk, yoghurt cheese and/or alternatives, mostly reduced fat",
+                        ImageUrl = "https://images.pexels.com/photos/416656/pexels-photo-416656.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450"
+                    }
+                    };
 
-        public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)
-        {
-            return _foods.Where(food => food.Category.Id == categoryId);
-        }
+                    categories = new Dictionary<string, Category>();
 
-        public IEnumerable<Food> GetPreferred()
-        {
-            throw new NotImplementedException();
+                    foreach (Category genre in genresList)
+                    {
+                        categories.Add(genre.Name, genre);
+                    }
+                }
+
+                return categories;
+            }
         }
     }
 }

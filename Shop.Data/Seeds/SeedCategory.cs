@@ -47,5 +47,10 @@ namespace Shop.Data.Seeds
         {
             return _categories;
         }
+
+        public Category GetById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
