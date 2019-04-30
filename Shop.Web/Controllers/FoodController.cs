@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
+using Shop.Web.Models.Food;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +19,23 @@ namespace Shop.Web.Controllers
             _foodService = foodService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
-            var foods = _foodService.GetAll();
-            return View(foods);
+            var food = _foodService.GetById(id);
+
+            var model = new FoodIndexModel
+            {
+                Id = food.Id,
+                Name = food.Name,
+                ImageUrl = food.ImageUrl,
+                InStock = food.InStock,
+                Price = food.Price,
+                Description = food.ShortDescription + "\n" + food.LongDescription,
+                CategoryId = food.Category.Id,
+                CategoryName = food.Category.Name
+            };
+
+            return View(model);
         }
     }
 }

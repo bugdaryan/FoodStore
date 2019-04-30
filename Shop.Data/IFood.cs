@@ -1,7 +1,5 @@
 ﻿using Shop.Data.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Shop.Data
 {
@@ -9,6 +7,7 @@ namespace Shop.Data
     {
         IEnumerable<Food> GetAll();
         IEnumerable<Food> GetPreferred();
+        IEnumerable<Food> GetFoodsByCategoryId(int categoryId);
         Food GetById(int id);
     }
 }

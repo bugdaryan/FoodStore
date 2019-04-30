@@ -6,5 +6,6 @@ namespace Shop.Data
     public interface ICategory
     {
         IEnumerable<Category> GetAll();
+        Category GetById(int id);
     }
 }
