@@ -1,0 +1,79 @@
+﻿@model Shop.Web.Models.Category.CategoryTopicModel
+
+
+@{
+    ViewData["Name"] = "Topic";
+}
+
+<div class="container body-content">
+    <div class="row sectionHeader">
+        <div class="sectionHeading">
+            <span id="results">@Model.Category.Name</span>
+            <form asp-controller="Category" asp-action="Search" method="post">
+                <div class="searchForm">
+                    <input asp-for="SearchQuery" type="text" placeholder="Search..." class="searchBar" onfocus="clearThis(this)">
+                    <button type="submit" class="btn btn-categorySearch">
+                        <i class="material-icons">search</i>
+                    </button>
+                </div>
+                <input asp-for="Category.Id" name="id" type="hidden" />
+            </form>
+        </div>
+        <div class="sectionDescription">
+            <div class="categoryLogo" style="background-image: url(@Model.Category.ImageUrl); background-size:100%"></div>
+            <p>Welcome to the <strong>@Model.Category.Name</strong></p>
+            <p>
+                Please read the Category Guidelines before ordering a product.
+            </p>
+        </div>
+    </div>
+    <div class="row" id="categoryIndexContent">
+        @if (Model.Foods.Any())
+        {
+            <table class="table table-hover table-bordered" id="categoryIndexTable">
+                <tbody>
+                    @foreach (var food in Model.Foods)
+                    {
+                        <tr>
+                            <td>
+                                <div class="foodData">
+                                    <div class="foodName">
+                                        <a asp-controller="Post" asp-action="Index" asp-route-id="@food.Id">@food.Name</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else if (string.IsNullOrEmpty(@Model.SearchQuery) || string.IsNullOrWhiteSpace(Model.SearchQuery))
+        {
+            <div class="noFoods">
+                <i class="material-icons md-72">question_answer</i>
+                <h3>
+                    No search results found for @Model.SearchQuery! <br />
+                </h3>
+            </div>
+
+        }
+
+        else if (!@Model.Foods.Any())
+        {
+            <div class="noFoods">
+                <i class="material-icons md-72">question_answer</i>
+                <h3>
+                    It looks like there are no @Model.Category.Name products yet. <br />
+                </h3>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function clearThis(target) {
+            target.value = "";
+        }
+    </script>
+}
