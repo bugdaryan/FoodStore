@@ -1,10 +1,5 @@
 ﻿@model Shop.Web.Models.Category.CategoryTopicModel
 
-
-@{
-    ViewData["Name"] = "Topic";
-}
-
 <div class="container body-content">
     <div class="row sectionHeader">
         <div class="sectionHeading">
@@ -21,7 +16,7 @@
         </div>
         <div class="sectionDescription">
             <div class="categoryLogo" style="background-image: url(@Model.Category.ImageUrl); background-size:100%"></div>
-            <p>Welcome to the <strong>@Model.Category.Name</strong></p>
+            <p>Welcome to the <strong>@Model.Category.Name</strong> section</p>
             <p>
                 Please read the Category Guidelines before ordering a product.
             </p>
@@ -38,7 +33,7 @@
                             <td>
                                 <div class="foodData">
                                     <div class="foodName">
-                                        <a asp-controller="Post" asp-action="Index" asp-route-id="@food.Id">@food.Name</a>
+                                        <a asp-controller="Food" asp-action="Index" asp-route-id="@food.Id">@food.Name</a>
                                     </div>
                                 </div>
                             </td>

@@ -1,13 +1,23 @@
-﻿@model IEnumerable<Shop.Data.Models.Food>
+﻿@model Shop.Web.Models.Food.FoodIndexModel
 
-<div>
-    <h2>All drinks</h2>
-    @foreach (var food in Model)
-    {
-        <div>
-            <br />
-            <h4>Drink name: @food.Name</h4>
-            <p>Price: @food.Price.ToString("c")</p>
+<div class="container body-content">
+    <div class="row foodHeader">
+        <div class="foodHeading">
+            <span class="foodIndexName">
+                @Model.Name
+            </span>
+            <span id="headingBtn"><a asp-controller="Category" asp-action="Topic" asp-route-id="@Model.CategoryId" class="btn btn-back">Back to @Model.CategoryName section</a></span>
         </div>
-    }
+    </div>
+
+    <div class="row" id="foodIndexContent">
+        <div class="col-md-9 foodContentContainer">
+            <div class="categoryLogo" style="background-image: url(@Model.ImageUrl); background-size:100%; width:360px;height:240px"></div>
+
+            <div class="foodContent">
+                @Html.Raw(Model.Description)
+            </div>
+        </div>
+    </div>
 </div>
+
