@@ -13,10 +13,12 @@
     <div class="row" id="foodIndexContent">
         <div class="col-md-9 foodContentContainer">
             <div class="categoryLogo" style="background-image: url(@Model.ImageUrl); background-size:100%; width:360px;height:240px"></div>
-
             <div class="foodContent">
                 @Html.Raw(Model.Description)
             </div>
+        </div>
+        <div class="col-md-3">
+            <div class="categoryPrice">@Model.Price.ToString("c")</div>
         </div>
     </div>
 </div>

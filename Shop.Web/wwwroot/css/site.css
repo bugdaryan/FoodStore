@@ -322,6 +322,13 @@
     font-size: 0.9em;
 }
 
+.categoryPrice {
+    float:right;
+    margin:16px;
+    font-size:24px;
+    font-weight:bold;
+}
+
 #categoryIndexContent {
     padding-bottom: 60px;
     background-color: white;
