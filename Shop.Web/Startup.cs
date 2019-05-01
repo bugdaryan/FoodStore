@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using DrinkAndGo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shop.Data;
+using Shop.Data.Models;
 using Shop.Data.Seeds;
 using Shop.Service;
 
@@ -32,7 +34,13 @@ namespace Shop.Web
 
             services.AddTransient<ICategory, CategoryService>();
             services.AddTransient<IFood, FoodService>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sp => ShoppingCart.GetCart(sp));
+
             services.AddMvc();
+            services.AddMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,12 +62,9 @@ namespace Shop.Web
             app.UseStaticFiles();
             DbInitializer.Seed(app);
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseSession();
+
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
