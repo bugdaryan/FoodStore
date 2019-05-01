@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Shop.Service
 {
@@ -26,6 +27,17 @@ namespace Shop.Service
         public Food GetById(int id)
         {
             return GetAll().FirstOrDefault(food => food.Id == id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
+        {
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if(queries == null)
+            {
+                return GetFoodsByCategoryId(id);
+            }
+
+            return GetFoodsByCategoryId(id).Where(item => item.Category.Id == id && queries.Any(query => (item.Name.ToLower().Contains(query))));
         }
 
         public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)

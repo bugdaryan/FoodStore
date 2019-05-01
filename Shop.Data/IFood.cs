@@ -8,6 +8,7 @@ namespace Shop.Data
         IEnumerable<Food> GetAll();
         IEnumerable<Food> GetPreferred(int count);
         IEnumerable<Food> GetFoodsByCategoryId(int categoryId);
+        IEnumerable<Food> GetFilteredFoods(int id, string searchQuery);
         Food GetById(int id);
     }
 }
