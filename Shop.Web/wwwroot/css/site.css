@@ -13,12 +13,12 @@
 }
 
 .navLogo {
-    background-image: url("/images/app-logo-s.png");
+    background-image: url("/images/logo.png");
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
     padding-right: 16px;
-    width: 150px;
+    width: 100px;
     margin-right: 12px;
 }
 
@@ -302,8 +302,8 @@
     border-radius: 3px;
     float: left;
     margin-right: 20px;
-    height: 50px;
-    width: 90px;
+    height: 120px;
+    width: 180px;
     background-color: #ddd;
     border: 1px solid #555;
     background-size: 100%;
