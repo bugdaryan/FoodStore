@@ -169,5 +169,10 @@ Avocado trees come from Central America and Mexico. They can grow in many places
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Food> GetPreferred(int count)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

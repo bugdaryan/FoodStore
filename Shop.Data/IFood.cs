@@ -6,7 +6,7 @@ namespace Shop.Data
     public interface IFood
     {
         IEnumerable<Food> GetAll();
-        IEnumerable<Food> GetPreferred();
+        IEnumerable<Food> GetPreferred(int count);
         IEnumerable<Food> GetFoodsByCategoryId(int categoryId);
         Food GetById(int id);
     }

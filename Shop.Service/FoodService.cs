@@ -33,9 +33,10 @@ namespace Shop.Service
             return GetAll().Where(food => food.Category.Id == categoryId);
         }
 
-        public IEnumerable<Food> GetPreferred()
+        public IEnumerable<Food> GetPreferred(int count)
         {
-            throw new NotImplementedException();
+            return GetAll().Where(food => food.IsPreferedFood).Take(count);
         }
+
     }
 }
