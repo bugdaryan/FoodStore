@@ -1,37 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
+using Shop.Data.Models;
+using Shop.Web.Models;
+using Shop.Web.Models.Category;
+using Shop.Web.Models.Food;
+using Shop.Web.Models.Home;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Shop.Web.Models;
 
 namespace Shop.Web.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly IFood _foodService;
+
+        public HomeController(IFood foodService)
+        {
+            _foodService = foodService;
+        }
+
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            var model = BuildIndexModel();
+            return View(model);
         }
 
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        private HomeIndexModel BuildIndexModel()
+        {
+            var preferedFoods = _foodService.GetPreferred(10);
+            var foods = preferedFoods.Select(food => new FoodListingModel
+            {
+                Id = food.Id,
+                Name = food.Name,
+                Category = BuildCategoryListing(food.Category),
+                ImageUrl = food.ImageUrl,
+                InStock = food.InStock,
+                Price = food.Price,
+                ShortDescription = food.ShortDescription
+            });
+
+            return new HomeIndexModel
+            {
+                PreferedFoods = foods
+            };
+        }
+
+        private CategoryListingModel BuildCategoryListing(Category category)
+        {
+            return new CategoryListingModel
+            {
+                Id = category.Id,
+                Description = category.Description,
+                Name = category.Name,
+                ImageUrl = category.ImageUrl
+            };
+        }
+
     }
 }
