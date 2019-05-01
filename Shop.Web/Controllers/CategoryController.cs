@@ -37,10 +37,10 @@ namespace Shop.Web.Controllers
             return View(model);
         }
 
-        public IActionResult Topic(int id)
+        public IActionResult Topic(int id, string searchQuery)
         {
             var category = _categoryService.GetById(id);
-            var foods = _foodService.GetFoodsByCategoryId(id);
+            var foods = _foodService.GetFilteredFoods(id, searchQuery);
 
             var foodListings = foods.Select(food => new FoodListingModel
             {
@@ -49,7 +49,8 @@ namespace Shop.Web.Controllers
                 InStock = food.InStock,
                 Price = food.Price,
                 ShortDescription = food.ShortDescription,
-                Category = BuildCategoryListing(food)
+                Category = BuildCategoryListing(food),
+                ImageUrl = food.ImageUrl
             });
 
             var model = new CategoryTopicModel
@@ -59,6 +60,11 @@ namespace Shop.Web.Controllers
             };
 
             return View(model);
+        }
+
+        public IActionResult Search(int id, string searchQuery)
+        {
+            return RedirectToAction("Topic", new { id, searchQuery });
         }
 
         private CategoryListingModel BuildCategoryListing(Food food)

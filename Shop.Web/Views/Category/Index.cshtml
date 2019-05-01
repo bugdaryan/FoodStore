@@ -13,7 +13,9 @@ else
             {
                 <tr>
                     <td>
+                        
                         <a asp-controller="Category" asp-action="Topic" asp-route-id="@category.Id">
+                            <div class="categoryLogo" style="background-image: url(@category.ImageUrl); background-size:100%;"></div>
                             @category.Name
                         </a>
                     </td>
