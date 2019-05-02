@@ -1,6 +1,4 @@
-﻿@inject Shop.Data.Models.ShoppingCart ShoppingCart
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -38,20 +36,7 @@
                     <li><a asp-area="" asp-controller="Category" asp-action="Index">Categories</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a asp-area="" asp-controller="ShoppingCart" asp-action="Index" style="padding:5px;">
-                            <i class="fas fa-shopping-cart fa-3x"></i>
-                            <span style="font-size:30px">
-                                @if (ShoppingCart.ShoppingCartItems == null)
-                                {
-                                    @Html.Raw(0);
-                                }
-                                else
-                                {
-                                    @Html.Raw(@ShoppingCart.ShoppingCartItems.Count());
-                                }
-                            </span>
-                        </a>
-                    </li>
+                    @await  Component.InvokeAsync("ShoppingCartSummary")
                 </ul>
             </div>
         </div>

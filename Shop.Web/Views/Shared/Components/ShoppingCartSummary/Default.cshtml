@@ -1,0 +1,13 @@
+﻿@model Shop.Web.Models.ShoppingCart.ShoppingCartIndexModel
+
+@*@if (Model.ShoppingCart.ShoppingCartItems.Count() > 0)*@
+  @*{*@
+    <li>
+        <a asp-area="" asp-controller="ShoppingCart" asp-action="Index" style="padding:5px;">
+            <i class="fas fa-shopping-cart fa-3x"></i>
+            <div style="font-size:20px; text-align:center; margin:5px;">
+                @Html.Raw(@Model.ShoppingCart.ShoppingCartItems.Count())
+            </div>
+        </a>
+    </li>
+@* } *@ 
