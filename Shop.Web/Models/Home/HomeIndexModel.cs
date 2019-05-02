@@ -6,6 +6,6 @@ namespace Shop.Web.Models.Home
     public class HomeIndexModel
     {
         public string SearchQuery { get; set; }
-        public IEnumerable<FoodListingModel> PreferedFoods { get; set; }
+        public IEnumerable<FoodListingModel> FoodsList { get; set; }
     }
 }

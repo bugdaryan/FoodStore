@@ -6,7 +6,7 @@
             <div class="frontPageHeading">Healthy, Cheap, Easy...</div>
             <p class="frontPageSubHeading">This is online shopping site for food</p>
             <div>
-                <form asp-controller="Search" asp-action="Search" method="post">
+                <form asp-controller="Home" asp-action="Search" method="post">
                     <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Search..." />
                 </form>
             </div>
@@ -17,7 +17,7 @@
         <h3 id="latestFoods">Prefered products</h3>
         <table class="table table-hover" id="latestFoodsTable">
             <tbody>
-                @foreach (var food in Model.PreferedFoods)
+                @foreach (var food in Model.FoodsList)
                 {
                     <tr>
                         <td>

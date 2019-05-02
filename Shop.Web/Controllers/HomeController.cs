@@ -5,6 +5,8 @@ using Shop.Web.Models;
 using Shop.Web.Models.Category;
 using Shop.Web.Models.Food;
 using Shop.Web.Models.Home;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -22,7 +24,8 @@ namespace Shop.Web.Controllers
 
         public IActionResult Index()
         {
-            var model = BuildIndexModel();
+            var preferedFoods = _foodService.GetPreferred(10);
+            var model = BuildIndexModel(preferedFoods);
             return View(model);
         }
 
@@ -31,10 +34,23 @@ namespace Shop.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private HomeIndexModel BuildIndexModel()
+        public IActionResult Search(string searchQuery)
         {
-            var preferedFoods = _foodService.GetPreferred(10);
-            var foods = preferedFoods.Select(food => new FoodListingModel
+            if (string.IsNullOrWhiteSpace(searchQuery) || string.IsNullOrEmpty(searchQuery))
+            {
+                return RedirectToAction("Index");
+            }
+
+            var searchedFoods = _foodService.GetFilteredFoods(searchQuery);
+            var model = BuildIndexModel(searchedFoods);
+
+            return View(model);
+        }
+
+        private HomeIndexModel BuildIndexModel(IEnumerable<Food> foodsListing)
+        {
+
+            var foods = foodsListing.Select(food => new FoodListingModel
             {
                 Id = food.Id,
                 Name = food.Name,
@@ -47,7 +63,7 @@ namespace Shop.Web.Controllers
 
             return new HomeIndexModel
             {
-                PreferedFoods = foods
+                FoodsList = foods
             };
         }
 
