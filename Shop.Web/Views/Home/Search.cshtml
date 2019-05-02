@@ -1,0 +1,44 @@
+﻿@model Shop.Web.Models.Home.HomeIndexModel
+
+<div class="container body-content">
+    <div class="row frontPageSplash">
+        <div class="col-md-6 frontPageLearn">
+            <div class="frontPageHeading">Healthy, Cheap, Easy...</div>
+            <p class="frontPageSubHeading">This is online shopping site for food</p>
+            <div>
+                <form asp-controller="Home" asp-action="Search" method="post">
+                    <input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Search..." />
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row frontPageContent">
+        <h3 id="latestFoods">Search result</h3>
+        @if (Model.FoodsList.Any())
+        {
+            <table class="table table-hover" id="latestFoodsTable">
+                <tbody>
+                    @foreach (var food in Model.FoodsList)
+                    {
+                        <tr>
+                            <td>
+                                <div class="categoryLogo" style="background-image: url(@food.ImageUrl);background-size=100%"></div>
+                                <div class="foodName">
+                                    <a asp-controller="Food" asp-action="Index" asp-route-id="@food.Id">
+                                        @food.Name
+                                    </a>
+                                </div>
+                                <div class="categoryPrice">@food.Price.ToString("c")</div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h4>It looks like there are no search results...</h4>
+        }
+    </div>
+</div>
