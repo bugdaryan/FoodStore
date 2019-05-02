@@ -31,13 +31,24 @@ namespace Shop.Service
 
         public IEnumerable<Food> GetFilteredFoods(int id, string searchQuery)
         {
-            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
-            if(queries == null)
+            
+            if(string.IsNullOrEmpty(searchQuery) || string.IsNullOrWhiteSpace(searchQuery))
             {
                 return GetFoodsByCategoryId(id);
             }
 
-            return GetFoodsByCategoryId(id).Where(item => item.Category.Id == id && queries.Any(query => (item.Name.ToLower().Contains(query))));
+            return GetFilteredFoods(searchQuery).Where(food => food.Category.Id == id);
+        }
+
+        public IEnumerable<Food> GetFilteredFoods(string searchQuery)
+        {
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            if(queries == null)
+            {
+                return GetPreferred(10);
+            }
+
+            return GetAll().Where(item => queries.Any(query => (item.Name.ToLower().Contains(query))));
         }
 
         public IEnumerable<Food> GetFoodsByCategoryId(int categoryId)
