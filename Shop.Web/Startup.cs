@@ -31,6 +31,7 @@ namespace Shop.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                //options.UseSqlite("DataSource=FoodShop.Dev.db"));
 
             services.AddIdentity<IdentityUser, IdentityRole>(
                options =>

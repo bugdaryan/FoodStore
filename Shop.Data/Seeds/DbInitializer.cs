@@ -16,6 +16,8 @@ namespace DrinkAndGo.Data
             {
                 ApplicationDbContext context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
 
+                context.Database.EnsureCreated();
+
                 if (!context.Categories.Any())
                 {
                     context.Categories.AddRange(Categories.Select(c => c.Value));
@@ -30,7 +32,7 @@ namespace DrinkAndGo.Data
                          {
                              Name = "Eggplant",
                              Category = categories["Vegetable"],
-                             //ImageUrl = "https://images.pexels.com/photos/321551/pexels-photo-321551.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                             ImageUrl = "https://images.pexels.com/photos/321551/pexels-photo-321551.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                              InStock = true,
                              IsPreferedFood = false,
                              ShortDescription = "The aubergine (also called eggplant) is a plant. Its fruit is eaten as a vegetable.",
@@ -41,7 +43,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Cauliflower",
                             Category = categories["Vegetable"],
-                            //ImageUrl = "https://images.pexels.com/photos/461245/pexels-photo-461245.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/461245/pexels-photo-461245.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = true,
                             IsPreferedFood = true,
                             ShortDescription = "Cauliflower is one of several vegetables in the species Brassica oleracea, in the family Brassicaceae.",
@@ -52,7 +54,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Broccoli",
                             Category = categories["Vegetable"],
-                            //ImageUrl = "https://images.pexels.com/photos/47347/broccoli-vegetable-food-healthy-47347.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/47347/broccoli-vegetable-food-healthy-47347.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = false,
                             IsPreferedFood = true,
                             ShortDescription = "Broccoli is a plant, Brassica oleracea. It is a vegetable like cabbage.",
@@ -63,7 +65,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Apple",
                             Category = categories["Fruit"],
-                            //ImageUrl = "https://images.pexels.com/photos/39803/pexels-photo-39803.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/39803/pexels-photo-39803.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = true,
                             IsPreferedFood = true,
                             ShortDescription = "The apple tree (Malus domestica) is a tree that grows fruit (such as apples) in the rose family best known for its juicy, tasty fruit.",
@@ -74,7 +76,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Avocado",
                             Category = categories["Fruit"],
-                            //ImageUrl = "https://images.pexels.com/photos/557659/pexels-photo-557659.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/557659/pexels-photo-557659.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = false,
                             IsPreferedFood = false,
                             ShortDescription = "An avocado is a berry fruit. It has medium dark green or dark green bumpy or smooth skin depending on the variety.",
@@ -86,7 +88,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Banana",
                             Category = categories["Fruit"],
-                            //ImageUrl = "https://images.pexels.com/photos/38283/bananas-fruit-carbohydrates-sweet-38283.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/38283/bananas-fruit-carbohydrates-sweet-38283.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = true,
                             IsPreferedFood = true,
                             ShortDescription = "A banana is the common name for a type of fruit and also the name for the herbaceous plants that grow it.",
@@ -97,7 +99,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Grapefruit",
                             Category = categories["Fruit"],
-                            //ImageUrl = "https://images.pexels.com/photos/209549/pexels-photo-209549.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/209549/pexels-photo-209549.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = true,
                             IsPreferedFood = false,
                             ShortDescription = "Grapefruit is a citrus fruit grown in sub-tropical places.",
@@ -108,7 +110,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Barley",
                             Category = categories["Grain"],
-                            //ImageUrl = "https://images.pexels.com/photos/533346/pexels-photo-533346.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/533346/pexels-photo-533346.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = true,
                             IsPreferedFood = false,
                             ShortDescription = "Barley, a member of the grass family, is a major cereal grain grown in temperate climates globally.",
@@ -119,7 +121,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Beef",
                             Category = categories["Meat"],
-                            //ImageUrl = "https://images.pexels.com/photos/618775/pexels-photo-618775.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/618775/pexels-photo-618775.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = true,
                             IsPreferedFood = true,
                             ShortDescription = "Beef is the culinary name for meat from bovines, especially cattle.",
@@ -130,7 +132,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Chicken",
                             Category = categories["Meat"],
-                            //ImageUrl = "https://images.pexels.com/photos/616353/pexels-photo-616353.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/616353/pexels-photo-616353.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = true,
                             IsPreferedFood = true,
                             ShortDescription = "Chicken is the most common type of poultry in the world, and was one of the first domesticated animals.",
@@ -141,7 +143,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Butter",
                             Category = categories["Milk"],
-                            //ImageUrl = "https://images.pexels.com/photos/531334/pexels-photo-531334.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/531334/pexels-photo-531334.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=450",
                             InStock = false,
                             IsPreferedFood = false,
                             ShortDescription = "Butter is a dairy product with high butterfat content which is solid when chilled and at room temperature in some regions, and liquid when warmed.",
@@ -152,7 +154,7 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Cheese",
                             Category = categories["Milk"],
-                            //ImageUrl = "https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                             InStock = true,
                             IsPreferedFood = true,
                             ShortDescription = "Cheese is a dairy product derived from milk that is produced in a wide range of flavors, textures, and forms by coagulation of the milk protein casein.",
@@ -162,10 +164,10 @@ namespace DrinkAndGo.Data
                     };
 
 
-                    foreach (var food in foods)
-                    {
-                        food.ImageUrl = $"/images/Foods/{food.Name}.png";
-                    }
+                    //foreach (var food in foods)
+                    //{
+                    //    food.ImageUrl = $"/images/Foods/{food.Name}.png";
+                    //}
 
                     context.AddRange(foods);
                 }
@@ -187,31 +189,31 @@ namespace DrinkAndGo.Data
                         {
                             Name = "Vegetable",
                             Description = "All vegetables and legumes/beans foods",
-                            //ImageUrl = "https://images.pexels.com/photos/533360/pexels-photo-533360.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
+                            ImageUrl = "https://images.pexels.com/photos/533360/pexels-photo-533360.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450",
                         },
                     new Category
                     {
                         Name = "Fruit",
                         Description = "All fruits",
-                        //ImageUrl = "https://images.pexels.com/photos/8066/fruits-market-colors.jpg?auto=compress&cs=tinysrgb&dpr=1&w=450"
+                        ImageUrl = "https://images.pexels.com/photos/8066/fruits-market-colors.jpg?auto=compress&cs=tinysrgb&dpr=1&w=450"
                     },
                     new Category
                     {
                         Name = "Grain",
                         Description = "Grain (cereal) foods, mostly wholegrain and/or high cereal fibre varieties",
-                        //ImageUrl = "https://images.pexels.com/photos/1537169/pexels-photo-1537169.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450"
+                        ImageUrl = "https://images.pexels.com/photos/1537169/pexels-photo-1537169.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450"
                     },
                     new Category
                     {
                         Name = "Meat",
                         Description = "Lean meats and poultry, fish, eggs, tofu, nuts and seeds and legumes/beans",
-                        //ImageUrl = "https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450"
+                        ImageUrl = "https://images.pexels.com/photos/65175/pexels-photo-65175.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450"
                     },
                     new Category
                     {
                         Name = "Milk",
                         Description = "Milk, yoghurt cheese and/or alternatives, mostly reduced fat",
-                        //ImageUrl = "https://images.pexels.com/photos/416656/pexels-photo-416656.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450"
+                        ImageUrl = "https://images.pexels.com/photos/416656/pexels-photo-416656.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=450&w=450"
                     }
                     };
 
@@ -219,7 +221,7 @@ namespace DrinkAndGo.Data
 
                     foreach (Category genre in genresList)
                     {
-                        genre.ImageUrl = $"/images/Categories/{genre.Name}.png";
+                        //genre.ImageUrl = $"/images/Categories/{genre.Name}.png";
                         categories.Add(genre.Name, genre);
                     }
                 }
