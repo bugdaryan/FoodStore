@@ -6,13 +6,13 @@ using DrinkAndGo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shop.Data;
 using Shop.Data.Models;
-using Shop.Data.Seeds;
 using Shop.Service;
 
 namespace Shop.Web
@@ -31,6 +31,17 @@ namespace Shop.Web
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>(
+               options =>
+               {
+                   options.Password.RequireDigit = false;
+                   options.Password.RequiredLength = 6;
+                   options.Password.RequireLowercase = false;
+                   options.Password.RequireUppercase = false;
+                   options.Password.RequireNonAlphanumeric = false;
+               }).AddEntityFrameworkStores<ApplicationDbContext>()
+               .AddDefaultTokenProviders();
 
             services.AddTransient<ICategory, CategoryService>();
             services.AddTransient<IFood, FoodService>();
@@ -63,7 +74,7 @@ namespace Shop.Web
             DbInitializer.Seed(app);
 
             app.UseSession();
-
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
         }
     }
