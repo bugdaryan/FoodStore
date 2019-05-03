@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -35,9 +40,13 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Category" asp-action="Index">Categories</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    @await  Component.InvokeAsync("ShoppingCartSummary")
-                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+                @if(SignInManager.IsSignedIn(User))
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        @await Component.InvokeAsync("ShoppingCartSummary")
+                    </ul>
+                }
             </div>
         </div>
     </nav>
