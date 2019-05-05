@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Identity.EntityFrameworkCore
+@using Shop.Data.Models
 
-@inject SignInManager<IdentityUser> SignInManager
+@inject SignInManager<ApplicationUser> SignInManager
 
 @if (SignInManager.IsSignedIn(User))
 {

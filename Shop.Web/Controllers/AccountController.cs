@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Data.Models;
 using Shop.Web.Models.Login;
 using System.Threading.Tasks;
 
@@ -7,10 +8,10 @@ namespace Shop.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -63,7 +64,7 @@ namespace Shop.Web.Controllers
         {
             if(ModelState.IsValid)
             {
-                var user = new IdentityUser(login.UserName);
+                var user = new ApplicationUser{Email= login.UserName, UserName = login.UserName};
                 var result = await _userManager.CreateAsync(user, login.Password);
 
                 if(result.Succeeded)
