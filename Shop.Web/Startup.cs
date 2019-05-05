@@ -33,7 +33,7 @@ namespace Shop.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
                 //options.UseSqlite("DataSource=FoodShop.Dev.db"));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(
+            services.AddIdentity<ApplicationUser, IdentityRole>(
                options =>
                {
                    options.Password.RequireDigit = false;
