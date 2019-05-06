@@ -43,6 +43,7 @@ namespace Shop.Data.Models
                     Food = food,
                     Amount = 1
                 };
+                _context.ShoppingCartItems.Add(shoppingCartItem);
             }
             else
             {
