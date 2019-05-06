@@ -1,0 +1,1 @@
+# This is a shopping application with asp net core and entity framework
