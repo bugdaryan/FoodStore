@@ -1,4 +1,5 @@
 ﻿@model Shop.Web.Models.ShoppingCart.ShoppingCartIndexModel
+@using System.Globalization
 
 <div class="row checkoutForm">
     <h2>Your shopping cart</h2>
@@ -19,11 +20,11 @@
                 <tr>
                     <td class="text-center">@line.Amount</td>
                     <td class="text-left">@line.Food.Name</td>
-                    <td class="text-right">@line.Food.Price.ToString("c")</td>
+                    <td class="text-right">@line.Food.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US"))</td>
                     <td class="text-right">
-                        @((line.Amount * line.Food.Price).ToString("c"))
+                        @((line.Amount * line.Food.Price).ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
                     </td>
-                    <td class="text-center"><a class="glyphicon glyphicon-remove text-danger remove" asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart" asp-route-drinkId="@line.Food.Id"></a></td>
+                    <td class="text-center"><a class="glyphicon glyphicon-remove text-danger remove" asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart" asp-route-foodId="@line.Food.Id"></a></td>
                 </tr>
             }
         </tbody>
@@ -31,7 +32,7 @@
             <tr>
                 <td colspan="3" class="text-right">Total:</td>
                 <td class="text-right">
-                    @Model.ShoppingCartTotal.ToString("c")
+                    @(Model.ShoppingCartTotal.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
                 </td>
             </tr>
         </tfoot>

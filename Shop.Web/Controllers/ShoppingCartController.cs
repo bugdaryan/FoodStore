@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 using Shop.Data.Models;
 using Shop.Web.Models.ShoppingCart;
 
 namespace Shop.Web.Controllers
 {
+    [Authorize]
     public class ShoppingCartController : Controller
     {
         private readonly IFood _foodService;

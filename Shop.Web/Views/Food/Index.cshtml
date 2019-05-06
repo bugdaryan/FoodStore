@@ -1,4 +1,5 @@
 ﻿@model Shop.Web.Models.Food.FoodIndexModel
+@using System.Globalization;
 
 <div class="container body-content">
     <div class="row foodHeader">
@@ -18,7 +19,10 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="categoryPrice">@Model.Price.ToString("c")</div>
+            <div class="categoryPrice">@(Model.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))</div>
+            <a class="btn btn-success" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-foodId="@Model.Id">
+                Add to cart
+            </a>
         </div>
     </div>
 </div>
