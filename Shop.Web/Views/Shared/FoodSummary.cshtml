@@ -1,0 +1,17 @@
+@model Shop.Web.Models.Food.FoodListingModel
+@using System.Globalization
+
+<div class="foodData">
+	<div class="foodName">
+		<a asp-controller="Food" asp-action="Index" asp-route-id="@Model.Id">
+			<div class="categoryLogo" style="background-image: url(@Model.ImageUrl); background-size:100%;"></div>
+			@Model.Name
+		</a>
+	</div>
+</div>
+<div>
+	<div class="categoryPrice">@(Model.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))</div>
+	<a class="btn btn-success" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-foodId="@Model.Id">
+		Add to cart
+	</a>
+</div>

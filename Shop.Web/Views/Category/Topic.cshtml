@@ -31,15 +31,7 @@
                     {
                         <tr>
                             <td>
-                                <div class="foodData">
-                                    <div class="foodName">
-                                        <a asp-controller="Food" asp-action="Index" asp-route-id="@food.Id">
-                                            <div class="categoryLogo" style="background-image: url(@food.ImageUrl); background-size:100%;"></div>
-                                            @food.Name
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="categoryPrice">@food.Price.ToString("c")</div>
+                               @Html.Partial("FoodSummary",food) 
                             </td>
                         </tr>
                     }
