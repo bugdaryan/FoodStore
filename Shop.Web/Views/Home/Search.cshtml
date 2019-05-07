@@ -23,13 +23,7 @@
                     {
                         <tr>
                             <td>
-                                <div class="categoryLogo" style="background-image: url(@food.ImageUrl);background-size=100%"></div>
-                                <div class="foodName">
-                                    <a asp-controller="Food" asp-action="Index" asp-route-id="@food.Id">
-                                        @food.Name
-                                    </a>
-                                </div>
-                                <div class="categoryPrice">@food.Price.ToString("c")</div>
+                               @Html.Partial("FoodSummary", food) 
                             </td>
                         </tr>
                     }
