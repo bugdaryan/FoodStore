@@ -30,8 +30,8 @@ namespace Shop.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-                //options.UseSqlite("DataSource=FoodShop.Dev.db"));
+                //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite("DataSource=FoodShop.Dev.db"));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
                options =>
@@ -46,6 +46,7 @@ namespace Shop.Web
 
             services.AddTransient<ICategory, CategoryService>();
             services.AddTransient<IFood, FoodService>();
+			services.AddTransient<IOrder, OrderService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));
