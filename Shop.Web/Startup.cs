@@ -30,8 +30,8 @@ namespace Shop.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-                options.UseSqlite("DataSource=FoodShop.Dev.db"));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                //options.UseSqlite("DataSource=FoodShop.Dev.db"));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
                options =>
