@@ -41,13 +41,13 @@ namespace Shop.Data.Models
                 {
                     ShoppingCartId = Id,
                     Food = food,
-                    Amount = 1
+                    Amount = amount
                 };
                 _context.ShoppingCartItems.Add(shoppingCartItem);
             }
             else
             {
-                shoppingCartItem.Amount++;
+                shoppingCartItem.Amount+=amount;
             }
 
             _context.SaveChanges();
