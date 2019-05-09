@@ -34,5 +34,10 @@ namespace Shop.Service
 			_context.OrderDetails.AddRange(orderDetails);
 			_context.SaveChanges();
 		}
-	}
+
+        public Order GetById(int orderId)
+        {
+            return _context.Orders.FirstOrDefault(order => order.Id == orderId);
+        }
+    }
 }
