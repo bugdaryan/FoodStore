@@ -1,17 +1,22 @@
-@model Shop.Web.Models.Food.FoodListingModel
+@model Shop.Web.Models.ShoppingCartItem.ShoppingCartItemListingModel
 @using System.Globalization
+
+
+<div class="btn-addToCart">
+	<div class="categoryPrice">@(Model.Food.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))</div>
+    <div class="input-foodAmount">
+        <input type="number" name="points" step="1" asp-for="@Model.Amount">
+    </div>
+	<a class="btn btn-success" asp-controller="ShoppingCart" asp-action="AddToShoppingCart">
+		Add to cart
+	</a>
+</div>
 
 <div class="foodData">
 	<div class="foodName">
-		<a asp-controller="Food" asp-action="Index" asp-route-id="@Model.Id">
-			<div class="categoryLogo" style="background-image: url(@Model.ImageUrl); background-size:100%;"></div>
-			@Model.Name
+        <div class="categoryLogo" style="background-image: url(@Model.Food.ImageUrl); background-size:99%;"></div>
+		<a class="btn btn-info" asp-controller="Food" asp-action="Index" asp-route-id="@Model.Food.Id">
+			@Model.Food.Name
 		</a>
 	</div>
-</div>
-<div>
-	<div class="categoryPrice">@(Model.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))</div>
-	<a class="btn btn-success" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-foodId="@Model.Id">
-		Add to cart
-	</a>
 </div>

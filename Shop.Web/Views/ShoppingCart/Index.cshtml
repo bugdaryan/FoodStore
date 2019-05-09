@@ -19,7 +19,7 @@
             {
                 <tr>
                     <td class="text-center">@line.Amount</td>
-                    <td class="text-left">@line.Food.Name</td>
+                    <td class="text-left"><a class="btn btn-info" asp-controller="Food" asp-action="Index" asp-route-id="@line.Food.Id">@line.Food.Name</a></td>
                     <td class="text-right">@line.Food.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US"))</td>
                     <td class="text-right">
                         @((line.Amount * line.Food.Price).ToString("c",CultureInfo.CreateSpecificCulture("en-US")))

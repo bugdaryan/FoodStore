@@ -188,6 +188,22 @@
     padding: 8px 0 24px 24px;
 }
 
+.btn-addToCart {
+    margin:16px;
+    margin-left:0;
+    float:right;
+}
+
+.input-foodAmount {
+    width:20%;
+    margin:16px;
+    margin-left:0px;
+}
+
+.input-foodAmount input {
+    width:100%;
+}
+
 .btn-back {
     background-color: #555;
     color: #fff !important;
@@ -323,8 +339,9 @@
 }
 
 .categoryPrice {
-    float:right;
+    /*float:right;*/
     margin:16px;
+    margin-left:0;
     font-size:24px;
     font-weight:bold;
 }
