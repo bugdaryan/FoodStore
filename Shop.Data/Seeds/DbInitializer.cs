@@ -5,7 +5,7 @@ using Shop.Data.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DrinkAndGo.Data
+namespace Shop.Data.Seeds
 {
     public class DbInitializer
     {
