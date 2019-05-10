@@ -30,12 +30,12 @@ namespace Shop.Web.Controllers
             return View(model);
         }
 
-        public IActionResult AddToShoppingCart(int foodId)
+        public IActionResult AddToShoppingCart(int id, int amount)
         {
-            var drink = _foodService.GetById(foodId);
-            if(drink != null)
+            var drink = _foodService.GetById(id);
+            if (drink != null)
             {
-                _shoppingCart.AddToCart(drink,1);
+                _shoppingCart.AddToCart(drink, amount);
             }
             return RedirectToAction("Index");
         }

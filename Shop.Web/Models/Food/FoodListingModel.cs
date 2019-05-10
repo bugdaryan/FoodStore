@@ -10,6 +10,7 @@ namespace Shop.Web.Models.Food
         public bool InStock { get; set; }
         public string ImageUrl { get; set; }
         public string ShortDescription { get; set; }
+        public int Amount { get; set; } = 1;
         public CategoryListingModel Category { get; set; }
     }
 }
