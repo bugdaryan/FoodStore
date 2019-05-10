@@ -79,6 +79,16 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+     <script type="text/javascript">
+         function changeValue(target, num) {
+             let val = parseInt(target.value);
+             if (num < 0 && val <= 1) {
+                 return;
+             }
+             val += num;
+             target.value = val;
+            }
+     </script>
 
     @RenderSection("Scripts", required: false)
 </body>

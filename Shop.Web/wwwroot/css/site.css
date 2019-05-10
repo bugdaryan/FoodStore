@@ -338,6 +338,11 @@
     font-size: 0.9em;
 }
 
+.btn-cart{
+    margin:16px;
+    margin-left:0;
+}
+
 .categoryPrice {
     /*float:right;*/
     margin:16px;
