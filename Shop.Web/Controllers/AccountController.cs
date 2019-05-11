@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Data;
 using Shop.Data.Models;
 using Shop.Web.Models.Login;
+using System;
 using System.Threading.Tasks;
 
 namespace Shop.Web.Controllers
@@ -10,11 +13,14 @@ namespace Shop.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+
+        public AccountController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         public IActionResult Login(string returnUrl)
@@ -40,9 +46,12 @@ namespace Shop.Web.Controllers
             if (user != null)
             {
                 var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
-                    if(string.IsNullOrEmpty(login.ReturnUrl))
+                    _context.Update(user);
+                    user.IsActive = true;
+                    _context.SaveChanges();
+                    if (string.IsNullOrEmpty(login.ReturnUrl))
                     {
                         return RedirectToAction("Index", "Home");
                     }
@@ -62,12 +71,12 @@ namespace Shop.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(LoginViewModel login)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var user = new ApplicationUser{Email= login.UserName, UserName = login.UserName};
+                var user = new ApplicationUser { Email = login.UserName, UserName = login.UserName, MemberSince = DateTime.Now };
                 var result = await _userManager.CreateAsync(user, login.Password);
 
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
@@ -76,8 +85,13 @@ namespace Shop.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
+            var user = await _userManager.GetUserAsync(User);
+            _context.Update(user);
+            user.IsActive = false;
+            _context.SaveChanges();
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
