@@ -25,5 +25,11 @@ namespace Shop.Service
         {
             return GetAll().FirstOrDefault(category => category.Id == id);
         }
+
+        public void NewCategory(Category category)
+        {
+            _context.Add(category);
+            _context.SaveChanges();
+        }
     }
 }
