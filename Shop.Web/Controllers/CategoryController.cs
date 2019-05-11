@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 using Shop.Data.Models;
 using Shop.Web.Models.Category;
@@ -65,6 +66,35 @@ namespace Shop.Web.Controllers
         public IActionResult Search(int id, string searchQuery)
         {
             return RedirectToAction("Topic", new { id, searchQuery });
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult NewCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult NewCategory(NewCategoryModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var category = BuildCategory(model);
+                _categoryService.NewCategory(category);
+                return RedirectToAction("Topic",new { id = category.Id, searchQuery=""});
+            }
+            return View();
+        }
+
+        private Category BuildCategory(NewCategoryModel model)
+        {
+            return new Category
+            {
+                Name = model.Name,
+                Description = model.Description,
+                ImageUrl = model.ImageUrl,
+            };
         }
 
         private CategoryListingModel BuildCategoryListing(Food food)
