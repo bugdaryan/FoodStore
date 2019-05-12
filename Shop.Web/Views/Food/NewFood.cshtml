@@ -1,0 +1,81 @@
+﻿@model Shop.Web.Models.Food.NewFoodModel
+
+@inject Shop.Data.ICategory categoryService
+
+<div class="row">
+    <h3 class="text-center" style="margin-bottom:32px;">Fill out the fields to create food</h3>
+    <div class="col-md-offset-2 col-md-10">
+        <div class="row orderForm ">
+            
+            <form asp-action="NewFood" method="post" class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label asp-for="Name" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShortDescription" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="ShortDescription" class="form-control" />
+                        <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LongDescription" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="LongDescription" class="form-control" />
+                        <span asp-validation-for="LongDescription" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ImageUrl" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="ImageUrl" class="form-control" />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="InStock" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="InStock" class="form-control" />
+                        <span asp-validation-for="InStock" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IsPreferedFood" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        @Html.RadioButtonFor(model => model.IsPreferedFood, "true") Yes
+                        @Html.RadioButtonFor(model => model.IsPreferedFood, "false") No
+                        <span asp-validation-for="IsPreferedFood" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        @foreach(var category in categoryService.GetAll())
+                        {
+                            @Html.RadioButtonFor(model => model.CategoryId, category.Id) <p>@category.Name</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="btn-group col-md-offset-8 col-md-4">
+                        <input class="btn btn-success" type="submit" value="Create food" />
+                        @*<input class="btn btn-default" type="submit" value="Return " />*@
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

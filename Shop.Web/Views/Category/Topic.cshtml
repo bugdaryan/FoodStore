@@ -22,6 +22,9 @@
             </p>
         </div>
     </div>
+    <div class="newFood">
+        <a class="btn btn-block" asp-controller="Food" asp-action="NewFood">New food</a>
+    </div>
     <div class="row" id="categoryIndexContent">
         @if (Model.Foods.Any())
         {
