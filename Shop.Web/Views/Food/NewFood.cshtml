@@ -1,7 +1,5 @@
 ﻿@model Shop.Web.Models.Food.NewFoodModel
 
-@inject Shop.Data.ICategory categoryService
-
 <div class="row">
     <h3 class="text-center" style="margin-bottom:32px;">Fill out the fields to create food</h3>
     <div class="col-md-offset-2 col-md-10">
@@ -61,10 +59,7 @@
                 <div class="form-group">
                     <label asp-for="CategoryId" class="col-md-2 control-label"></label>
                     <div class="col-md-5">
-                        @foreach(var category in categoryService.GetAll())
-                        {
-                            @Html.RadioButtonFor(model => model.CategoryId, category.Id) <p>@category.Name</p>
-                        }
+                        @Html.DropDownList("CategoryId",(SelectList) ViewBag.Categories, " -- Select Category -- ")
                     </div>
                 </div>
 

@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Shop.Data;
 using Shop.Data.Models;
+using Shop.Web.Models.Category;
 using Shop.Web.Models.Food;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Shop.Web.Controllers
 {
-    public class FoodController:Controller
+    public class FoodController : Controller
     {
         private readonly ICategory _categoryService;
         private readonly IFood _foodService;
@@ -43,6 +42,12 @@ namespace Shop.Web.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult NewFood()
         {
+            var categories = _categoryService.GetAll().Select(category => new CategoryDropdownModel
+            {
+                Id = category.Id,
+                Name = category.Name
+            });
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View();
         }
 
@@ -50,7 +55,7 @@ namespace Shop.Web.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult NewFood(NewFoodModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid && _categoryService.GetById(model.CategoryId) != null)
             {
                 var food = BuildFood(model);
                 _foodService.NewFood(food);
