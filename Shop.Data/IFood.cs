@@ -11,5 +11,6 @@ namespace Shop.Data
         IEnumerable<Food> GetFilteredFoods(int id, string searchQuery);
         IEnumerable<Food> GetFilteredFoods(string searchQuery);
         Food GetById(int id);
+        void NewFood(Food food);
     }
 }

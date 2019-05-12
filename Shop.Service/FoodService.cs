@@ -58,8 +58,13 @@ namespace Shop.Service
 
         public IEnumerable<Food> GetPreferred(int count)
         {
-            return GetAll().Where(food => food.IsPreferedFood).Take(count);
+            return GetAll().OrderByDescending(food => food.Id).Where(food => food.IsPreferedFood).Take(count);
         }
 
+        public void NewFood(Food food)
+        {
+            _context.Add(food);
+            _context.SaveChanges();
+        }
     }
 }
