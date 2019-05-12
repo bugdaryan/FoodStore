@@ -84,7 +84,7 @@ namespace Shop.Web.Controllers
                 _categoryService.NewCategory(category);
                 return RedirectToAction("Topic",new { id = category.Id, searchQuery=""});
             }
-            return View();
+            return View(model);
         }
 
         private Category BuildCategory(NewCategoryModel model)

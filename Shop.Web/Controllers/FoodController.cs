@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
+using Shop.Data.Models;
 using Shop.Web.Models.Food;
 using System;
 using System.Collections.Generic;
@@ -36,6 +38,41 @@ namespace Shop.Web.Controllers
             };
 
             return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult NewFood()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult NewFood(NewFoodModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var food = BuildFood(model);
+                _foodService.NewFood(food);
+                return RedirectToAction("Index", new { id = food.Id });
+            }
+            return View(model);
+        }
+
+        private Food BuildFood(NewFoodModel model)
+        {
+            return new Food
+            {
+                Name = model.Name,
+                Category = _categoryService.GetById(model.CategoryId),
+                CategoryId = model.CategoryId,
+                ImageUrl = model.ImageUrl,
+                InStock = model.InStock,
+                IsPreferedFood = model.IsPreferedFood,
+                LongDescription = model.LongDescription,
+                Price = model.Price,
+                ShortDescription = model.ShortDescription,
+            };
         }
     }
 }
