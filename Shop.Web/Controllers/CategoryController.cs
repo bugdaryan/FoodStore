@@ -76,7 +76,7 @@ namespace Shop.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult NewCategory(NewCategoryModel model)
+        public IActionResult NewCategory(CategoryListingModel model)
         {
             if (ModelState.IsValid)
             {
@@ -87,10 +87,36 @@ namespace Shop.Web.Controllers
             return View(model);
         }
 
-        private Category BuildCategory(NewCategoryModel model)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(int id)
+        {
+            var category = _categoryService.GetById(id);
+            if(category != null)
+            {
+                var model = BuildCategoryListing(category);
+                return View(model);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Edit(CategoryListingModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var category = BuildCategory(model);
+                _categoryService.EditCategory(category);
+                return RedirectToAction("Topic", new { id = category.Id, searchQuery="" });
+            }
+            return View(model);
+        }
+
+        private Category BuildCategory(CategoryListingModel model)
         {
             return new Category
             {
+                Id = model.Id,
                 Name = model.Name,
                 Description = model.Description,
                 ImageUrl = model.ImageUrl,
