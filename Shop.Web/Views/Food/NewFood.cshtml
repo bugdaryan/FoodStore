@@ -59,7 +59,8 @@
                 <div class="form-group">
                     <label asp-for="CategoryId" class="col-md-2 control-label"></label>
                     <div class="col-md-5">
-                        @Html.DropDownList("CategoryId",(SelectList) ViewBag.Categories, " -- Select Category -- ")
+                        @Html.DropDownListFor(model => model.CategoryId,(SelectList) ViewBag.Categories, " -- Select Category -- ")
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </div>
                 </div>
 

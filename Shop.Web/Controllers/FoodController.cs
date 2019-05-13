@@ -42,12 +42,7 @@ namespace Shop.Web.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult NewFood()
         {
-            var categories = _categoryService.GetAll().Select(category => new CategoryDropdownModel
-            {
-                Id = category.Id,
-                Name = category.Name
-            });
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            GetCategoriesForDropDownList();
             return View();
         }
 
@@ -55,13 +50,24 @@ namespace Shop.Web.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult NewFood(NewFoodModel model)
         {
-            if (ModelState.IsValid && _categoryService.GetById(model.CategoryId) != null)
+            if (ModelState.IsValid && _categoryService.GetById(model.CategoryId.Value) != null)
             {
                 var food = BuildFood(model);
                 _foodService.NewFood(food);
                 return RedirectToAction("Index", new { id = food.Id });
             }
+            GetCategoriesForDropDownList();
             return View(model);
+        }
+        
+        private void GetCategoriesForDropDownList()
+        {
+            var categories = _categoryService.GetAll().Select(category => new CategoryDropdownModel
+            {
+                Id = category.Id,
+                Name = category.Name
+            });
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
         }
 
         private Food BuildFood(NewFoodModel model)
@@ -69,13 +75,13 @@ namespace Shop.Web.Controllers
             return new Food
             {
                 Name = model.Name,
-                Category = _categoryService.GetById(model.CategoryId),
-                CategoryId = model.CategoryId,
+                Category = _categoryService.GetById(model.CategoryId.Value),
+                CategoryId = model.CategoryId.Value,
                 ImageUrl = model.ImageUrl,
-                InStock = model.InStock,
-                IsPreferedFood = model.IsPreferedFood,
+                InStock = model.InStock.Value,
+                IsPreferedFood = model.IsPreferedFood.Value,
                 LongDescription = model.LongDescription,
-                Price = model.Price,
+                Price = model.Price.Value,
                 ShortDescription = model.ShortDescription,
             };
         }

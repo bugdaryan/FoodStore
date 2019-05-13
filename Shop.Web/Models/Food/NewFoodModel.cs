@@ -9,12 +9,12 @@ namespace Shop.Web.Models.Food
     public class NewFoodModel
     {
         [Required(ErrorMessage = "Please enter your name of the food")]
-        [Display(Name = "Food name")]
+        [Display(Name = "Food name*")]
         [StringLength(20)]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Please enter url of the food image")]
-        [Display(Name = "Image url")]
+        [Display(Name = "Image url*")]
         public string ImageUrl { get; set; }
 
         [Display(Name = "Short Description")]
@@ -26,18 +26,20 @@ namespace Shop.Web.Models.Food
 
         [Required(ErrorMessage = "Please enter price of the food")]
         [Range(0.1,double.MaxValue)]
-        [Display(Name = "Price")]
-        public decimal Price { get; set; }
+        [Display(Name = "Price*")]
+        public decimal? Price { get; set; }
 
         [Required(ErrorMessage = "Select if the food is prefered or not")]
-        [Display(Name = "Is prefered?")]
-        public bool IsPreferedFood { get; set; } = false;
+        [Display(Name = "Is prefered?*")]
+        public bool? IsPreferedFood { get; set; } = false;
 
-        [Required(ErrorMessage = "Please enter how many is left in stock")]
         [Range(0, double.MaxValue)]
-        [Display(Name = "In stock")]
-        public int InStock { get; set; }
+        [Required(ErrorMessage = "Please enter how many is left in stock")]
+        [Display(Name = "In stock*")]
+        public int? InStock { get; set; }
 
-        public int CategoryId { get; set; }
+        [Required(ErrorMessage = "Please select category")]
+        [Range(1,double.MaxValue)]
+        public int? CategoryId { get; set; }
     }
 }
