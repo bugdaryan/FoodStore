@@ -1,4 +1,4 @@
-﻿@model Shop.Web.Models.Category.NewCategoryModel
+﻿@model Shop.Web.Models.Category.CategoryListingModel
 
 <div class="row">
     <h3 class="text-center" style="margin-bottom:32px;">Fill out the fields to create category</h3>
@@ -30,12 +30,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="btn-group col-md-offset-8 col-md-4">
+                    <div class="btn-group col-md-4">
+                        <a class="btn btn-default" asp-action="Index" asp-controller="Category">Cancel</a>
+                    </div>
+                    <div class="btn-group col-md-offset-4 col-md-4">
                         <input class="btn btn-success" type="submit" value="Create category" />
-                        @*<input class="btn btn-default" type="submit" value="Return " />*@
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
