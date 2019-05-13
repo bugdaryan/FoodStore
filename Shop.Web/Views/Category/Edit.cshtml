@@ -1,0 +1,43 @@
+﻿@model Shop.Web.Models.Category.CategoryListingModel
+
+<div class="row">
+    <h3 class="text-center" style="margin-bottom:32px;">Fill out the fields to change category</h3>
+    <div class="col-md-offset-3 col-md-8">
+        <div class="row orderForm ">
+            
+            <form asp-action="Edit" method="post" class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label asp-for="Name" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ImageUrl" class="col-md-2 control-label"></label>
+                    <div class="col-md-5">
+                        <input asp-for="ImageUrl" class="form-control" />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="btn-group col-md-4">
+                        <a class="btn btn-default" asp-action="Topic" asp-controller="Category" asp-route-id="@Model.Id" >Cancel</a>
+                    </div>
+                    <div class="btn-group col-md-offset-4 col-md-4">
+                        <input class="btn btn-success" type="submit" value="Save changes" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
