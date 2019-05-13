@@ -8,5 +8,6 @@ namespace Shop.Data
         IEnumerable<Category> GetAll();
         Category GetById(int id);
         void NewCategory(Category category);
+        void EditCategory(Category category);
     }
 }

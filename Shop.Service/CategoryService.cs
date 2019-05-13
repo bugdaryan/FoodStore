@@ -16,6 +16,12 @@ namespace Shop.Service
             _context = context;
         }
 
+        public void EditCategory(Category category)
+        {
+            _context.Update(category);
+            _context.SaveChanges();
+        }
+
         public IEnumerable<Category> GetAll()
         {
             return _context.Categories;
