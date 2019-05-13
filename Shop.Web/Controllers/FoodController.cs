@@ -40,10 +40,14 @@ namespace Shop.Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult NewFood()
+        public IActionResult NewFood(int id)
         {
             GetCategoriesForDropDownList();
-            return View();
+            NewFoodModel model = new NewFoodModel
+            {
+                CategoryId = id
+            };
+            return View(model);
         }
 
         [HttpPost]
