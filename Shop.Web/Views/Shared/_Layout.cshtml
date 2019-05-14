@@ -88,6 +88,12 @@
              val += num;
              target.value = val;
             }
+
+        function readUrl(input) {  
+            if (input && input.value) {
+                $('#CategoryImage').attr('src', input.value);
+            }
+        }    
      </script>
 
     @RenderSection("Scripts", required: false)

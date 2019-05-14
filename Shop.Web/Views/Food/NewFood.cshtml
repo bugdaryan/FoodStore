@@ -5,60 +5,60 @@
     <div class="col-md-offset-2 col-md-10">
         <div class="row orderForm ">
             
-            <form asp-action="NewFood" method="post" class="form-horizontal" role="form">
+            <form asp-action="NewFood" method="post" class="form-horizontal col-md-8" role="form">
                 <div class="form-group">
-                    <label asp-for="Name" class="col-md-2 control-label"></label>
-                    <div class="col-md-5">
+                    <label asp-for="Name" class="col-md-3 control-label"></label>
+                    <div class="col-md-6">
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ShortDescription" class="col-md-2 control-label"></label>
-                    <div class="col-md-5">
+                    <label asp-for="ShortDescription" class="col-md-3 control-label"></label>
+                    <div class="col-md-6">
                         <input asp-for="ShortDescription" class="form-control" />
                         <span asp-validation-for="ShortDescription" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="LongDescription" class="col-md-2 control-label"></label>
-                    <div class="col-md-5">
-                        <input asp-for="LongDescription" class="form-control" />
+                    <label asp-for="LongDescription" class="col-md-3 control-label"></label>
+                    <div class="col-md-6">
+                        <textarea asp-for="LongDescription" class="form-control"></textarea>
                         <span asp-validation-for="LongDescription" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Price" class="col-md-2 control-label"></label>
-                    <div class="col-md-5">
+                    <label asp-for="Price" class="col-md-3 control-label"></label>
+                    <div class="col-md-6">
                         <input asp-for="Price" class="form-control" />
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="ImageUrl" class="col-md-2 control-label"></label>
-                    <div class="col-md-5">
-                        <input asp-for="ImageUrl" class="form-control" />
+                    <label asp-for="ImageUrl" class="col-md-3 control-label"></label>
+                    <div class="col-md-6">
+                        <input onkeyup="readUrl(this);" asp-for="ImageUrl" class="form-control" />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="InStock" class="col-md-2 control-label"></label>
-                    <div class="col-md-5">
+                    <label asp-for="InStock" class="col-md-3 control-label"></label>
+                    <div class="col-md-6">
                         <input asp-for="InStock" class="form-control" />
                         <span asp-validation-for="InStock" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="IsPreferedFood" class="col-md-2 control-label"></label>
-                    <div class="col-md-5">
+                    <label asp-for="IsPreferedFood" class="col-md-3 control-label"></label>
+                    <div class="col-md-6">
                         @Html.RadioButtonFor(model => model.IsPreferedFood, "true") Yes
                         @Html.RadioButtonFor(model => model.IsPreferedFood, "false") No
                         <span asp-validation-for="IsPreferedFood" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CategoryId" class="col-md-2 control-label"></label>
-                    <div class="col-md-5">
+                    <label asp-for="CategoryId" class="col-md-3 control-label"></label>
+                    <div class="col-md-6">
                         @Html.DropDownListFor(model => model.CategoryId,(SelectList) ViewBag.Categories, " -- Select Category -- ")
                         <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </div>
@@ -74,6 +74,11 @@
                 </div>
 
             </form>
+            <div class="col-md-4">
+                <div >
+                    <img id="CategoryImage"  src= "@Url.Content(Model.ImageUrl)" alt="Invalid Url" width="300" heigth="300"/>
+                </div>
+            </div>
         </div>
     </div>
 </div>
