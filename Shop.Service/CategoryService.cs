@@ -16,7 +16,18 @@ namespace Shop.Service
             _context = context;
         }
 
-        public void EditCategory(Category category)
+		public void DeleteCategory(int id)
+		{
+            var category = GetById(id);
+            if(category == null)
+            {
+                throw new ArgumentException();
+            }
+            _context.Remove(category);
+            _context.SaveChanges();
+		}
+
+		public void EditCategory(Category category)
         {
             _context.Update(category);
             _context.SaveChanges();
