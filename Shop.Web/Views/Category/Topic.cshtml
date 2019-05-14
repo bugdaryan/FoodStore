@@ -33,7 +33,8 @@
                     <a class="btn btn-default" asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Category.Id">Edit</a>
                 </div>
                 <div class="row">
-                    <a class="btn btn-danger">Delete</a>
+                    @Html.ActionLink("Delete", "DeleteCategory", new { id = @Model.Category.Id },
+            new { onclick = "return confirm('Are sure you want to delete category?');", @class="btn btn-danger" })
                 </div>
             </div>
         }

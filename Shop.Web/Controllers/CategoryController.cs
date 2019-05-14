@@ -112,6 +112,14 @@ namespace Shop.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles="Admin")]
+        public IActionResult DeleteCategory(int id)
+        {
+            _categoryService.DeleteCategory(id);
+            
+            return RedirectToAction("Index");
+        }
+
         private Category BuildCategory(CategoryListingModel model)
         {
             return new Category
