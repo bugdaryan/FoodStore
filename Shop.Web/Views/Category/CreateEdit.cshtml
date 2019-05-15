@@ -1,11 +1,11 @@
 ﻿@model Shop.Web.Models.Category.CategoryListingModel
 
 <div class="row">
-    <h3 class="text-center" style="margin-bottom:32px;">Fill out the fields to create category</h3>
+    <h3 class="text-center" style="margin-bottom:32px;">Fill out the fields to @ViewBag.ActionText category</h3>
     <div class="col-md-offset-3 col-md-8">
-        <div class="row orderForm">
+        <div class="row orderForm ">
             
-            <form asp-action="NewCategory" method="post" class="form-horizontal col-md-8" role="form">
+            <form asp-action="@ViewBag.Action" method="post" class="form-horizontal col-md-8" role="form">
                 <div class="form-group">
                     <label asp-for="Name" class="col-md-3 control-label"></label>
                     <div class="col-md-6">
@@ -30,10 +30,17 @@
                 </div>
                 <div class="form-group">
                     <div class="btn-group col-md-4">
-                        <a class="btn btn-default" asp-action="Index" asp-controller="Category">Cancel</a>
+                        @if(ViewBag.ActionText == "change")
+                        {
+                            <a class="btn btn-default" asp-action="@ViewBag.CancelAction" asp-controller="Category" asp-route-id="@ViewBag.RouteId">Cancel</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-default" asp-action="@ViewBag.CancelAction" asp-controller="Category">Cancel</a>
+                        }
                     </div>
                     <div class="btn-group col-md-offset-4 col-md-4">
-                        <input class="btn btn-success" type="submit" value="Create category" />
+                        <input class="btn btn-success" type="submit" value="@ViewBag.SubmitText" />
                     </div>
                 </div>
             </form>
