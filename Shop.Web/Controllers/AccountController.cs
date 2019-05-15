@@ -78,7 +78,7 @@ namespace Shop.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login", new { login });
                 }
             }
             return View(login);
