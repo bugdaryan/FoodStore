@@ -18,7 +18,23 @@ namespace Shop.Service
             _context = context;
         }
 
-        public IEnumerable<Food> GetAll()
+		public void DeleteFood(int id)
+		{
+            var food = GetById(id);
+            if(food == null)
+            {
+                throw new ArgumentException();
+            }
+            _context.Remove(food);
+            _context.SaveChanges();
+		}
+
+		public void EditFood(Food food)
+        {
+            _context.Update(food);
+            _context.SaveChanges();
+        }
+		public IEnumerable<Food> GetAll()
         {
             return _context.Foods
                 .Include(food => food.Category);

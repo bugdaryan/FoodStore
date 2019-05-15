@@ -12,5 +12,7 @@ namespace Shop.Data
         IEnumerable<Food> GetFilteredFoods(string searchQuery);
         Food GetById(int id);
         void NewFood(Food food);
+        void EditFood(Food food);
+        void DeleteFood(int id);
     }
 }

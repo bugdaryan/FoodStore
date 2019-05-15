@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Shop.Data;
 using Shop.Data.Models;
 
@@ -37,7 +38,10 @@ namespace Shop.Service
 
         public Order GetById(int orderId)
         {
-            return _context.Orders.FirstOrDefault(order => order.Id == orderId);
+            return _context.Orders
+				.Include(order => order.User)
+				.Include(order => order.OrderLines).ThenInclude(line => line.Food)
+				.FirstOrDefault(order => order.Id == orderId);
         }
     }
 }
