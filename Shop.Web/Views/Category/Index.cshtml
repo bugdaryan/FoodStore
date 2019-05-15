@@ -9,7 +9,7 @@
 @if(User.IsInRole("Admin"))
 {
     <div>
-        <a asp-controller="Category" asp-action="NewCategory">New category</a>
+        <a class="btn btn-block btn-default" asp-controller="Category" asp-action="NewCategory">New category</a>
     </div>
 }
 @if(!Model.CategoryList.Any())
