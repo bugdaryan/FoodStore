@@ -14,72 +14,81 @@ using Microsoft.Extensions.Logging;
 using Shop.Data;
 using Shop.Data.Models;
 using Shop.Service;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Shop.Web
 {
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public IConfiguration Configuration { get; }
+		public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-                //options.UseSqlite("DataSource=FoodShop.Dev.db"));
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+				//options.UseSqlite("DataSource=FoodShop.Dev.db"));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(
-               options =>
-               {
-                   options.Password.RequireDigit = false;
-                   options.Password.RequiredLength = 6;
-                   options.Password.RequireLowercase = false;
-                   options.Password.RequireUppercase = false;
-                   options.Password.RequireNonAlphanumeric = false;
-               }).AddEntityFrameworkStores<ApplicationDbContext>()
-               .AddDefaultTokenProviders();
+			services.AddIdentity<ApplicationUser, IdentityRole>(
+			   options =>
+			   {
+				   options.Password.RequireDigit = false;
+				   options.Password.RequiredLength = 6;
+				   options.Password.RequireLowercase = false;
+				   options.Password.RequireUppercase = false;
+				   options.Password.RequireNonAlphanumeric = false;
+			   }).AddEntityFrameworkStores<ApplicationDbContext>()
+			   .AddDefaultTokenProviders();
 
-            services.AddTransient<ICategory, CategoryService>();
-            services.AddTransient<IFood, FoodService>();
+			services.ConfigureApplicationCookie(
+                options =>
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                    options.AccessDeniedPath = new PathString("/Account/AccessDenied");
+                    options.LogoutPath = new PathString("/Account/Logout");
+                });
+
+			services.AddTransient<ICategory, CategoryService>();
+			services.AddTransient<IFood, FoodService>();
 			services.AddTransient<IOrder, OrderService>();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped(sp => ShoppingCart.GetCart(sp));
+			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+			services.AddScoped(sp => ShoppingCart.GetCart(sp));
 
-            services.AddMvc();
-            services.AddMemoryCache();
-            services.AddSession();
-        }
+			services.AddMvc();
+			services.AddMemoryCache();
+			services.AddSession();
+		}
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
-        {
-            loggerFactory.AddConsole(LogLevel.Information);
-            var logger = loggerFactory.CreateLogger("Shop app");
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
+		{
+			loggerFactory.AddConsole(LogLevel.Information);
+			var logger = loggerFactory.CreateLogger("Shop app");
 
-            if (env.IsDevelopment())
-            {
-                app.UseBrowserLink();
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+			if (env.IsDevelopment())
+			{
+				app.UseBrowserLink();
+				app.UseDeveloperExceptionPage();
+			}
+			else
+			{
+				app.UseExceptionHandler("/Home/Error");
+			}
 
-            app.UseStaticFiles();
-            DbInitializer.Seed(app);
+			app.UseStaticFiles();
+			DbInitializer.Seed(app);
 
-            app.UseSession();
-            app.UseAuthentication();
-            app.UseMvcWithDefaultRoute();
+			app.UseSession();
+			app.UseAuthentication();
+			app.UseMvcWithDefaultRoute();
 
-            SeedRoles.CreateRoles(serviceProvider, Configuration).Wait();
-        }
-    }
+			SeedRoles.CreateRoles(serviceProvider, Configuration).Wait();
+		}
+	}
 }
