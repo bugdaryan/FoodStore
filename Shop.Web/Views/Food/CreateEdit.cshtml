@@ -1,11 +1,11 @@
 ﻿@model Shop.Web.Models.Food.NewFoodModel
 
 <div class="row">
-    <h3 class="text-center" style="margin-bottom:32px;">Fill out the fields to create food</h3>
+    <h3 class="text-center" style="margin-bottom:32px;">Fill out the fields to @ViewBag.ActionText food</h3>
     <div class="col-md-offset-2 col-md-10">
         <div class="row orderForm ">
             
-            <form asp-action="NewFood" method="post" class="form-horizontal col-md-8" role="form">
+            <form asp-action="@ViewBag.Action" method="post" class="form-horizontal col-md-8" role="form">
                 <div class="form-group">
                     <label asp-for="Name" class="col-md-3 control-label"></label>
                     <div class="col-md-6">
@@ -66,10 +66,10 @@
 
                 <div class="form-group">
                     <div class="btn-group col-md-4">
-                        <a class="btn btn-default" asp-action="Topic" asp-controller="Category" asp-route-id="@Model.CategoryId">Cancel</a>
+                        <a class="btn btn-default" asp-action="@ViewBag.CancelAction" asp-controller="Food" asp-route-id="@ViewBag.RouteId">Cancel</a>
                     </div>
                     <div class="btn-group col-md-offset-4 col-md-4">
-                        <input class="btn btn-success" type="submit" value="Create food" />
+                        <input class="btn btn-success" type="submit" value="@ViewBag.SubmitText" />
                     </div>
                 </div>
 

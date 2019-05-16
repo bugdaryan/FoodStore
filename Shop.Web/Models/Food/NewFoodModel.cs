@@ -8,6 +8,8 @@ namespace Shop.Web.Models.Food
 {
     public class NewFoodModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Please enter your name of the food")]
         [Display(Name = "Food name*")]
         [StringLength(20)]
