@@ -148,8 +148,8 @@ namespace Shop.Web.Controllers
 		{
 			return new Category
 			{
-				Id = model.Id,
-				Name = model.Name,
+                Id = model.Id,
+                Name = model.Name,
 				Description = model.Description,
 				ImageUrl = model.ImageUrl,
 			};

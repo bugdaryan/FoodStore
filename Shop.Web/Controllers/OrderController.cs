@@ -58,7 +58,7 @@ namespace Shop.Web.Controllers
 				var user = await _userManager.FindByIdAsync(userId);
 
 				model.OrderTotal = items.Sum(item => item.Amount * item.Food.Price);
-				var order = BuildOrder(model, user, items);
+				var order = BuildOrder(model, user);
 
 				_orderService.CreateOrder(order);
 				_shoppingCart.ClearCart();
@@ -68,7 +68,7 @@ namespace Shop.Web.Controllers
 			return View(model);
 		}
 
-		private Order BuildOrder(OrderIndexModel model, ApplicationUser user, IEnumerable<ShoppingCartItem> items)
+		private Order BuildOrder(OrderIndexModel model, ApplicationUser user)
 		{
 			return new Order
 			{

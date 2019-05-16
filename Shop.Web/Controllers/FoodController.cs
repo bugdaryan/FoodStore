@@ -54,6 +54,7 @@ namespace Shop.Web.Controllers
 			ViewBag.CancelAction = "Topic";
 			ViewBag.SubmitText = "Create Food";
             ViewBag.RouteId = id;
+            ViewBag.ControllerName = "Category";
 
 			return View("CreateEdit",model);
 		}
@@ -64,7 +65,7 @@ namespace Shop.Web.Controllers
 		{
 			if (ModelState.IsValid && _categoryService.GetById(model.CategoryId.Value) != null)
 			{
-				var food = BuildFood(model);
+				var food = BuildFood(model, true);
 				_foodService.NewFood(food);
 				return RedirectToAction("Index", new { id = food.Id });
 			}
@@ -72,7 +73,8 @@ namespace Shop.Web.Controllers
 
 			ViewBag.ActionText = "create";
 			ViewBag.Action = "NewFood";
-			ViewBag.CancelAction = "Index";
+            ViewBag.ControllerName = "Category";
+			ViewBag.CancelAction = "Topic";
 			ViewBag.SubmitText = "Create Food";
             ViewBag.RouteId = model.CategoryId;
 
@@ -86,6 +88,7 @@ namespace Shop.Web.Controllers
 			ViewBag.Action = "Edit";
 			ViewBag.CancelAction = "Index";
 			ViewBag.SubmitText = "Save Changes";
+            ViewBag.ControllerName = "Food";
 			ViewBag.RouteId = id;
 
 			GetCategoriesForDropDownList();
@@ -106,7 +109,7 @@ namespace Shop.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var food = BuildFood(model);
+				var food = BuildFood(model, false);
 				_foodService.EditFood(food);
 				return RedirectToAction("Index", new { id = model.Id });
 			}
@@ -115,6 +118,7 @@ namespace Shop.Web.Controllers
 			ViewBag.Action = "Edit";
 			ViewBag.CancelAction = "Index";
 			ViewBag.SubmitText = "Save Changes";
+            ViewBag.ControllerName = "Food";
 			ViewBag.RouteId = model.Id;
 			GetCategoriesForDropDownList();
 
@@ -147,11 +151,10 @@ namespace Shop.Web.Controllers
 			ViewBag.Categories = new SelectList(categories, "Id", "Name");
 		}
 
-		private Food BuildFood(NewFoodModel model)
+		private Food BuildFood(NewFoodModel model, bool newInstance)
 		{
-			return new Food
+		var food = new Food
 			{
-                Id = model.Id,
 				Name = model.Name,
 				Category = _categoryService.GetById(model.CategoryId.Value),
 				CategoryId = model.CategoryId.Value,
@@ -162,6 +165,13 @@ namespace Shop.Web.Controllers
 				Price = model.Price.Value,
 				ShortDescription = model.ShortDescription,
 			};
+
+            if(!newInstance)
+            {
+                food.Id = model.Id;
+            }
+
+            return food;
 		}
 	}
 }
