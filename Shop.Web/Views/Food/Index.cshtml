@@ -1,5 +1,10 @@
 ﻿@model Shop.Web.Models.Food.FoodIndexModel
 
+@using Microsoft.AspNetCore.Identity
+@using Shop.Data.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 <div class="container body-content">
     <div class="row foodHeader">
         <div class="foodHeading">
@@ -27,10 +32,13 @@
                     <div class="btn-cart">
                         <input value="Add to cart" type="submit" class="btn btn-success" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-id="@Model.Id" asp-route-amount="@Model.Amount" >
                     </div>
-                    <div>
-                        <a class="btn btn-default">Edit</a>
-                        <a class="btn btn-danger">Delete</a>
-                    </div>
+                    @if(User.IsInRole("Admin"))
+                    {
+                        <div>
+                            <a class="btn btn-default" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                            <a class="btn btn-danger">Delete</a>
+                        </div>
+                    }
                 </form>
             </div>
         </div>
