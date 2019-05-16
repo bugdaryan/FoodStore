@@ -9,7 +9,6 @@ namespace Shop.Data.Models
         public int Id { get; set; }
         public Food Food { get; set; }
         public int Amount { get; set; }
-        public int Remain { get; set; }
         public string ShoppingCartId { get; set; }
     }
 }

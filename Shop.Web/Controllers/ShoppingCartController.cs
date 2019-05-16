@@ -35,7 +35,10 @@ namespace Shop.Web.Controllers
             var drink = _foodService.GetById(id);
             if (drink != null)
             {
-                _shoppingCart.AddToCart(drink, amount);
+                if(!_shoppingCart.AddToCart(drink, amount))
+                {
+                    ViewBag.InvalidInput = true;
+                }
             }
             return RedirectToAction("Index");
         }

@@ -30,42 +30,45 @@ namespace Shop.Data.Models
 			return new ShoppingCart(context) { Id = cartId };
 		}
 
-		public void AddToCart(Food food, int amount)
+		public bool AddToCart(Food food, int amount)
 		{
 			var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
 				s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
-
+            var isValidAmount = true;
 			if (shoppingCartItem == null)
 			{
-				shoppingCartItem = new ShoppingCartItem
-				{
-					ShoppingCartId = Id,
-					Food = food,
-					Remain = Math.Max(0, food.InStock - amount),
-					Amount = amount > food.InStock ? 0 : amount
+                if (amount > food.InStock)
+                {
+                    isValidAmount = false;
+                }
+                shoppingCartItem = new ShoppingCartItem
+                {
+                    ShoppingCartId = Id,
+                    Food = food,
+                    Amount = Math.Min(food.InStock, amount)
 				};
 				_context.ShoppingCartItems.Add(shoppingCartItem);
 			}
 			else
 			{
-				if (shoppingCartItem.Remain > amount)
+                if(food.InStock - shoppingCartItem.Amount > 0)
                 {
-					shoppingCartItem.Amount += amount;
-                    shoppingCartItem.Remain -= amount;
+                    shoppingCartItem.Amount += Math.Min(food.InStock - shoppingCartItem.Amount, amount);
                 }
                 else
                 {
-                    shoppingCartItem.Amount += shoppingCartItem.Remain;
-                    shoppingCartItem.Remain = 0;
+                    isValidAmount = false;
                 }
-			}
+            }
+
 
 			_context.SaveChanges();
+            return isValidAmount;
 		}
 
 		public int RemoveFromCart(Food food)
 		{
-			var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
+			var shoppingCartItem = _context.ShoppingCartItems.AsNoTracking().SingleOrDefault(
 				s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
 			int localAmount = 0;
 			if (shoppingCartItem != null)

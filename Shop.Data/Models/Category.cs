@@ -8,6 +8,6 @@ namespace Shop.Data.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
-        public List<Food> Foods { get; set; }
+        public IEnumerable<Food> Foods { get; set; }
     }
 }
