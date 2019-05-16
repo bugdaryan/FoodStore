@@ -36,7 +36,7 @@ namespace Shop.Service
 
         public IEnumerable<Category> GetAll()
         {
-            return _context.Categories.Include(c => c.Foods);
+            return _context.Categories.Include(c => c.Foods).AsNoTracking();
         }
 
         public Category GetById(int id)
