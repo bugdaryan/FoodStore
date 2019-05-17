@@ -282,11 +282,17 @@
     transition: ease .3s;
 }
 
-    .searchBar:focus {
-        color: black;
-        width: 60%;
-        background-color: #fff;
-    }
+.searchBar:focus {
+    color: black;
+    width: 60%;
+    background-color: #fff;
+}
+
+.invalidAmount {
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+}
 
 #categoryIndexTable td {
     background-color: rgba(255,255,255,0.9);

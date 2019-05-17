@@ -37,10 +37,12 @@
             </tr>
         </tfoot>
     </table>
-    @if(ViewBag.InvalidInput)
-    {
-        <span>There were not enough items in stock to add</span>
-    }
+        @if(ViewBag.InvalidAmountText != null)
+        {
+            <div>
+                <p class="invalidAmount">@ViewBag.InvalidAmountText</p>
+            </div>
+        }
 @if(Model.ShoppingCart.ShoppingCartItems.Count() != 0)
 {
     <div class="text-right">
