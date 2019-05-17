@@ -41,7 +41,7 @@ namespace Shop.Web.Controllers
 		}
 
 		[Authorize(Roles = "Admin")]
-		public IActionResult NewFood(int id)
+		public IActionResult NewFood(int id = 0)
 		{
 			GetCategoriesForDropDownList();
 			NewFoodModel model = new NewFoodModel
@@ -55,6 +55,12 @@ namespace Shop.Web.Controllers
 			ViewBag.SubmitText = "Create Food";
             ViewBag.RouteId = id;
             ViewBag.ControllerName = "Category";
+
+			if(id == 0)
+			{
+				ViewBag.CancelAction = "Index";
+				ViewBag.ControllerName = "Home";
+			}
 
 			return View("CreateEdit",model);
 		}

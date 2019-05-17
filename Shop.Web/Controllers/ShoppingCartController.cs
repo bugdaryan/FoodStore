@@ -18,7 +18,7 @@ namespace Shop.Web.Controllers
             _shoppingCart = shoppingCart;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(bool isValidAmount = true)
         {
             _shoppingCart.GetShoppingCartItems();
 
@@ -27,28 +27,32 @@ namespace Shop.Web.Controllers
                 ShoppingCart = _shoppingCart,
                 ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
             };
-            return View(model);
+
+            if(!isValidAmount)
+            {
+                ViewBag.InvalidAmountText = "*There were not enough items in stock to add*";
+            }
+
+            return View("Index",model);
         }
 
         public IActionResult AddToShoppingCart(int id, int amount)
         {
-            var drink = _foodService.GetById(id);
-            if (drink != null)
+            var food = _foodService.GetById(id);
+            bool isValidAmount = false;
+            if (food != null)
             {
-                if(!_shoppingCart.AddToCart(drink, amount))
-                {
-                    ViewBag.InvalidInput = true;
-                }
+                isValidAmount = _shoppingCart.AddToCart(food, amount);    
             }
-            return RedirectToAction("Index");
+            return Index(isValidAmount);
         }
 
         public IActionResult RemoveFromShoppingCart(int foodId)
         {
-            var drink = _foodService.GetById(foodId);
-            if (drink != null)
+            var food = _foodService.GetById(foodId);
+            if (food != null)
             {
-                _shoppingCart.RemoveFromCart(drink);
+                _shoppingCart.RemoveFromCart(food);
             }
             return RedirectToAction("Index");
         }

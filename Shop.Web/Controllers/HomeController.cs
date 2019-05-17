@@ -22,6 +22,7 @@ namespace Shop.Web.Controllers
             _foodService = foodService;
         }
 
+        [Route("/")]
         public IActionResult Index()
         {
             var preferedFoods = _foodService.GetPreferred(10);
