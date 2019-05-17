@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 using Shop.Data.Models;
-using Shop.Web.Models.Login;
+using Shop.Web.Models.Account;
 using System;
 using System.Threading.Tasks;
 
@@ -25,7 +25,7 @@ namespace Shop.Web.Controllers
 
         public IActionResult Login(string returnUrl)
         {
-            var model = new LoginViewModel
+            var model = new AccountLoginModel
             {
                 ReturnUrl = returnUrl
             };
@@ -34,7 +34,7 @@ namespace Shop.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel login)
+        public async Task<IActionResult> Login(AccountLoginModel login)
         {
             if (!ModelState.IsValid)
             {
@@ -69,7 +69,7 @@ namespace Shop.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(LoginViewModel login)
+        public async Task<IActionResult> Register(AccountLoginModel login)
         {
             if (ModelState.IsValid)
             {
