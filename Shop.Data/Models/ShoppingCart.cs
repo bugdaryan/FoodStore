@@ -32,6 +32,11 @@ namespace Shop.Data.Models
 
 		public bool AddToCart(Food food, int amount)
 		{
+			if(food.InStock == 0)
+			{
+				return false;
+			}
+			
 			var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
 				s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
             var isValidAmount = true;
@@ -51,12 +56,13 @@ namespace Shop.Data.Models
 			}
 			else
 			{
-                if(food.InStock - shoppingCartItem.Amount > 0)
+                if(food.InStock - shoppingCartItem.Amount - amount >= 0)
                 {
-                    shoppingCartItem.Amount += Math.Min(food.InStock - shoppingCartItem.Amount, amount);
+                    shoppingCartItem.Amount +=  amount;
                 }
                 else
                 {
+					shoppingCartItem.Amount += (food.InStock - shoppingCartItem.Amount);
                     isValidAmount = false;
                 }
             }

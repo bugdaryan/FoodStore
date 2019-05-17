@@ -31,14 +31,15 @@ namespace Shop.Service
 
 		public void EditFood(Food food)
         {
+            var model = _context.Foods.First(f => f.Id == food.Id);
+            _context.Entry<Food>(model).State = EntityState.Detached;
             _context.Update(food);
             _context.SaveChanges();
         }
 		public IEnumerable<Food> GetAll()
         {
             return _context.Foods
-                .Include(food => food.Category)
-                .AsNoTracking();
+                .Include(food => food.Category );
         }
 
         public Food GetById(int id)
