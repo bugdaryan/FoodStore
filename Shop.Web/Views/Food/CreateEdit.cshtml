@@ -66,7 +66,14 @@
 
                 <div class="form-group">
                     <div class="btn-group col-md-4">
-                        <a class="btn btn-default" asp-action="@ViewBag.CancelAction" asp-controller="@ViewBag.ControllerName" asp-route-id="@ViewBag.RouteId">Cancel</a>
+                        @if(ViewBag.RouteId == null || ViewBag.RouteId == 0)
+                        {
+                            <a class="btn btn-default" asp-action="@ViewBag.CancelAction" asp-controller="@ViewBag.ControllerName">Cancel</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-default" asp-action="@ViewBag.CancelAction" asp-controller="@ViewBag.ControllerName" asp-route-id="@ViewBag.RouteId">Cancel</a>
+                        }
                     </div>
                     <div class="btn-group col-md-offset-4 col-md-4">
                         <input class="btn btn-success" type="submit" value="@ViewBag.SubmitText" />

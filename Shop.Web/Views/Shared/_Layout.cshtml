@@ -40,12 +40,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Category" asp-action="Index">Categories</a></li>
+                    @if(User.IsInRole("Admin"))
+                    {
+						<li><a asp-controller="Account" asp-action="Index">Users</a></li>
+                        <li><a asp-controller="Food" asp-action="NewFood">New Food</a></li>
+                        <li><a asp-controller="Category" asp-action="NewCategory">New Category</a></li>
+                    }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
                 @if(SignInManager.IsSignedIn(User))
                 {
                     <ul class="nav navbar-nav navbar-right">
                         @await Component.InvokeAsync("ShoppingCartSummary")
+                        @await Component.InvokeAsync("AccountSummary")
                     </ul>
                 }
             </div>
