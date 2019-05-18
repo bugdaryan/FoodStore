@@ -6,12 +6,12 @@
     {
         <div class="categoryPrice">In Stock: @Model.InStock</div>
     } 
-    <form asp-controller="ShoppingCart" asp-action="AddToShoppingCart"  method="get" class="form-horizontal" role="form">
+    <form asp-controller="ShoppingCart" asp-action="Add"  method="get" class="form-horizontal" role="form">
         <a onclick="changeValue(document.getElementById('amount-input-'+@Model.Id.ToString()), 1)"><i class="fas fa-plus-circle"></i></a>
         <input id="amount-input-@Model.Id" asp-for="Amount" style="width:20%" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
         <a onclick="changeValue(document.getElementById('amount-input-'+@Model.Id.ToString()), -1)"><i class="fas fa-minus-circle"></i></a>
         <div class="btn-cart">
-            <input value="Add to cart" type="submit" class="btn btn-success" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-id="@Model.Id" asp-route-amount="@Model.Amount" >
+            <input value="Add to cart" type="submit" class="btn btn-success" asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" asp-route-amount="@Model.Amount" >
         </div>
     </form>
 </div>

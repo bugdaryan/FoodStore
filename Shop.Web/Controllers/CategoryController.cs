@@ -69,10 +69,10 @@ namespace Shop.Web.Controllers
 		}
 
 		[Authorize(Roles = "Admin")]
-		public IActionResult NewCategory()
+		public IActionResult New()
 		{
 			ViewBag.ActionText = "create";
-			ViewBag.Action = "NewCategory";
+			ViewBag.Action = "New";
 			ViewBag.CancelAction = "Index";
 			ViewBag.SubmitText = "Create Category";
 			return View("CreateEdit");
@@ -80,7 +80,7 @@ namespace Shop.Web.Controllers
 
 		[HttpPost]
 		[Authorize(Roles = "Admin")]
-		public IActionResult NewCategory(CategoryListingModel model)
+		public IActionResult New(CategoryListingModel model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -90,7 +90,7 @@ namespace Shop.Web.Controllers
 			}
 
 			ViewBag.ActionText = "create";
-			ViewBag.Action = "NewCategory";
+			ViewBag.Action = "New";
 			ViewBag.CancelAction = "Index";
 			ViewBag.SubmitText = "Create Category";
 
@@ -137,7 +137,7 @@ namespace Shop.Web.Controllers
 		}
 
 		[Authorize(Roles = "Admin")]
-		public IActionResult DeleteCategory(int id)
+		public IActionResult Delete(int id)
 		{
 			_categoryService.DeleteCategory(id);
 

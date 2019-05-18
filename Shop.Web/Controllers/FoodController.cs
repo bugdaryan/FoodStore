@@ -41,7 +41,7 @@ namespace Shop.Web.Controllers
 		}
 
 		[Authorize(Roles = "Admin")]
-		public IActionResult NewFood(int id = 0)
+		public IActionResult New(int id = 0)
 		{
 			GetCategoriesForDropDownList();
 			NewFoodModel model = new NewFoodModel
@@ -50,7 +50,7 @@ namespace Shop.Web.Controllers
 			};
 
 			ViewBag.ActionText = "create";
-			ViewBag.Action = "NewFood";
+			ViewBag.Action = "New";
 			ViewBag.CancelAction = "Topic";
 			ViewBag.SubmitText = "Create Food";
             ViewBag.RouteId = id;
@@ -67,7 +67,7 @@ namespace Shop.Web.Controllers
 
 		[HttpPost]
 		[Authorize(Roles = "Admin")]
-		public IActionResult NewFood(NewFoodModel model)
+		public IActionResult New(NewFoodModel model)
 		{
 			if (ModelState.IsValid && _categoryService.GetById(model.CategoryId.Value) != null)
 			{
@@ -78,7 +78,7 @@ namespace Shop.Web.Controllers
 			GetCategoriesForDropDownList();
 
 			ViewBag.ActionText = "create";
-			ViewBag.Action = "NewFood";
+			ViewBag.Action = "New";
             ViewBag.ControllerName = "Category";
 			ViewBag.CancelAction = "Topic";
 			ViewBag.SubmitText = "Create Food";

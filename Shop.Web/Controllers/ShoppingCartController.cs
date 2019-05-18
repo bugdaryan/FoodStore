@@ -36,7 +36,7 @@ namespace Shop.Web.Controllers
             return View("Index",model);
         }
 
-        public IActionResult AddToShoppingCart(int id, int amount)
+        public IActionResult Add(int id, int amount)
         {
             var food = _foodService.GetById(id);
             bool isValidAmount = false;
@@ -47,7 +47,7 @@ namespace Shop.Web.Controllers
             return Index(isValidAmount);
         }
 
-        public IActionResult RemoveFromShoppingCart(int foodId)
+        public IActionResult Remove(int foodId)
         {
             var food = _foodService.GetById(foodId);
             if (food != null)

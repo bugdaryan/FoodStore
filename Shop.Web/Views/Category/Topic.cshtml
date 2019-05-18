@@ -33,7 +33,7 @@
                     <a class="btn btn-default" asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Category.Id">Edit</a>
                 </div>
                 <div class="row">
-                    @Html.ActionLink("Delete", "DeleteCategory", new { id = @Model.Category.Id },
+                    @Html.ActionLink("Delete", "Delete", new { id = @Model.Category.Id },
             new { onclick = "return confirm('Are sure you want to delete category?');", @class="btn btn-danger" })
                 </div>
             </div>
@@ -42,7 +42,7 @@
     @if(User.IsInRole("Admin"))
     {
         <div class="newFood">
-            <a class="btn btn-block btn-default" asp-controller="Food" asp-action="NewFood" asp-route-id="@Model.Category.Id">New food</a>
+            <a class="btn btn-block btn-default" asp-controller="Food" asp-action="New" asp-route-id="@Model.Category.Id">New food</a>
         </div>
     }
     <div class="row" id="categoryIndexContent">
