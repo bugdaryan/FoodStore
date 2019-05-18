@@ -18,33 +18,38 @@ namespace Shop.Web.Controllers
             _shoppingCart = shoppingCart;
         }
 
-        public IActionResult Index(bool isValidAmount = true)
+        public IActionResult Index(bool isValidAmount = true, string returnUrl = "/")
         {
             _shoppingCart.GetShoppingCartItems();
 
             var model = new ShoppingCartIndexModel
             {
                 ShoppingCart = _shoppingCart,
-                ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
+                ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal(),
+                ReturnUrl = returnUrl
             };
 
-            if(!isValidAmount)
+            if (!isValidAmount)
             {
                 ViewBag.InvalidAmountText = "*There were not enough items in stock to add*";
             }
 
-            return View("Index",model);
+            return View("Index", model);
         }
 
-        public IActionResult Add(int id, int amount)
+        [HttpGet]
+        [Route("/ShoppingCart/Add/{id}/{returnUrl?}")]
+        public IActionResult Add(int id, int? amount = 1, string returnUrl=null )
         {
             var food = _foodService.GetById(id);
+            returnUrl = returnUrl.Replace("%2F", "/");
             bool isValidAmount = false;
             if (food != null)
             {
-                isValidAmount = _shoppingCart.AddToCart(food, amount);    
+                isValidAmount = _shoppingCart.AddToCart(food, amount.Value);
             }
-            return Index(isValidAmount);
+
+            return Index(isValidAmount, returnUrl);
         }
 
         public IActionResult Remove(int foodId)
@@ -55,6 +60,11 @@ namespace Shop.Web.Controllers
                 _shoppingCart.RemoveFromCart(food);
             }
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Back(string returnUrl="/")
+        {
+            return Redirect(returnUrl);
         }
     }
 }

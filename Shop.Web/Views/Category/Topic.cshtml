@@ -42,7 +42,7 @@
     @if(User.IsInRole("Admin"))
     {
         <div class="newFood">
-            <a class="btn btn-block btn-default" asp-controller="Food" asp-action="New" asp-route-id="@Model.Category.Id">New food</a>
+            <a class="btn btn-block btn-default" asp-controller="Food" asp-action="New" asp-route-categoryId="@Model.Category.Id">New food</a>
         </div>
     }
     <div class="row" id="categoryIndexContent">

@@ -37,23 +37,26 @@
             </tr>
         </tfoot>
     </table>
-        @if(ViewBag.InvalidAmountText != null)
-        {
-            <div>
-                <p class="invalidAmount">@ViewBag.InvalidAmountText</p>
-            </div>
-        }
-@if(Model.ShoppingCart.ShoppingCartItems.Count() != 0)
-{
-    <div class="text-right">
-        <div class="btn-group ">
-            <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Check out</a>
+    @if(ViewBag.InvalidAmountText != null)
+    {
+        <div>
+            <p class="invalidAmount">@ViewBag.InvalidAmountText</p>
         </div>
+    }
+    @if(Model.ShoppingCart.ShoppingCartItems.Count() != 0)
+    {
+        <div class="text-right">
+            <div class="btn-group ">
+                <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Check out</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Your cart is empty, add some items to order them</p>
+    }
+    <div>
+        <a class="btn btn-back" asp-action="Back" asp-route-returnUrl="@Model.ReturnUrl">Back</a>
     </div>
-}
-else
-{
-    <p>Your cart is empty, add some items to order them</p>
-}
 </div>
 

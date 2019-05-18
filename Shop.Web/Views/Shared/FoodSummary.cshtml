@@ -11,14 +11,14 @@
         <input id="amount-input-@Model.Id" asp-for="Amount" style="width:20%" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
         <a onclick="changeValue(document.getElementById('amount-input-'+@Model.Id.ToString()), -1)"><i class="fas fa-minus-circle"></i></a>
         <div class="btn-cart">
-            <input value="Add to cart" type="submit" class="btn btn-success" asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" asp-route-amount="@Model.Amount" >
+            <input value="Add to cart" type="submit" class="btn btn-success" asp-controller="ShoppingCart" asp-action="Add" asp-route-id="@Model.Id" asp-route-amount="@Model.Amount"  asp-route-returnUrl="@Context.Request.Path">
         </div>
     </form>
 </div>
 
 <div class="foodData">
     <div class="foodName">
-        <div class="categoryLogo" style="background-image: url(@Model.ImageUrl); background-size:99%;"></div>
+        <div class="categoryLogo" style="background-image: url(@Model.ImageUrl);"></div>
         <a class="btn btn-info" asp-controller="Food" asp-action="Index" asp-route-id="@Model.Id">
             @Model.Name
         </a>
