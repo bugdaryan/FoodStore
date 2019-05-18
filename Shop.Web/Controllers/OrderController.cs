@@ -73,19 +73,10 @@ namespace Shop.Web.Controllers
 			return new Order
 			{
 				Id = model.Id,
-				AddressLine1 = model.AddressLine1,
-				AddressLine2 = model.AddressLine2,
-				Country = model.Country,
-				Email = model.Email,
-				FirstName = model.FirstName,
-				LastName = model.LastName,
 				OrderPlaced = model.OrderPlaced,
 				OrderTotal = model.OrderTotal,
-				PhoneNumber = model.PhoneNumber,
-				State = model.State,
 				User = user,
 				UserId = user.Id,
-				ZipCode = model.ZipCode,
 			};
 		}
 

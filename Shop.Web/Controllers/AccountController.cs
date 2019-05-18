@@ -74,11 +74,11 @@ namespace Shop.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(AccountLoginModel login)
+        public async Task<IActionResult> Register(AccountRegisterModel login)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { Email = login.UserName, UserName = login.UserName, MemberSince = DateTime.Now };
+                var user = BuildUser(login);
                 var result = await _userManager.CreateAsync(user, login.Password);
 
                 if (result.Succeeded)
@@ -88,6 +88,7 @@ namespace Shop.Web.Controllers
             }
             return View(login);
         }
+
 
         [HttpPost]
         [Authorize]
@@ -104,6 +105,11 @@ namespace Shop.Web.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+
+        private ApplicationUser BuildUser(AccountRegisterModel login)
+        {
+            throw new NotImplementedException();
         }
     }
 }
