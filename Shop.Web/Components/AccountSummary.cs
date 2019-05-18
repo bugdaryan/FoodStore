@@ -18,20 +18,28 @@ namespace Shop.Web.Components
 			_userManager = userManager;
 		}
 
-		public async Task<IViewComponentResult> Invoke()
+		private ApplicationUser _user;
+
+		public IViewComponentResult Invoke()
 		{
-			var user = await _userManager.FindByNameAsync(User.Identity.Name);
-			if(user != null)
+			GetUser().Wait();
+			
+			if(_user != null)
 			{
 				var model = new AccountSummaryModel
 				{
-					ImageUrl = user.ImageUrl,
-					Name = user.UserName
+					ImageUrl = _user.ImageUrl,
+					Name = _user.UserName
 				};
 
 				return View(model);
 			}
 			return View();
+		}
+
+		private async Task GetUser()
+		{
+			_user = await _userManager.FindByNameAsync(User.Identity.Name);
 		}
 	}
 }

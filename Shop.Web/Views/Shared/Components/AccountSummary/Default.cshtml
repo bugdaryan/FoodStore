@@ -1,6 +1,8 @@
 @model Shop.Web.Models.Account.AccountSummaryModel
 
-<li>
-	<div style="background-image: url(@Model.ImageUrl);"></div>
-	<a asp-action="Profile" asp-controller="Account">@Model.Name</a>
+<li style="display:flex;">
+	<a asp-action="Profile" asp-controller="Account" style="padding:0">
+		<img src="@Model.ImageUrl" class="profile-img-summary"/>
+		@Model.Name
+	</a>
 </li>
