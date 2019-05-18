@@ -11,7 +11,6 @@ namespace Shop.Data.Seeds
     {
         public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration configuration)
         {
-            //adding custom roles
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             string[] roleNames = { "Admin", "Customer" };
@@ -19,7 +18,6 @@ namespace Shop.Data.Seeds
 
             foreach (var roleName in roleNames)
             {
-                //creating the roles and seeding them to the database
                 var roleExist = await RoleManager.RoleExistsAsync(roleName);
                 if (!roleExist)
                 {
@@ -27,11 +25,11 @@ namespace Shop.Data.Seeds
                 }
             }
 
-            //creating a super user who could maintain the web app
             var poweruser = new ApplicationUser
             {
                 UserName = configuration.GetSection("UserSettings")["UserEmail"],
-                Email = configuration.GetSection("UserSettings")["UserEmail"]
+                Email = configuration.GetSection("UserSettings")["UserEmail"],
+                ImageUrl = configuration.GetSection("UserSettings")["ImageUrl"]
             };
 
             string UserPassword = configuration.GetSection("UserSettings")["UserPassword"];
@@ -42,7 +40,6 @@ namespace Shop.Data.Seeds
                 var createPowerUser = await UserManager.CreateAsync(poweruser, UserPassword);
                 if (createPowerUser.Succeeded)
                 {
-                    //here we tie the new user to the "Admin" role 
                     await UserManager.AddToRoleAsync(poweruser, "Admin");
                 }
             }
