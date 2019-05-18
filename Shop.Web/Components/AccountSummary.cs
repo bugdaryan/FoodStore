@@ -11,7 +11,6 @@ namespace Shop.Web.Components
 	public class AccountSummary : ViewComponent
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly SignInManager<ApplicationUser> _signInManager;
 
 		public AccountSummary(UserManager<ApplicationUser> userManager)
 		{

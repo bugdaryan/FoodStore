@@ -32,7 +32,7 @@ namespace Shop.Data.Models
 
 		public bool AddToCart(Food food, int amount)
 		{
-			if(food.InStock == 0)
+			if(food.InStock == 0 || amount == 0)
 			{
 				return false;
 			}

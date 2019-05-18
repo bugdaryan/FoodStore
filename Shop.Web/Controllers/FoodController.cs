@@ -20,7 +20,8 @@ namespace Shop.Web.Controllers
 			_categoryService = categoryService;
 			_foodService = foodService;
 		}
-
+        
+        [Route("Foods/{id}")]
 		public IActionResult Index(int id)
 		{
 			var food = _foodService.GetById(id);
@@ -41,22 +42,22 @@ namespace Shop.Web.Controllers
 		}
 
 		[Authorize(Roles = "Admin")]
-		public IActionResult New(int id = 0)
+		public IActionResult New(int categoryId = 0)
 		{
 			GetCategoriesForDropDownList();
 			NewFoodModel model = new NewFoodModel
 			{
-				CategoryId = id
+				CategoryId = categoryId
 			};
 
 			ViewBag.ActionText = "create";
 			ViewBag.Action = "New";
 			ViewBag.CancelAction = "Topic";
 			ViewBag.SubmitText = "Create Food";
-            ViewBag.RouteId = id;
+            ViewBag.RouteId = categoryId;
             ViewBag.ControllerName = "Category";
 
-			if(id == 0)
+			if(categoryId == 0)
 			{
 				ViewBag.CancelAction = "Index";
 				ViewBag.ControllerName = "Home";
@@ -130,6 +131,15 @@ namespace Shop.Web.Controllers
 
 			return View("CreateEdit", model);
 		}
+
+		[Authorize(Roles = "Admin")]
+        public IActionResult Delete(int id)
+        {
+            var categoryId = _foodService.GetById(id).CategoryId;
+            _foodService.DeleteFood(id);
+
+            return RedirectToAction("Topic", "Category", new { id = categoryId, searchQuery = "" });
+        }
 
 		private NewFoodModel BuildNewFood(Food food)
 		{
