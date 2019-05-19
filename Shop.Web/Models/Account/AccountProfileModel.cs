@@ -1,4 +1,5 @@
 ﻿using Shop.Web.Models.Order;
+using Shop.Web.Views.Food;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,6 @@ namespace Shop.Web.Models.Account
         public string Country { get; set; }
         public DateTime MemberSince { get; set; }
         public IEnumerable<OrderIndexModel> Orders { get; set; }
+        public IEnumerable<FoodSummaryModel> MostPopularFoods { get; set; }
     }
 }
