@@ -50,7 +50,7 @@ namespace Shop.Web.Controllers
 				InStock = food.InStock,
 				Price = food.Price,
 				ShortDescription = food.ShortDescription,
-				Category = BuildCategoryListing(food),
+				Category = FoodToCategoryListing(food),
 				ImageUrl = food.ImageUrl
 			});
 
@@ -142,34 +142,6 @@ namespace Shop.Web.Controllers
 			_categoryService.DeleteCategory(id);
 
 			return RedirectToAction("Index");
-		}
-
-		private Category BuildCategory(CategoryListingModel model)
-		{
-			return new Category
-			{
-                Id = model.Id,
-                Name = model.Name,
-				Description = model.Description,
-				ImageUrl = model.ImageUrl,
-			};
-		}
-
-		private CategoryListingModel BuildCategoryListing(Food food)
-		{
-			var category = food.Category;
-			return BuildCategoryListing(category);
-		}
-
-		private CategoryListingModel BuildCategoryListing(Category category)
-		{
-			return new CategoryListingModel
-			{
-				Name = category.Name,
-				Description = category.Description,
-				Id = category.Id,
-				ImageUrl = category.ImageUrl
-			};
 		}
 	}
 }

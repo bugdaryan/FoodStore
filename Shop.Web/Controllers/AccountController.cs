@@ -15,14 +15,13 @@ namespace Shop.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ApplicationDbContext _context;
+        private readonly IOrder _orderService;
 
-
-        public AccountController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IOrder orderService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
+            _orderService = orderService;
         }
 
         [Authorize]
@@ -67,9 +66,6 @@ namespace Shop.Web.Controllers
                 var result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
                 if (result.Succeeded)
                 {
-                    _context.Update(user);
-                    user.IsActive = true;
-                    _context.SaveChanges();
                     if (string.IsNullOrEmpty(login.ReturnUrl))
                     {
                         return RedirectToAction("Index", "Home");
@@ -126,10 +122,6 @@ namespace Shop.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            var user = await _userManager.GetUserAsync(User);
-            _context.Update(user);
-            user.IsActive = false;
-            _context.SaveChanges();
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
@@ -146,7 +138,7 @@ namespace Shop.Web.Controllers
             return Redirect(returnUrl);
         }
 
-        private ApplicationUser BuildUser(AccountRegisterModel login)
+        private ApplicationUser AccountRegisterModelToApplicationUser(AccountRegisterModel login)
         {
             return new ApplicationUser
             {
@@ -166,7 +158,7 @@ namespace Shop.Web.Controllers
             };
         }
 
-        private AccountProfileModel BuildProfileModel(ApplicationUser user)
+        private AccountProfileModel ApplicationUserAccountProfileModel(ApplicationUser user)
         {
             return new AccountProfileModel
             {
@@ -182,7 +174,8 @@ namespace Shop.Web.Controllers
                 LastName = user.LastName,
                 MemberSince = user.MemberSince,
                 PhoneNumber = user.PhoneNumber,
-                Orders = Enumerable.Empty<OrderIndexModel>()
+                Orders = Enumerable.Empty<OrderIndexModel>(),
+
             }; 
         }
     }
