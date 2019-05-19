@@ -1,8 +1,20 @@
 @model Shop.Web.Models.Account.AccountSummaryModel
 
 <li style="display:flex;">
-	<a asp-action="Profile" asp-controller="Account" style="padding:0">
-		<img src="@Model.ImageUrl" class="profile-img-summary"/>
-		@Model.Name
-	</a>
+    <a asp-action="Profile" asp-controller="Account" style="padding:0">
+        <img src="@Model.ImageUrl" class="profile-img-summary" />
+        @Model.Name
+    </a>
+    <a class="dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
+        <i class="fas fa-angle-down"></i>
+    </a>
+    <div class="dropdown-menu account-dropdown">
+        <a class="dropdown-item" href="#">Settings</a>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item">
+            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                <button type="submit" class="btn-link">Log out</button>
+            </form>
+        </div>
+    </div>
 </li>

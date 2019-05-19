@@ -25,11 +25,11 @@ namespace Shop.Web.Components
 			
 			if(_user != null)
 			{
-				var model = new AccountSummaryModel
-				{
-					ImageUrl = _user.ImageUrl,
-					Name = _user.UserName
-				};
+                var model = new AccountSummaryModel
+                {
+                    ImageUrl = _user.ImageUrl,
+                    Name = $"{_user.FirstName} {_user.LastName}"
+                };
 
 				return View(model);
 			}

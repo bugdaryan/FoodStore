@@ -12,6 +12,29 @@
     box-shadow: 0 5px 4px -6px #000;
 }
 
+.account-dropdown {
+    text-align:center;
+}
+
+.account-dropdown a {
+    text-decoration:none;
+    color:#777;
+}
+
+.account-dropdown a:hover {
+    color:black;
+}
+
+.account-dropdown button {
+    text-decoration:none !important;
+    color:#777;
+    font-weight:bold;
+}
+
+.account-dropdown  button:hover {
+    color:black;
+}
+
 .navLogo {
     background-image: url("/images/logo.png");
     background-size: 100%;
