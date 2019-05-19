@@ -29,7 +29,8 @@ namespace Shop.Data.Seeds
             {
                 UserName = configuration.GetSection("UserSettings")["UserEmail"],
                 Email = configuration.GetSection("UserSettings")["UserEmail"],
-                ImageUrl = configuration.GetSection("UserSettings")["ImageUrl"]
+                ImageUrl = configuration.GetSection("UserSettings")["ImageUrl"],
+                FirstName = configuration.GetSection("UserSettings")["FirstName"]
             };
 
             string UserPassword = configuration.GetSection("UserSettings")["UserPassword"];

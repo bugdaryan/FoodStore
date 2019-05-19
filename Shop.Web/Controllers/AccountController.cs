@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 using Shop.Data.Models;
 using Shop.Web.Models.Account;
+using Shop.Web.Models.Order;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,8 +25,24 @@ namespace Shop.Web.Controllers
             _context = context;
         }
 
-        public IActionResult Login(string returnUrl)
+        [Authorize]
+        public async Task<IActionResult> Profile()
         {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user != null)
+            {
+                var model = BuildProfileModel(user);
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Login(string returnUrl = "/")
+        {
+            returnUrl = returnUrl.Replace("%2F", "/");
+
             var model = new AccountLoginModel
             {
                 ReturnUrl = returnUrl
@@ -35,6 +52,7 @@ namespace Shop.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(AccountLoginModel login)
         {
             if (!ModelState.IsValid)
@@ -63,8 +81,10 @@ namespace Shop.Web.Controllers
             return View(login);
         }
 
-        public IActionResult Register(string returnUrl)
+        public IActionResult Register(string returnUrl = "/")
         {
+            returnUrl = returnUrl.Replace("%2F", "/");
+
             if (_signInManager.IsSignedIn(User))
             {
                 return RedirectToAction("Index", "Home");
@@ -101,9 +121,9 @@ namespace Shop.Web.Controllers
             return View(register);
         }
 
-
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -119,9 +139,10 @@ namespace Shop.Web.Controllers
             return View();
         }
 
-        public IActionResult Cancel(string returnUrl="/")
+        public IActionResult Cancel(string returnUrl = "/")
         {
             returnUrl = returnUrl.Replace("%2F", "/");
+
             return Redirect(returnUrl);
         }
 
@@ -141,8 +162,28 @@ namespace Shop.Web.Controllers
                 LastName = login.LastName,
                 UserName = login.Email,
                 Orders = Enumerable.Empty<Order>(),
-                PhoneNumber = login.PhoneNumber
+                PhoneNumber = login.PhoneNumber,
             };
+        }
+
+        private AccountProfileModel BuildProfileModel(ApplicationUser user)
+        {
+            return new AccountProfileModel
+            {
+                Id = user.Id,
+                AddressLine1 = user.AddressLine1,
+                AddressLine2 = user.AddressLine2,
+                Balance = user.Balance,
+                City = user.City,
+                Country = user.Country,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                ImageUrl = user.ImageUrl,
+                LastName = user.LastName,
+                MemberSince = user.MemberSince,
+                PhoneNumber = user.PhoneNumber,
+                Orders = Enumerable.Empty<OrderIndexModel>()
+            }; 
         }
     }
 }
