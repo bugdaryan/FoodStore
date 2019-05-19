@@ -74,7 +74,7 @@ namespace Shop.Data.Models
 
 		public int RemoveFromCart(Food food)
 		{
-			var shoppingCartItem = _context.ShoppingCartItems.AsNoTracking().SingleOrDefault(
+			var shoppingCartItem = _context.ShoppingCartItems.SingleOrDefault(
 				s => s.Food.Id == food.Id && s.ShoppingCartId == Id);
 			int localAmount = 0;
 			if (shoppingCartItem != null)
