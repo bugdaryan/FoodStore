@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Shop.Data;
 using Shop.Data.Models;
+using Shop.Web.DataMapper;
 using Shop.Web.Models.Category;
 using Shop.Web.Models.Food;
 using System;
@@ -14,11 +15,13 @@ namespace Shop.Web.Controllers
 	{
 		private readonly ICategory _categoryService;
 		private readonly IFood _foodService;
+        private readonly Mapper _mapper;
 
 		public FoodController(ICategory categoryService, IFood foodService)
 		{
 			_categoryService = categoryService;
 			_foodService = foodService;
+            _mapper = new Mapper();
 		}
         
         [Route("Foods/{id}")]
@@ -72,7 +75,7 @@ namespace Shop.Web.Controllers
 		{
 			if (ModelState.IsValid && _categoryService.GetById(model.CategoryId.Value) != null)
 			{
-				var food = BuildFood(model, true);
+				var food = _mapper.NewFoodModelToFood(model, true, _categoryService);
 				_foodService.NewFood(food);
 				return RedirectToAction("Index", new { id = food.Id });
 			}
@@ -103,7 +106,7 @@ namespace Shop.Web.Controllers
             var food = _foodService.GetById(id);
 			if (food != null)
 			{
-				var model = BuildNewFood(food);
+				var model = _mapper.FoodToNewFoodModel(food);
 				return View("CreateEdit", model);
 			}
 
@@ -116,7 +119,7 @@ namespace Shop.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var food = BuildFood(model, false);
+				var food = _mapper.NewFoodModelToFood(model, false, _categoryService);
 				_foodService.EditFood(food);
 				return RedirectToAction("Index", new { id = model.Id });
 			}
@@ -141,22 +144,6 @@ namespace Shop.Web.Controllers
             return RedirectToAction("Topic", "Category", new { id = categoryId, searchQuery = "" });
         }
 
-		private NewFoodModel BuildNewFood(Food food)
-		{
-			return new NewFoodModel
-			{
-				Id = food.Id,
-				Name = food.Name,
-				CategoryId = food.CategoryId,
-				ImageUrl = food.ImageUrl,
-				InStock = food.InStock,
-				IsPreferedFood = food.IsPreferedFood,
-				LongDescription = food.LongDescription,
-				Price = food.Price,
-				ShortDescription = food.ShortDescription,
-			};
-		}
-
 		private void GetCategoriesForDropDownList()
 		{
 			var categories = _categoryService.GetAll().Select(category => new CategoryDropdownModel
@@ -165,29 +152,6 @@ namespace Shop.Web.Controllers
 				Name = category.Name
 			});
 			ViewBag.Categories = new SelectList(categories, "Id", "Name");
-		}
-
-		private Food BuildFood(NewFoodModel model, bool newInstance)
-		{
-		var food = new Food
-			{
-				Name = model.Name,
-				Category = _categoryService.GetById(model.CategoryId.Value),
-				CategoryId = model.CategoryId.Value,
-				ImageUrl = model.ImageUrl,
-				InStock = model.InStock.Value,
-				IsPreferedFood = model.IsPreferedFood.Value,
-				LongDescription = model.LongDescription,
-				Price = model.Price.Value,
-				ShortDescription = model.ShortDescription,
-			};
-
-            if(!newInstance)
-            {
-                food.Id = model.Id;
-            }
-
-            return food;
 		}
 	}
 }

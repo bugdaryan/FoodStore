@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 using Shop.Data.Models;
+using Shop.Web.DataMapper;
 using Shop.Web.Models;
 using Shop.Web.Models.Category;
 using Shop.Web.Models.Food;
@@ -16,17 +17,19 @@ namespace Shop.Web.Controllers
     {
 
         private readonly IFood _foodService;
+        private readonly Mapper _mapper;
 
         public HomeController(IFood foodService)
         {
             _foodService = foodService;
+            _mapper = new Mapper();
         }
 
         [Route("/")]
         public IActionResult Index()
         {
             var preferedFoods = _foodService.GetPreferred(10);
-            var model = BuildIndexModel(preferedFoods);
+            var model = _mapper.FoodsToHomeIndexModel(preferedFoods);
             return View(model);
         }
 
@@ -43,41 +46,9 @@ namespace Shop.Web.Controllers
             }
 
             var searchedFoods = _foodService.GetFilteredFoods(searchQuery);
-            var model = BuildIndexModel(searchedFoods);
+            var model = _mapper.FoodsToHomeIndexModel(searchedFoods);
 
             return View(model);
         }
-
-        private HomeIndexModel BuildIndexModel(IEnumerable<Food> foodsListing)
-        {
-
-            var foods = foodsListing.Select(food => new FoodListingModel
-            {
-                Id = food.Id,
-                Name = food.Name,
-                Category = BuildCategoryListing(food.Category),
-                ImageUrl = food.ImageUrl,
-                InStock = food.InStock,
-                Price = food.Price,
-                ShortDescription = food.ShortDescription
-            });
-
-            return new HomeIndexModel
-            {
-                FoodsList = foods
-            };
-        }
-
-        private CategoryListingModel BuildCategoryListing(Category category)
-        {
-            return new CategoryListingModel
-            {
-                Id = category.Id,
-                Description = category.Description,
-                Name = category.Name,
-                ImageUrl = category.ImageUrl
-            };
-        }
-
     }
 }

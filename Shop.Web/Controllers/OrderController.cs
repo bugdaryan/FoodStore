@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 using Shop.Data.Models;
+using Shop.Web.DataMapper;
 using Shop.Web.Models.Order;
 using Shop.Web.Models.OrderDetail;
 
@@ -18,7 +19,9 @@ namespace Shop.Web.Controllers
 		private readonly IOrder _orderService;
 		private readonly IFood _foodService;
 		private readonly ShoppingCart _shoppingCart;
-		private static UserManager<ApplicationUser> _userManager;
+        private readonly Mapper _mapper;
+        private static UserManager<ApplicationUser> _userManager;
+
 
 		public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
 		{
@@ -26,6 +29,7 @@ namespace Shop.Web.Controllers
 			_shoppingCart = shoppingCart;
 			_userManager = userManager;
 			_foodService = foodService;
+            _mapper = new Mapper();
 		}
 
 		public IActionResult Checkout()
@@ -58,7 +62,7 @@ namespace Shop.Web.Controllers
 				var user = await _userManager.FindByIdAsync(userId);
 
 				model.OrderTotal = items.Sum(item => item.Amount * item.Food.Price);
-				var order = BuildOrder(model, user);
+				var order = _mapper.OrderIndexModelToOrder(model, user);
 
 				_orderService.CreateOrder(order);
 				_shoppingCart.ClearCart();
@@ -66,18 +70,6 @@ namespace Shop.Web.Controllers
 			}
 
 			return View(model);
-		}
-
-		private Order BuildOrder(OrderIndexModel model, ApplicationUser user)
-		{
-			return new Order
-			{
-				Id = model.Id,
-				OrderPlaced = model.OrderPlaced,
-				OrderTotal = model.OrderTotal,
-				User = user,
-				UserId = user.Id,
-			};
 		}
 
 		public IActionResult CheckoutComplete()

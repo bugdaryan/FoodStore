@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Data;
 using Shop.Data.Models;
+using Shop.Web.DataMapper;
 using Shop.Web.Models.Account;
-using Shop.Web.Models.Order;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Shop.Web.Controllers
@@ -15,13 +13,15 @@ namespace Shop.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IOrder _orderService;
+        private readonly Mapper _mapper;
+        private readonly ShoppingCart _shoppingCart;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IOrder orderService)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ShoppingCart shoppingCart)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _orderService = orderService;
+            _mapper = new Mapper();
+            _shoppingCart = shoppingCart;
         }
 
         [Authorize]
@@ -31,7 +31,7 @@ namespace Shop.Web.Controllers
 
             if (user != null)
             {
-                var model = BuildProfileModel(user);
+                var model = _mapper.ApplicationUserToAccountProfileModel(user);
                 return View(model);
             }
 
@@ -105,12 +105,17 @@ namespace Shop.Web.Controllers
             }
             else if (ModelState.IsValid)
             {
-                var user = BuildUser(register);
+                var user = _mapper.AccountRegisterModelToApplicationUser(register);
                 var result = await _userManager.CreateAsync(user, register.Password);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var loginModel = new AccountLoginModel
+                    {
+                        Email = register.Email,
+                        Password = register.Password,
+                    };
+                    return RedirectToAction("Login", new { login = loginModel });
                 }
             }
 
@@ -123,6 +128,7 @@ namespace Shop.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            _shoppingCart.ClearCart();
             return RedirectToAction("Index", "Home");
         }
 
@@ -136,47 +142,6 @@ namespace Shop.Web.Controllers
             returnUrl = returnUrl.Replace("%2F", "/");
 
             return Redirect(returnUrl);
-        }
-
-        private ApplicationUser AccountRegisterModelToApplicationUser(AccountRegisterModel login)
-        {
-            return new ApplicationUser
-            {
-                FirstName = login.FirstName,
-                AddressLine1 = login.AddressLine1,
-                AddressLine2 = login.AddressLine2,
-                City = login.City,
-                Country = login.Country,
-                Email = login.Email,
-                ImageUrl = login.ImageUrl,
-                MemberSince = DateTime.Now,
-                Balance = 0,
-                LastName = login.LastName,
-                UserName = login.Email,
-                Orders = Enumerable.Empty<Order>(),
-                PhoneNumber = login.PhoneNumber,
-            };
-        }
-
-        private AccountProfileModel ApplicationUserAccountProfileModel(ApplicationUser user)
-        {
-            return new AccountProfileModel
-            {
-                Id = user.Id,
-                AddressLine1 = user.AddressLine1,
-                AddressLine2 = user.AddressLine2,
-                Balance = user.Balance,
-                City = user.City,
-                Country = user.Country,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                ImageUrl = user.ImageUrl,
-                LastName = user.LastName,
-                MemberSince = user.MemberSince,
-                PhoneNumber = user.PhoneNumber,
-                Orders = Enumerable.Empty<OrderIndexModel>(),
-
-            }; 
         }
     }
 }

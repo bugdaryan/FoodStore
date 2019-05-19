@@ -5,6 +5,7 @@ using Shop.Data.Models;
 using Shop.Web.Models.Category;
 using Shop.Web.Models.Food;
 using System.Linq;
+using Shop.Web.DataMapper;
 
 namespace Shop.Web.Controllers
 {
@@ -12,11 +13,13 @@ namespace Shop.Web.Controllers
 	{
 		private readonly ICategory _categoryService;
 		private readonly IFood _foodService;
+        private readonly Mapper _mapper;
 
 		public CategoryController(ICategory categoryService, IFood foodService)
 		{
 			_categoryService = categoryService;
 			_foodService = foodService;
+            _mapper = new Mapper();
 		}
 
 		public IActionResult Index()
@@ -50,13 +53,13 @@ namespace Shop.Web.Controllers
 				InStock = food.InStock,
 				Price = food.Price,
 				ShortDescription = food.ShortDescription,
-				Category = FoodToCategoryListing(food),
+				Category = _mapper.FoodToCategoryListing(food),
 				ImageUrl = food.ImageUrl
 			});
 
 			var model = new CategoryTopicModel
 			{
-				Category = BuildCategoryListing(category),
+				Category = _mapper.CategoryToCategoryListing(category),
 				Foods = foodListings
 			};
 
@@ -84,7 +87,7 @@ namespace Shop.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var category = BuildCategory(model);
+				var category = _mapper.CategoryListingToModel(model);
 				_categoryService.NewCategory(category);
 				return RedirectToAction("Topic", new { id = category.Id, searchQuery = "" });
 			}
@@ -109,7 +112,7 @@ namespace Shop.Web.Controllers
 			var category = _categoryService.GetById(id);
 			if (category != null)
 			{
-				var model = BuildCategoryListing(category);
+				var model = _mapper.CategoryToCategoryListing(category);
 				return View("CreateEdit" ,model);
 			}
 
@@ -122,7 +125,7 @@ namespace Shop.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var category = BuildCategory(model);
+				var category = _mapper.CategoryListingToModel(model);
 				_categoryService.EditCategory(category);
 				return RedirectToAction("Topic", new { id = category.Id, searchQuery = "" });
 			}

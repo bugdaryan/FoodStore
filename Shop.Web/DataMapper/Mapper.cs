@@ -5,6 +5,7 @@ using Shop.Web.Models.Category;
 using Shop.Web.Models.Food;
 using Shop.Web.Models.Home;
 using Shop.Web.Models.Order;
+using Shop.Web.Models.OrderDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,10 +94,10 @@ namespace Shop.Web.DataMapper
 
         #region Home
 
-        public HomeIndexModel FoodListingsToHomeIndexMoel(IEnumerable<Food> foodsListing)
+        public HomeIndexModel FoodsToHomeIndexModel(IEnumerable<Food> foods)
         {
 
-            var foods = foodsListing.Select(food => new FoodListingModel
+            var foodsListing = foods.Select(food => new FoodListingModel
             {
                 Id = food.Id,
                 Name = food.Name,
@@ -109,7 +110,7 @@ namespace Shop.Web.DataMapper
 
             return new HomeIndexModel
             {
-                FoodsList = foods
+                FoodsList = foodsListing
             };
         }
 
@@ -126,7 +127,57 @@ namespace Shop.Web.DataMapper
                 OrderTotal = model.OrderTotal,
                 User = user,
                 UserId = user.Id,
+                Address = model.Address,
+                City = model.City,
+                Country = model.Country,
+                ZipCode = model.ZipCode,
+                //OrderLines = OrderDetailsListingModelToOrderDetails(model.OrderLines)
             };
+        }
+
+        private IEnumerable<OrderDetail> OrderDetailsListingModelToOrderDetails(IEnumerable<OrderDetailListingModel> orderLines)
+        {
+            return orderLines.Select(line => new OrderDetail
+            {
+                Amount = line.Amount,
+                FoodId = line.Food.Id,
+                Id = line.Id,
+                OrderId = line.OrderId,
+                Price = line.Price
+            });
+        }
+
+        public IEnumerable<OrderIndexModel> OrdersToOrderIndexModels(IEnumerable<Order> orders)
+        {
+            return orders.Select(order => new OrderIndexModel
+            {
+                Id = order.Id,
+                Address = order.Address,
+                City = order.City,
+                Country = order.Country,
+                OrderPlaced = order.OrderPlaced,
+                OrderTotal = order.OrderTotal,
+                UserId = order.UserId,
+                ZipCode = order.ZipCode,
+                OrderLines = OrderDetailsToOrderDetailsListingModel(order.OrderLines)
+            });
+        }
+
+        private IEnumerable<OrderDetailListingModel> OrderDetailsToOrderDetailsListingModel(IEnumerable<OrderDetail> orderLines)
+        {
+            return orderLines.Select(orderLine => new OrderDetailListingModel
+            {
+                Amount = orderLine.Amount,
+                Id = orderLine.Id,
+                OrderId = orderLine.OrderId,
+                Price = orderLine.Price,
+                Food = new Views.Food.FoodSummaryModel
+                {
+                    Id = orderLine.FoodId,
+                    Name = orderLine.Food.Name
+                },
+                FoodId = orderLine.FoodId
+            });
         }
 
         #endregion
@@ -169,7 +220,7 @@ namespace Shop.Web.DataMapper
                 LastName = user.LastName,
                 MemberSince = user.MemberSince,
                 PhoneNumber = user.PhoneNumber,
-                Orders = Enumerable.Empty<OrderIndexModel>(),
+                Orders = OrdersToOrderIndexModels(user.Orders),
             };
         }
 
