@@ -5,6 +5,7 @@ using Shop.Data;
 using Shop.Data.Models;
 using Shop.Web.Models.Account;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Shop.Web.Controllers
@@ -41,7 +42,7 @@ namespace Shop.Web.Controllers
                 return View(login);
             }
 
-            var user = await _userManager.FindByNameAsync(login.UserName);
+            var user = await _userManager.FindByEmailAsync(login.Email);
 
             if (user != null)
             {
@@ -58,35 +59,46 @@ namespace Shop.Web.Controllers
                     return Redirect(login.ReturnUrl);
                 }
             }
-            ModelState.AddModelError("", "Username/Password not found");
+            ModelState.AddModelError("IncorrectInput", "Username or Password is incorrect");
             return View(login);
         }
 
-        public IActionResult Register()
+        public IActionResult Register(string returnUrl)
         {
             if (_signInManager.IsSignedIn(User))
             {
                 return RedirectToAction("Index", "Home");
             }
 
-            return View();
+            var model = new AccountRegisterModel
+            {
+                ReturnUrl = returnUrl
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(AccountRegisterModel login)
+        public async Task<IActionResult> Register(AccountRegisterModel register)
         {
-            if (ModelState.IsValid)
+            var u = await _userManager.FindByEmailAsync(register.Email ?? "");
+            if (u != null)
             {
-                var user = BuildUser(login);
-                var result = await _userManager.CreateAsync(user, login.Password);
+                ModelState.AddModelError("Email", "Email is already taken");
+            }
+            else if (ModelState.IsValid)
+            {
+                var user = BuildUser(register);
+                var result = await _userManager.CreateAsync(user, register.Password);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Login", new { login });
+                    return RedirectToAction("Index", "Home");
                 }
             }
-            return View(login);
+
+            return View(register);
         }
 
 
@@ -107,9 +119,30 @@ namespace Shop.Web.Controllers
             return View();
         }
 
+        public IActionResult Cancel(string returnUrl="/")
+        {
+            returnUrl = returnUrl.Replace("%2F", "/");
+            return Redirect(returnUrl);
+        }
+
         private ApplicationUser BuildUser(AccountRegisterModel login)
         {
-            throw new NotImplementedException();
+            return new ApplicationUser
+            {
+                FirstName = login.FirstName,
+                AddressLine1 = login.AddressLine1,
+                AddressLine2 = login.AddressLine2,
+                City = login.City,
+                Country = login.Country,
+                Email = login.Email,
+                ImageUrl = login.ImageUrl,
+                MemberSince = DateTime.Now,
+                Balance = 0,
+                LastName = login.LastName,
+                UserName = login.Email,
+                Orders = Enumerable.Empty<Order>(),
+                PhoneNumber = login.PhoneNumber
+            };
         }
     }
 }

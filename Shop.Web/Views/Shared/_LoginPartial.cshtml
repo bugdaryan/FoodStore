@@ -8,7 +8,7 @@
 {
     <ul class="nav navbar-nav navbar-right">
         <li><a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Sign In</a></li>
-        <li class="active"><a asp-controller="Account" asp-action="Register">Register</a></li>
+        <li class="active"><a asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Context.Request.Path">Register</a></li>
     </ul>
 }
 @if (SignInManager.IsSignedIn(User))

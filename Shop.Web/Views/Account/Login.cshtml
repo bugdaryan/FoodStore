@@ -1,31 +1,34 @@
 ﻿@model Shop.Web.Models.Account.AccountLoginModel
 
 <div class="row loginForm">
-    <div class="col-md-8 col-md-offset-2">
-        <h2>Please log in before placing an order.</h2>
+    <div class="col-md-8 col-md-offset-1">
+        <h2>Please sign in before placing an order.</h2>
         <form asp-controller="Account" asp-action="Login" method="post" class="form-horizontal" role="form">
             <h4>Enter your details below</h4>
             <hr />
             <input type="hidden" asp-for="ReturnUrl" />
             <div class="form-group">
-                <label asp-for="UserName" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
-                    <input asp-for="UserName" class="form-control" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
+                <label asp-for="Email" class="col-md-3 control-label"></label>
+                <div class="col-md-9">
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="form-group">
-                <label asp-for="Password" class="col-md-2 control-label"></label>
-                <div class="col-md-10">
+                <label asp-for="Password" class="col-md-3 control-label"></label>
+                <div class="col-md-9">
                     <input asp-for="Password" type="password" class="form-control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
+                    <span asp-validation-for="IncorrectInput" class="text-danger"></span>
                 </div>
             </div>
-
-            <div class="form-group pull-right formPullRightButton">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-success" value="Log in" />
+            <div class="form-group formPullRightButton">
+                <div class="col-md-offset-3 col-md-2">
+                    <a class="btn btn-danger" asp-action="Cancel" asp-route-returnUrl="@Model.ReturnUrl">Cancel</a>
+                </div>
+                <div class="col-md-offset-5 col-md-2">
+                    <input type="submit" class="btn btn-success" style="float:right" value="Sign in" />
                 </div>
             </div>
         </form>
