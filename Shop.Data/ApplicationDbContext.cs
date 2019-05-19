@@ -22,6 +22,10 @@ namespace Shop.Data
 
             modelBuilder.Entity<ShoppingCartItem>()
                 .HasOne(sci => sci.Food);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasIndex(user => user.Email)
+                .IsUnique(true);
         }
 
         public DbSet<Food> Foods { get; set; }
