@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Shop.Web.Models.OrderDetail;
 
@@ -32,6 +33,8 @@ namespace Shop.Web.Models.Order
 		[BindNever]
 		[ScaffoldColumn(false)]
 		public decimal OrderTotal { get; set; }
+
+		public string OrderTotalFormat { get =>  OrderTotal.ToString("c", CultureInfo.CreateSpecificCulture("en-US")); }
 
 		[BindNever]
 		[ScaffoldColumn(false)]

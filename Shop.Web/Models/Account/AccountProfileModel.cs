@@ -2,6 +2,7 @@
 using Shop.Web.Views.Food;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace Shop.Web.Models.Account
         public string Email { get; set; }
         public string ImageUrl { get; set; }
         public decimal Balance { get; set; }
+        public string BalanceFormat { get => Balance.ToString("c", CultureInfo.CreateSpecificCulture("en-US"));  }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string City { get; set; }
