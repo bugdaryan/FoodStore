@@ -53,5 +53,13 @@ namespace Shop.Service
                 .AsNoTracking()
                 .FirstOrDefault(order => order.Id == orderId);
         }
-    }
+
+		public IEnumerable<Order> GetByUserId(string userId)
+		{
+            return _context.Orders
+                .Include(order => order.User)
+                .Include(order => order.OrderLines).ThenInclude(line => line.Food)
+                .Where(order => order.User.Id == userId);
+		}
+	}
 }

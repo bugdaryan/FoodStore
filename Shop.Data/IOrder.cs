@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Shop.Data.Models;
 
 namespace Shop.Data
@@ -6,5 +7,6 @@ namespace Shop.Data
 	{
 		void CreateOrder(Order order);
         Order GetById(int orderId);
+		IEnumerable<Order> GetByUserId(string userId);
     }
 }

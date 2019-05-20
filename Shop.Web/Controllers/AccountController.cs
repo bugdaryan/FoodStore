@@ -15,13 +15,15 @@ namespace Shop.Web.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly Mapper _mapper;
         private readonly ShoppingCart _shoppingCart;
+        private readonly IOrder _orderService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ShoppingCart shoppingCart)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ShoppingCart shoppingCart, IOrder orderService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = new Mapper();
             _shoppingCart = shoppingCart;
+            _orderService = orderService;
         }
 
         [Authorize]
@@ -31,7 +33,7 @@ namespace Shop.Web.Controllers
 
             if (user != null)
             {
-                var model = _mapper.ApplicationUserToAccountProfileModel(user);
+                var model = _mapper.ApplicationUserToAccountProfileModel(user, _orderService);
                 return View(model);
             }
 

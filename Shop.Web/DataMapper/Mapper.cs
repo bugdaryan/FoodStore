@@ -165,6 +165,10 @@ namespace Shop.Web.DataMapper
 
         private IEnumerable<OrderDetailListingModel> OrderDetailsToOrderDetailsListingModel(IEnumerable<OrderDetail> orderLines)
         {
+            if(orderLines == null)
+            {
+                orderLines = Enumerable.Empty<OrderDetail>();
+            }
             return orderLines.Select(orderLine => new OrderDetailListingModel
             {
                 Amount = orderLine.Amount,
@@ -204,7 +208,7 @@ namespace Shop.Web.DataMapper
             };
         }
 
-        public AccountProfileModel ApplicationUserToAccountProfileModel(ApplicationUser user)
+        public AccountProfileModel ApplicationUserToAccountProfileModel(ApplicationUser user, IOrder orderService)
         {
             return new AccountProfileModel
             {
@@ -220,7 +224,7 @@ namespace Shop.Web.DataMapper
                 LastName = user.LastName,
                 MemberSince = user.MemberSince,
                 PhoneNumber = user.PhoneNumber,
-                Orders = OrdersToOrderIndexModels(user.Orders),
+                Orders = OrdersToOrderIndexModels(orderService.GetByUserId(user.Id)),
             };
         }
 
