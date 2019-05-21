@@ -61,5 +61,37 @@ namespace Shop.Service
                 .Include(order => order.OrderLines).ThenInclude(line => line.Food)
                 .Where(order => order.User.Id == userId);
 		}
+
+        public IEnumerable<Order> GetUserLatestOrders(int count, string userId)
+        {
+            return GetByUserId(userId)
+                .OrderByDescending(order => order.OrderPlaced)
+                .Take(count);
+        }
+
+        public IEnumerable<Food> GetUserMostPopularFoods(string userId)
+        {
+            // return GetByUserId(userId).Select(order => order.OrderLines.Select(line => line.Food))
+            Dictionary<Food, int> foods = new Dictionary<Food, int>();
+
+
+            var a = GetByUserId(userId);
+            foreach (var order in a)
+            {
+                foreach (var line in order.OrderLines)
+                {
+                    if(foods.ContainsKey(line.Food))
+                    {
+                        foods[line.Food]+=line.Amount;
+                    }
+                    else
+                    {
+                        foods[line.Food] = line.Amount;
+                    }   
+                }
+            }
+
+            return foods.OrderByDescending(keyValues => keyValues.Value).Select((keyValues) => keyValues.Key).Take(10);
+        }
 	}
 }

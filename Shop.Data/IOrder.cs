@@ -8,5 +8,7 @@ namespace Shop.Data
 		void CreateOrder(Order order);
         Order GetById(int orderId);
 		IEnumerable<Order> GetByUserId(string userId);
-    }
+		IEnumerable<Order> GetUserLatestOrders(int count, string userId);
+		IEnumerable<Food> GetUserMostPopularFoods(string id);
+	}
 }
