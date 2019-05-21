@@ -37,7 +37,7 @@
                 <div class="form-group">
                     <label asp-for="ImageUrl" class="col-md-3 control-label"></label>
                     <div class="col-md-6">
-                        <input onkeyup="readUrl(this);" asp-for="ImageUrl" class="form-control" />
+                        <input onkeyup="readUrl(this, 'FoodImage');" asp-for="ImageUrl" class="form-control" />
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
             </form>
             <div class="col-md-4">
                 <div >
-                    <img id="CategoryImage"  src= "@Url.Content(Model.ImageUrl)" alt="Invalid Url" width="300" heigth="300"/>
+                    <img id="FoodImage"  src= "@Url.Content(Model.ImageUrl)" alt="Invalid Url" width="300" heigth="300"/>
                 </div>
             </div>
         </div>

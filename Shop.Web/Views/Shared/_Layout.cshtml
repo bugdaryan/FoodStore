@@ -96,9 +96,9 @@
              target.value = val;
             }
 
-        function readUrl(input) {  
+        function readUrl(input, id) {  
             if (input && input.value) {
-                $('#CategoryImage').attr('src', input.value);
+                $('#'+id).attr('src', input.value);
             }
         }    
      </script>
