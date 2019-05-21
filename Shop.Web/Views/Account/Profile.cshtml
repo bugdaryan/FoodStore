@@ -24,7 +24,7 @@
                         </li>
                         <li role="presentation">
                             <h3>
-                                @Model.Orders?.Count()<br>
+                                @Model.OrderCount<br>
                                 <small>Orders placed</small>
                             </h3>
                         </li>
@@ -35,7 +35,7 @@
                             </h3>
                         </li>
                     </ul>
-                    <button class="btn btn-primary followbtn">Settings</button>
+                    <a class="btn btn-primary followbtn" asp-action="Settings">Settings</a>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -70,18 +70,25 @@
                 </div>
                 <div class="col-md-12">
                     <ul class="list-group">
-                        <li class="list-group-item"><span class="fa fa-male"></span> Worked with 1000+ people</li>
-                        <li class="list-group-item"><span class="fa fa-institution"></span> 60+ offices</li>
-                        <li class="list-group-item"><span class="fa fa-user"></span> 50000+ satify customers</li>
-                        <li class="list-group-item"><span class="fa fa-clock-o"></span> Work hours many and many still counting</li>
-                        <li class="list-group-item"><span class="fa fa-heart"></span> Customer satisfaction for servics</li>
+                        @if(Model.MostPopularFoods.Count() == 0)
+                        {
+                            <p>It looks like you havn't ordered anything yet...</p>
+                        }
+                        @foreach(var food in Model.MostPopularFoods)
+                        {
+                            <li class="list-group-item"><a asp-controller="Food" asp-action="Index" asp-route-id="@food.Id">@(food.Name)</a></li>
+                        }
                     </ul>
                 </div>
             </div>
         </div>
         <div clas="panel panel-default">
             <p>Latest orders</p>
-            @foreach(var item in Model.Orders)
+            @if(Model.OrderCount == 0)
+            {
+                <p>It looks like you havn't ordered anything yet...</p>
+            }
+            @foreach(var item in Model.LatestOrders)
             {
                 <div class="col-md-8 col-sm-12 pull-left posttimeline">
                     <div class="panel-group" id="accordion">
@@ -124,7 +131,7 @@
                                             <tr>
                                                 <td colspan="3" class="text-right">Total:</td>
                                                 <td class="text-right">
-                                                    @(item.OrderTotalFormat))
+                                                    @(item.OrderTotalFormat)
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -135,6 +142,11 @@
                     </div> 
                 </div>
             }
+            @if(Model.OrderCount > Model.LatestOrders.Count())
+            {
+                <a class="btn btn-info" >More</a>
+            }
+
         </div>
     </div>
 </div>

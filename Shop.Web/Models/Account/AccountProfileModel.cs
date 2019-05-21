@@ -23,7 +23,8 @@ namespace Shop.Web.Models.Account
         public string City { get; set; }
         public string Country { get; set; }
         public DateTime MemberSince { get; set; }
-        public IEnumerable<OrderIndexModel> Orders { get; set; }
+        public int OrderCount { get; set; }
+        public IEnumerable<OrderIndexModel> LatestOrders { get; set; }
         public IEnumerable<FoodSummaryModel> MostPopularFoods { get; set; }
     }
 }
