@@ -134,6 +134,20 @@ namespace Shop.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
+        public async Task<IActionResult> Settings()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user != null)
+            {
+                var model = _mapper.ApplicationUserToAccountProfileModel(user, _orderService);
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
         public IActionResult AccessDenied()
         {
             return View();

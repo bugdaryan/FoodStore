@@ -6,6 +6,7 @@ using Shop.Web.Models.Food;
 using Shop.Web.Models.Home;
 using Shop.Web.Models.Order;
 using Shop.Web.Models.OrderDetail;
+using Shop.Web.Views.Food;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,6 +90,15 @@ namespace Shop.Web.DataMapper
 
             return food;
         }
+
+        private IEnumerable<FoodSummaryModel> FoodToFoodSummaryModel(IEnumerable<Food> foods)
+		{
+			return foods.Select(food => new FoodSummaryModel
+            {
+                Name = food.Name,
+                Id = food.Id
+            });
+		}
 
         #endregion
 
@@ -224,10 +234,14 @@ namespace Shop.Web.DataMapper
                 LastName = user.LastName,
                 MemberSince = user.MemberSince,
                 PhoneNumber = user.PhoneNumber,
-                Orders = OrdersToOrderIndexModels(orderService.GetByUserId(user.Id)),
+                MostPopularFoods =  FoodToFoodSummaryModel(orderService.GetUserMostPopularFoods(user.Id)),
+                OrderCount = orderService.GetByUserId(user.Id).Count(),
+                LatestOrders = OrdersToOrderIndexModels(orderService.GetUserLatestOrders(5,user.Id)),
             };
         }
 
-        #endregion
-    }
+		
+
+		#endregion
+	}
 }
