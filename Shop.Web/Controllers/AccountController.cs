@@ -148,6 +148,17 @@ namespace Shop.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> SaveProfile(AccountProfileModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            _mapper.AccountProfileModelToApplicationUser(model, user);
+            await _userManager.UpdateAsync(user);
+
+            return RedirectToAction("Profile");
+        }
+
         public IActionResult AccessDenied()
         {
             return View();

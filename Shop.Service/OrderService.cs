@@ -71,9 +71,7 @@ namespace Shop.Service
 
         public IEnumerable<Food> GetUserMostPopularFoods(string userId)
         {
-            // return GetByUserId(userId).Select(order => order.OrderLines.Select(line => line.Food))
             Dictionary<Food, int> foods = new Dictionary<Food, int>();
-
 
             var a = GetByUserId(userId);
             foreach (var order in a)

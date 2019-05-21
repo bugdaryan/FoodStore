@@ -1,15 +1,15 @@
 @model Shop.Web.Models.Account.AccountProfileModel
 
 <div class="container" style="padding-top: 60px;">
-  <h1 class="page-header">Edit Profile</h1>
-  <div class="row">
+    <h1 class="page-header">Edit Profile</h1>
+    <div class="row">
     <!-- left column -->
     <div class="col-md-4 col-sm-6 col-xs-12">
-      <div class="text-center">
-        <img id="ProfileImage" src="@Model.ImageUrl" class="avatar img-circle img-thumbnail" alt="avatar">
-        <h6>Upload a different photo...</h6>
-        <input onkeyup="readUrl(this, 'ProfileImage');" asp-for="ImageUrl" value="" class="text-center center-block well well-lg" />
-      </div>
+        <div class="text-center">
+            <img id="ProfileImage" src="@Model.ImageUrl" class="avatar img-circle img-thumbnail" alt="avatar">
+            <h6>Upload a different photo...</h6>
+            <input onkeyup="readUrl(this, 'ProfileImage');" asp-for="ImageUrl" class="text-center center-block well well-lg" />
+        </div>
     </div>
     <!-- edit form column -->
     <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
@@ -19,72 +19,76 @@
         This is an <strong>.alert</strong>. Use this to show important messages to the user.
       </div>
       <h3>Personal info</h3>
-      <form class="form-horizontal" role="form">
+      <form asp-controller="Account" class="form-horizontal" role="form" method="post" asp-action="SaveProfile">
         <div class="form-group">
-          <label class="col-lg-3 control-label">First name:</label>
-          <div class="col-lg-8">
-            <input class="form-control" value="Jane" type="text">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-lg-3 control-label">Last name:</label>
-          <div class="col-lg-8">
-            <input class="form-control" value="Bishop" type="text">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-lg-3 control-label">Company:</label>
-          <div class="col-lg-8">
-            <input class="form-control" value="" type="text">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-lg-3 control-label">Email:</label>
-          <div class="col-lg-8">
-            <input class="form-control" value="janesemail@gmail.com" type="text">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-lg-3 control-label">Time Zone:</label>
-          <div class="col-lg-8">
-            <div class="ui-select">
-              <select id="user_time_zone" class="form-control">
-                <option value="Hawaii">(GMT-10:00) Hawaii</option>
-                <option value="Alaska">(GMT-09:00) Alaska</option>
-                <option value="Pacific Time (US & Canada)">(GMT-08:00) Pacific Time (US & Canada)</option>
-                <option value="Arizona">(GMT-07:00) Arizona</option>
-                <option value="Mountain Time (US & Canada)">(GMT-07:00) Mountain Time (US & Canada)</option>
-                <option value="Central Time (US & Canada)" selected="selected">(GMT-06:00) Central Time (US & Canada)</option>
-                <option value="Eastern Time (US & Canada)">(GMT-05:00) Eastern Time (US & Canada)</option>
-                <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
-              </select>
+            <label asp-for="FirstName" class="col-md-3 control-label"></label>
+            <div class="col-md-9">
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-          </div>
         </div>
         <div class="form-group">
-          <label class="col-md-3 control-label">Username:</label>
-          <div class="col-md-8">
-            <input class="form-control" value="janeuser" type="text">
-          </div>
+            <label asp-for="LastName" class="col-md-3 control-label"></label>
+            <div class="col-md-9">
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
         </div>
         <div class="form-group">
-          <label class="col-md-3 control-label">Password:</label>
-          <div class="col-md-8">
-            <input class="form-control" value="11111122333" type="password">
-          </div>
+            <label asp-for="Email" class="col-md-3 control-label"></label>
+            <div class="col-md-9">
+                <input value="@Model.Email" disabled class="form-control" />
+            </div>
         </div>
         <div class="form-group">
-          <label class="col-md-3 control-label">Confirm password:</label>
-          <div class="col-md-8">
-            <input class="form-control" value="11111122333" type="password">
-          </div>
+            <label asp-for="PhoneNumber" class="col-md-3 control-label"></label>
+            <div class="col-md-9">
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Country" class="col-md-3 control-label"></label>
+            <div class="col-md-9">
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+        </div>
+        <input asp-for="Email" type="hidden" />
+        <div class="form-group">
+            <label asp-for="City" class="col-md-3 control-label"></label>
+            <div class="col-md-9">
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AddressLine1" class="col-md-3 control-label"></label>
+            <div class="col-md-9">
+                <input asp-for="AddressLine1" class="form-control" />
+                <span asp-validation-for="AddressLine1" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AddressLine2" class="col-md-3 control-label"></label>
+            <div class="col-md-9">
+                <input asp-for="AddressLine2" class="form-control" />
+                <span asp-validation-for="AddressLine2" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber" class="col-md-3 control-label"></label>
+            <div class="col-md-9">
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
         </div>
         <div class="form-group">
           <label class="col-md-3 control-label"></label>
           <div class="col-md-8">
-            <input class="btn btn-primary" value="Save Changes" type="button">
+            <a class="btn btn-danger" asp-action="Settings">Cancel</a>
             <span></span>
-            <input class="btn btn-default" value="Cancel" type="reset">
+            <input class="btn btn-success" value="Save Changes" type="submit">
           </div>
         </div>
       </form>

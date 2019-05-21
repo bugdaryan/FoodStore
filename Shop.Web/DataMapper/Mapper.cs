@@ -173,6 +173,18 @@ namespace Shop.Web.DataMapper
             });
         }
 
+        internal void AccountProfileModelToApplicationUser(AccountProfileModel model, ApplicationUser user)
+        {
+            user.City = model.City;
+            user.AddressLine1 = model.AddressLine1;
+            user.AddressLine2 = model.AddressLine2;
+            user.Country = model.Country;
+            user.FirstName = model.FirstName;
+            user.ImageUrl = model.ImageUrl;
+            user.LastName = model.LastName;
+            user.PhoneNumber = model.PhoneNumber;
+        }
+
         private IEnumerable<OrderDetailListingModel> OrderDetailsToOrderDetailsListingModel(IEnumerable<OrderDetail> orderLines)
         {
             if(orderLines == null)
