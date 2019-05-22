@@ -5,6 +5,8 @@ using Shop.Data;
 using Shop.Data.Models;
 using Shop.Web.DataMapper;
 using Shop.Web.Models.Account;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Shop.Web.Controllers
@@ -24,6 +26,20 @@ namespace Shop.Web.Controllers
             _mapper = new Mapper();
             _shoppingCart = shoppingCart;
             _orderService = orderService;
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Index()
+        {
+            IEnumerable<ApplicationUser> users = _userManager.Users;
+            var models = _mapper.ApplicationUsersToAccountProfileModels(users, _orderService);
+
+            var model = new AccountIndexModel
+            {
+                Accounts = models
+            };
+
+            return View(model);
         }
 
         [Authorize]

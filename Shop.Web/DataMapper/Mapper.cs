@@ -252,7 +252,10 @@ namespace Shop.Web.DataMapper
             };
         }
 
-		
+		public IEnumerable<AccountProfileModel> ApplicationUsersToAccountProfileModels(IEnumerable<ApplicationUser> users, IOrder orderService)
+		{
+			return users.Select(user => ApplicationUserToAccountProfileModel(user, orderService));
+		}
 
 		#endregion
 	}
