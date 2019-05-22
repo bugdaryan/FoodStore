@@ -10,7 +10,7 @@
         <div class="col-md-12 text-center ">
             <div class="panel panel-default">
                 <div class="userprofile social ">
-                    <div class="userpic"> <img src="@Model.ImageUrl" alt="" class="userpicimg"> </div>
+                    <div class="userpic"> <img src="@Model.ImageUrl" alt="" class="userpicimg" style="height:100%;"> </div>
                     <h3 class="username">@Model.FirstName @Model.LastName</h3>
                     <p>@(Model.Country) @(Model.City)</p>
                 </div>
@@ -49,7 +49,7 @@
                     <p class="small">Email: @Model.Email</p>
                     @if(!string.IsNullOrEmpty(Model.PhoneNumber))
                     {
-                        <p class="small">Address 1: @Model.AddressLine1</p>
+                        <p class="small">Phone number : @Model.PhoneNumber</p>
                     }
                     <p class="small">Country: @Model.Country</p>
                     <p class="small">City: @Model.City</p>
