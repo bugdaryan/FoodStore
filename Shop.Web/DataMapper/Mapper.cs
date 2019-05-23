@@ -94,13 +94,13 @@ namespace Shop.Web.DataMapper
         }
 
         private IEnumerable<FoodSummaryModel> FoodToFoodSummaryModel(IEnumerable<Food> foods)
-		{
-			return foods.Select(food => new FoodSummaryModel
+        {
+            return foods.Select(food => new FoodSummaryModel
             {
                 Name = food.Name,
                 Id = food.Id
             });
-		}
+        }
 
         #endregion
 
@@ -175,21 +175,11 @@ namespace Shop.Web.DataMapper
             });
         }
 
-        internal void AccountProfileModelToApplicationUser(AccountProfileModel model, ApplicationUser user)
-        {
-            user.City = model.City;
-            user.AddressLine1 = model.AddressLine1;
-            user.AddressLine2 = model.AddressLine2;
-            user.Country = model.Country;
-            user.FirstName = model.FirstName;
-            user.ImageUrl = model.ImageUrl;
-            user.LastName = model.LastName;
-            user.PhoneNumber = model.PhoneNumber;
-        }
+
 
         private IEnumerable<OrderDetailListingModel> OrderDetailsToOrderDetailsListingModel(IEnumerable<OrderDetail> orderLines)
         {
-            if(orderLines == null)
+            if (orderLines == null)
             {
                 orderLines = Enumerable.Empty<OrderDetail>();
             }
@@ -211,6 +201,23 @@ namespace Shop.Web.DataMapper
         #endregion
 
         #region Account
+        public AccountSettingsModel ApplicationUserToAccountSettingsModel(ApplicationUser user, string roleId)
+        {
+            return new AccountSettingsModel
+            {
+                Id = user.Id,
+                AddressLine1 = user.AddressLine1,
+                AddressLine2 = user.AddressLine2,
+                City = user.City,
+                Country = user.Country,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                ImageUrl = user.ImageUrl,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                RoleId = roleId
+            };
+        }
 
         public ApplicationUser AccountRegisterModelToApplicationUser(AccountRegisterModel login)
         {
@@ -232,7 +239,7 @@ namespace Shop.Web.DataMapper
             };
         }
 
-        public AccountProfileModel ApplicationUserToAccountProfileModel(ApplicationUser user, IOrder orderService, IEnumerable<string> roles)
+        public AccountProfileModel ApplicationUserToAccountProfileModel(ApplicationUser user, IOrder orderService,string role)
         {
             return new AccountProfileModel
             {
@@ -248,26 +255,38 @@ namespace Shop.Web.DataMapper
                 LastName = user.LastName,
                 MemberSince = user.MemberSince,
                 PhoneNumber = user.PhoneNumber,
-                MostPopularFoods =  FoodToFoodSummaryModel(orderService.GetUserMostPopularFoods(user.Id)),
+                MostPopularFoods = FoodToFoodSummaryModel(orderService.GetUserMostPopularFoods(user.Id)),
                 OrderCount = orderService.GetByUserId(user.Id).Count(),
-                LatestOrders = OrdersToOrderIndexModels(orderService.GetUserLatestOrders(5,user.Id)),
-                Roles = roles
+                LatestOrders = OrdersToOrderIndexModels(orderService.GetUserLatestOrders(5, user.Id)),
+                Role = role
             };
         }
 
-		public async Task<IEnumerable<AccountProfileModel>> ApplicationUsersToAccountProfileModels(IEnumerable<ApplicationUser> users, IOrder orderService, UserManager<ApplicationUser> userManager)
+        public void AccountSettingsModelToApplicationUser(AccountSettingsModel model, ApplicationUser user)
+        {
+            user.City = model.City;
+            user.AddressLine1 = model.AddressLine1;
+            user.AddressLine2 = model.AddressLine2;
+            user.Country = model.Country;
+            user.FirstName = model.FirstName;
+            user.ImageUrl = model.ImageUrl;
+            user.LastName = model.LastName;
+            user.PhoneNumber = model.PhoneNumber;
+        }
+
+        public async Task<IEnumerable<AccountProfileModel>> ApplicationUsersToAccountProfileModels(IEnumerable<ApplicationUser> users, IOrder orderService, UserManager<ApplicationUser> userManager)
         {
             List<AccountProfileModel> models = new List<AccountProfileModel>(users.Count());
 
             foreach (var user in users)
             {
                 var roles = await userManager.GetRolesAsync(user);
-                models.Add(ApplicationUserToAccountProfileModel(user, orderService, roles));
+                models.Add(ApplicationUserToAccountProfileModel(user, orderService, roles.FirstOrDefault()));
             }
-            
-			return models;
-		}
 
-		#endregion
-	}
+            return models;
+        }
+
+        #endregion
+    }
 }
