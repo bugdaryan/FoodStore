@@ -37,11 +37,11 @@
                     </ul>
                     @if(User.IsInRole("Admin"))
                     {
-                        <a class="btn btn-primary followbtn" asp-action="Settings" asp-route-userId="@Model.Id">Settings</a>
+                        <a class="btn btn-primary followbtn" asp-action="Settings" asp-route-userId="@Model.Id">Settings <i class="fas fa-cogs"></i></a>
                     }
                     else
                     {
-                        <a class="btn btn-primary followbtn" asp-action="Settings">Settings</a>
+                        <a class="btn btn-primary followbtn" asp-action="Settings">Settings <i class="fas fa-cogs"></i></a>
                     }
                 </div>
                 <div class="clearfix"></div>
@@ -54,6 +54,7 @@
                     <h1 class="page-header small">Personal Details</h1>
                     <p class="small">Name: @Model.FirstName @Model.LastName</p>
                     <p class="small">Email: @Model.Email</p>
+                    <p class="small">Role: @Model.Role</p>
                     @if(!string.IsNullOrEmpty(Model.PhoneNumber))
                     {
                         <p class="small">Phone number : @Model.PhoneNumber</p>
@@ -76,11 +77,11 @@
                     <p class="page-subtitle small">Most popular ordered products</p>
                 </div>
                 <div class="col-md-12">
+                    @if(Model.MostPopularFoods.Count() == 0)
+                    {
+                        <p>It looks like you havn't ordered anything yet...</p>
+                    }
                     <ul class="list-group">
-                        @if(Model.MostPopularFoods.Count() == 0)
-                        {
-                            <p>It looks like you havn't ordered anything yet...</p>
-                        }
                         @foreach(var food in Model.MostPopularFoods)
                         {
                             <li class="list-group-item"><a asp-controller="Food" asp-action="Index" asp-route-id="@food.Id">@(food.Name)</a></li>

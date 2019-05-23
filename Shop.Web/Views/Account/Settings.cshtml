@@ -1,94 +1,182 @@
-@model Shop.Web.Models.Account.AccountProfileModel
+@model Shop.Web.Models.Account.AccountSettingsModel
 
 <div class="container" style="padding-top: 60px;">
     <h1 class="page-header">Edit Profile</h1>
     <div class="row">
-    <!-- left column -->
-    <!-- edit form column -->
-    <div class="col-md-12 col-sm-12 col-xs-12 personal-info">
-      <div class="alert alert-info alert-dismissable">
-        <a class="panel-close close" data-dismiss="alert">×</a>
-        <i class="fa fa-coffee"></i>
-        This is an <strong>.alert</strong>. Use this to show important messages to the user.
-      </div>
-      <h3>Personal info</h3>
-      <form asp-controller="Account" class="form-horizontal row" role="form" method="post" asp-action="SaveProfile">
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="text-center">
-                <img id="ProfileImage" src="@Url.Content(Model.ImageUrl)" class="avatar img-circle img-thumbnail" alt="avatar">
-                <h6>Upload a different photo...</h6>
-                <input onkeyup="readUrl(this, 'ProfileImage');" asp-for="ImageUrl" class="text-center center-block well well-lg" />
+        <!-- left column -->
+        <!-- edit form column -->
+        <div class="col-md-12 col-sm-12 col-xs-12 personal-info">
+            <div class="alert alert-info alert-dismissable">
+                <a class="panel-close close" data-dismiss="alert">×</a>
+                <i class="fa fa-coffee"></i>
+                This is an <strong>.alert</strong>. Use this to show important messages to the user.
             </div>
-        </div>
-        <div class="col-md-8">
+            <h3>Personal info</h3>
+            <form asp-controller="Account" class="form-horizontal row" role="form" method="post" asp-action="SaveProfile">
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="text-center">
+                        <img id="ProfileImage" src="@Url.Content(Model.ImageUrl)" class="avatar img-circle img-thumbnail" alt="avatar">
+                        <h6>Upload a different photo...</h6>
+                        <input onkeyup="readUrl(this, 'ProfileImage');" asp-for="ImageUrl" class="text-center center-block well well-lg" />
+                    </div>
+                </div>
+                <div class="col-md-8 ">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item active">
+                            <a class=" nav-link active" id="personal-info-tab" data-toggle="tab" href="#personal-info" aria-expanded="true" role="tab" aria-controls="personal-info" aria-selected="true">Personal info</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="change-password-tab" data-toggle="tab" href="#change-password" role="tab" aria-controls="change-password" aria-selected="false">Change password</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="deactivate-account-tab" data-toggle="tab" href="#deactivate-account" role="tab" aria-controls="deactivate-account" aria-selected="false">Deactivate account</a>
+                        </li>
+                    </ul>
+                    <br />
+                    <span asp-validation-for="OldPassword" class="text-danger"></span><br />
+                    <span asp-validation-for="NewPassword" class="text-danger"></span><br />
+                    <span asp-validation-for="NewPasswordConfirmation" class="text-danger"></span>
+                    <div class="tab-content">
+                        <div class="tab-pane active fade in" id="personal-info" style="margin-top:32px" role="tabpanel" aria-labelledby="personal-info-tab">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="FirstName" class="form-control" />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="LastName" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="LastName" class="form-control" />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Email" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input value="@Model.Email" disabled class="form-control" />
+                                </div>
+                                <input asp-for="Email" type="hidden" />
+                            </div>
+                            @if (ViewBag.Roles != null)
+                            {
+                                <div class="form-group">
+                                    <label asp-for="RoleId" class="col-md-3 control-label"></label>
+                                    <div class="col-md-6">
+                                        @Html.DropDownListFor(model => model.RoleId, (SelectList)ViewBag.Roles, " -- Select Role -- ")
+                                        <span asp-validation-for="RoleId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            }
+                            <div class="form-group">
+                                <label asp-for="PhoneNumber" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="PhoneNumber" class="form-control" />
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Country" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="Country" class="form-control" />
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="City" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="City" class="form-control" />
+                                    <span asp-validation-for="City" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="AddressLine1" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="AddressLine1" class="form-control" />
+                                    <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="AddressLine2" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="AddressLine2" class="form-control" />
+                                    <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-9">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a class="btn btn-danger" asp-action="Profile" asp-route-userId="@Model.Id">Cancel</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-danger" asp-action="Profile">Cancel</a>
+                                    }
+                                    <span></span>
+                                    <input class="btn btn-success" value="Save Changes" type="submit">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="change-password">
+                            <div class="form-group" style="margin-top:32px">
+                                <label asp-for="OldPassword" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="OldPassword" class="form-control" />
+                                    <span asp-validation-for="OldPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="NewPassword" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="NewPassword" class="form-control" />
+                                    <span asp-validation-for="NewPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="NewPasswordConfirmation" class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                    <input asp-for="NewPasswordConfirmation" class="form-control" />
+                                    <span asp-validation-for="NewPasswordConfirmation" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-9">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a class="btn btn-danger" asp-action="Profile" asp-route-userId="@Model.Id">Cancel</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-danger" asp-action="Profile">Cancel</a>
+                                    }
+                                    <span></span>
+                                    <input class="btn btn-success" value="Save Changes" type="submit">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="deactivate-account" class="tab-pane fade">
+                            <h4>Are you sure you want to deactivate your account?</h4>
+                            <div class="btn-group" style="margin:32px">
+                                @if(User.IsInRole("Admin"))
+                                {
+                                    <a class="btn btn-default btn-lg"  asp-action="Profile" asp-route-userId="@Model.Id">Cancel</a>
+                                    <a class="btn btn-danger btn-lg"  asp-action="Deactivate" asp-route-userId="@Model.Id">Deactivate</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-default btn-lg"  asp-action="Profile">Cancel</a>
+                                    <a class="btn btn-danger btn-lg"  asp-action="Deactivate">Deactivate</a>
+                                }
+                            </div>
+                        </div>
 
-          
-          <div class="form-group">
-              <label asp-for="FirstName" class="col-md-3 control-label"></label>
-              <div class="col-md-9">
-                  <input asp-for="FirstName" class="form-control" />
-                  <span asp-validation-for="FirstName" class="text-danger"></span>
-              </div>
-          </div>
-          <div class="form-group">
-              <label asp-for="LastName" class="col-md-3 control-label"></label>
-              <div class="col-md-9">
-                  <input asp-for="LastName" class="form-control" />
-                  <span asp-validation-for="LastName" class="text-danger"></span>
-              </div>
-          </div>
-          <div class="form-group">
-              <label asp-for="Email" class="col-md-3 control-label"></label>
-              <div class="col-md-9">
-                  <input value="@Model.Email" disabled class="form-control" />
-              </div>
-          </div>
-          <div class="form-group">
-              <label asp-for="PhoneNumber" class="col-md-3 control-label"></label>
-              <div class="col-md-9">
-                  <input asp-for="PhoneNumber" class="form-control" />
-                  <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-              </div>
-          </div>
-          <div class="form-group">
-              <label asp-for="Country" class="col-md-3 control-label"></label>
-              <div class="col-md-9">
-                  <input asp-for="Country" class="form-control" />
-                  <span asp-validation-for="Country" class="text-danger"></span>
-              </div>
-          </div>
-          <input asp-for="Email" type="hidden" />
-          <div class="form-group">
-              <label asp-for="City" class="col-md-3 control-label"></label>
-              <div class="col-md-9">
-                  <input asp-for="City" class="form-control" />
-                  <span asp-validation-for="City" class="text-danger"></span>
-              </div>
-          </div>
-          <div class="form-group">
-              <label asp-for="AddressLine1" class="col-md-3 control-label"></label>
-              <div class="col-md-9">
-                  <input asp-for="AddressLine1" class="form-control" />
-                  <span asp-validation-for="AddressLine1" class="text-danger"></span>
-              </div>
-          </div>
-          <div class="form-group">
-              <label asp-for="AddressLine2" class="col-md-3 control-label"></label>
-              <div class="col-md-9">
-                  <input asp-for="AddressLine2" class="form-control" />
-                  <span asp-validation-for="AddressLine2" class="text-danger"></span>
-              </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label"></label>
-            <div class="col-md-8">
-              <a class="btn btn-danger" asp-action="Profile">Cancel</a>
-              <span></span>
-              <input class="btn btn-success" value="Save Changes" type="submit">
-            </div>
-          </div>
+                    </div>
+                </div>
+            </form>
         </div>
-      </form>
     </div>
-  </div>
 </div>

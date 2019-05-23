@@ -66,10 +66,7 @@
 											{
 												<p class="small">Address 2: @account.AddressLine2</p>
 											}
-											@foreach(var role in account.Roles)
-											{
-												<p class="small">Role: @role</p>
-											}
+                                            <p class="small">Role: @account.Role</p>
 										</div>
 									</div>
 									<a class="btn btn-primary btn-lg" role="button" asp-action="AdminProfile" asp-controller="Account" asp-route-userId="@account.Id">Go to profile</a>

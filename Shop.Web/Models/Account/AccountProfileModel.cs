@@ -24,7 +24,7 @@ namespace Shop.Web.Models.Account
         public string Country { get; set; }
         public DateTime MemberSince { get; set; }
         public int OrderCount { get; set; }
-        public IEnumerable<string> Roles { get; set; }
+        public string Role { get; set; }
         public decimal TotalSpent { get; set; }
         public string TotalSpentFormat { get => TotalSpent.ToString("c", CultureInfo.CreateSpecificCulture("en-US"));  }
         public IEnumerable<OrderIndexModel> LatestOrders { get; set; }
