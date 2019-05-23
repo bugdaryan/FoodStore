@@ -29,10 +29,10 @@ namespace Shop.Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             IEnumerable<ApplicationUser> users = _userManager.Users;
-            var models = _mapper.ApplicationUsersToAccountProfileModels(users, _orderService);
+            var models = await _mapper.ApplicationUsersToAccountProfileModels(users, _orderService, _userManager);
 
             var model = new AccountIndexModel
             {
@@ -43,17 +43,33 @@ namespace Shop.Web.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> Profile(string userId)
         {
-            var user = await _userManager.GetUserAsync(User);
+            ApplicationUser user;
+            if(!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+            {
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            else
+            {
+                user = await _userManager.GetUserAsync(User);
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
 
             if (user != null)
             {
-                var model = _mapper.ApplicationUserToAccountProfileModel(user, _orderService);
+                var model = _mapper.ApplicationUserToAccountProfileModel(user, _orderService, roles);
                 return View(model);
             }
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminProfile(string userId)
+        {
+            return RedirectToAction("Profile", new { userId });
         }
 
         public IActionResult Login(string returnUrl = "/")
@@ -133,6 +149,7 @@ namespace Shop.Web.Controllers
                         Email = register.Email,
                         Password = register.Password,
                     };
+                    await _userManager.AddToRoleAsync(user, "Customer");
                     return RedirectToAction("Login", new { login = loginModel });
                 }
             }
@@ -151,13 +168,22 @@ namespace Shop.Web.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Settings()
+        public async Task<IActionResult> Settings(string userId)
         {
-            var user = await _userManager.GetUserAsync(User);
+            ApplicationUser user;
+            if(!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+            {
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            else
+            {
+                user = await _userManager.GetUserAsync(User);
+            }
 
             if (user != null)
             {
-                var model = _mapper.ApplicationUserToAccountProfileModel(user, _orderService);
+                var roles = await _userManager.GetRolesAsync(user);
+                var model = _mapper.ApplicationUserToAccountProfileModel(user, _orderService,roles);
                 return View(model);
             }
 
@@ -172,7 +198,11 @@ namespace Shop.Web.Controllers
             _mapper.AccountProfileModelToApplicationUser(model, user);
             await _userManager.UpdateAsync(user);
 
-            return RedirectToAction("Profile");
+            if(User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Profile", new {userId = user.Id});
+            }
+            return RedirectToAction("Profile"); 
         }
 
         public IActionResult AccessDenied()

@@ -21,11 +21,58 @@
 						<div id="collapse-@account.GetHashCode()" class="panel-collapse collapse">
 							<div class="panel-body">
 								<div class="jumbotron">
-									<h2 class="display-4">Hello, world!</h2>
-									<p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-									<hr class="my-4">
-									<p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-									<a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+									<h2 class="display-4">@account.FirstName @account.LastName</h2>
+									<ul class="nav nav-pills pull-left countlist" role="tablist">
+										<li role="presentation">
+											<h3>
+												@account.BalanceFormat<br>
+												<small>Balance</small>
+											</h3>
+										</li>
+										<li role="presentation">
+											<h3>
+												@account.TotalSpentFormat<br>
+												<small>Total Spent</small>
+											</h3>
+										</li>
+										<li role="presentation">
+											<h3>
+												@account.OrderCount<br>
+												<small>Orders placed</small>
+											</h3>
+										</li>
+										<li role="presentation">
+											<h3>
+												@account.MemberSince.ToString("dd/MM/yyyy")<br>
+												<small>Member since</small>
+											</h3>
+										</li>
+									</ul>
+									<div class="panel panel-default">
+										<div class="panel-heading">
+											<h1 class="page-header small">Personal Details</h1>
+											<p class="small">Email: @account.Email</p>
+											@if(!string.IsNullOrEmpty(account.PhoneNumber))
+											{
+												<p class="small">Phone number : @account.PhoneNumber</p>
+											}
+											<p class="small">Country: @account.Country</p>
+											<p class="small">City: @account.City</p>
+											@if(!string.IsNullOrEmpty(account.AddressLine1))
+											{
+												<p class="small">Address 1: @account.AddressLine1</p>
+											}
+											@if(!string.IsNullOrEmpty(account.AddressLine2))
+											{
+												<p class="small">Address 2: @account.AddressLine2</p>
+											}
+											@foreach(var role in account.Roles)
+											{
+												<p class="small">Role: @role</p>
+											}
+										</div>
+									</div>
+									<a class="btn btn-primary btn-lg" role="button" asp-action="AdminProfile" asp-controller="Account" asp-route-userId="@account.Id">Go to profile</a>
 								</div>
 							</div>
 						</div>

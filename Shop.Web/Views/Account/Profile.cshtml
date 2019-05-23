@@ -35,7 +35,14 @@
                             </h3>
                         </li>
                     </ul>
-                    <a class="btn btn-primary followbtn" asp-action="Settings">Settings</a>
+                    @if(User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-primary followbtn" asp-action="Settings" asp-route-userId="@Model.Id">Settings</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary followbtn" asp-action="Settings">Settings</a>
+                    }
                 </div>
                 <div class="clearfix"></div>
             </div>

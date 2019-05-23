@@ -1,4 +1,5 @@
-﻿using Shop.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Shop.Data;
 using Shop.Data.Models;
 using Shop.Web.Models.Account;
 using Shop.Web.Models.Category;
@@ -10,6 +11,7 @@ using Shop.Web.Views.Food;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Shop.Web.DataMapper
 {
@@ -230,7 +232,7 @@ namespace Shop.Web.DataMapper
             };
         }
 
-        public AccountProfileModel ApplicationUserToAccountProfileModel(ApplicationUser user, IOrder orderService)
+        public AccountProfileModel ApplicationUserToAccountProfileModel(ApplicationUser user, IOrder orderService, IEnumerable<string> roles)
         {
             return new AccountProfileModel
             {
@@ -249,12 +251,21 @@ namespace Shop.Web.DataMapper
                 MostPopularFoods =  FoodToFoodSummaryModel(orderService.GetUserMostPopularFoods(user.Id)),
                 OrderCount = orderService.GetByUserId(user.Id).Count(),
                 LatestOrders = OrdersToOrderIndexModels(orderService.GetUserLatestOrders(5,user.Id)),
+                Roles = roles
             };
         }
 
-		public IEnumerable<AccountProfileModel> ApplicationUsersToAccountProfileModels(IEnumerable<ApplicationUser> users, IOrder orderService)
-		{
-			return users.Select(user => ApplicationUserToAccountProfileModel(user, orderService));
+		public async Task<IEnumerable<AccountProfileModel>> ApplicationUsersToAccountProfileModels(IEnumerable<ApplicationUser> users, IOrder orderService, UserManager<ApplicationUser> userManager)
+        {
+            List<AccountProfileModel> models = new List<AccountProfileModel>(users.Count());
+
+            foreach (var user in users)
+            {
+                var roles = await userManager.GetRolesAsync(user);
+                models.Add(ApplicationUserToAccountProfileModel(user, orderService, roles));
+            }
+            
+			return models;
 		}
 
 		#endregion
