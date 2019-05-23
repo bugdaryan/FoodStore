@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Shop.Data;
 using Shop.Data.Models;
 using Shop.Web.DataMapper;
@@ -15,14 +16,16 @@ namespace Shop.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly Mapper _mapper;
         private readonly ShoppingCart _shoppingCart;
         private readonly IOrder _orderService;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ShoppingCart shoppingCart, IOrder orderService)
+        public AccountController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ShoppingCart shoppingCart, IOrder orderService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _mapper = new Mapper();
             _shoppingCart = shoppingCart;
             _orderService = orderService;
@@ -46,7 +49,7 @@ namespace Shop.Web.Controllers
         public async Task<IActionResult> Profile(string userId)
         {
             ApplicationUser user;
-            if(!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+            if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
             {
                 user = await _userManager.FindByIdAsync(userId);
             }
@@ -59,7 +62,7 @@ namespace Shop.Web.Controllers
 
             if (user != null)
             {
-                var model = _mapper.ApplicationUserToAccountProfileModel(user, _orderService, roles);
+                var model = _mapper.ApplicationUserToAccountProfileModel(user, _orderService, roles.FirstOrDefault());
                 return View(model);
             }
 
@@ -74,6 +77,10 @@ namespace Shop.Web.Controllers
 
         public IActionResult Login(string returnUrl = "/")
         {
+            if (_signInManager.IsSignedIn(User))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             returnUrl = returnUrl.Replace("%2F", "/");
 
             var model = new AccountLoginModel
@@ -171,9 +178,10 @@ namespace Shop.Web.Controllers
         public async Task<IActionResult> Settings(string userId)
         {
             ApplicationUser user;
-            if(!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+            if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
             {
                 user = await _userManager.FindByIdAsync(userId);
+                GetRoles();
             }
             else
             {
@@ -182,27 +190,101 @@ namespace Shop.Web.Controllers
 
             if (user != null)
             {
-                var roles = await _userManager.GetRolesAsync(user);
-                var model = _mapper.ApplicationUserToAccountProfileModel(user, _orderService,roles);
+                string roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                string roleId = _roleManager.Roles.FirstOrDefault(role => role.Name == roleName).Id;
+                var model = _mapper.ApplicationUserToAccountSettingsModel(user, roleId);
                 return View(model);
             }
 
             return RedirectToAction("Index", "Home");
         }
 
+        private void GetRoles()
+        {
+            var roles = _roleManager.Roles.Select(role => new RoleDropdownModel
+            {
+                Id = role.Id,
+                Name = role.Name
+            });
+            ViewBag.Roles = new SelectList(roles, "Id", "Name");
+        }
+
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> SaveProfile(AccountProfileModel model)
+        public async Task<IActionResult> SaveProfile(AccountSettingsModel model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            _mapper.AccountProfileModelToApplicationUser(model, user);
-            await _userManager.UpdateAsync(user);
-
-            if(User.IsInRole("Admin"))
+            GetRoles();
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Profile", new {userId = user.Id});
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                _mapper.AccountSettingsModelToApplicationUser(model, user);
+
+                if (!string.IsNullOrEmpty(model.OldPassword)
+                    || !string.IsNullOrEmpty(model.NewPassword)
+                    || !string.IsNullOrEmpty(model.NewPasswordConfirmation))
+                {
+                    if (string.IsNullOrEmpty(model.OldPassword))
+                    {
+                        ModelState.AddModelError("OldPassword", "Enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                    if (string.IsNullOrEmpty(model.NewPassword))
+                    {
+                        ModelState.AddModelError("NewPassword", "Enter your new password to change it");
+                        return View("Settings", model);
+                    }
+
+                    var result = await _userManager.ChangePasswordAsync(user, model.OldPassword ?? "", model.NewPassword ?? "");
+                    if (!result.Succeeded)
+                    { 
+                        ModelState.AddModelError("OldPassword", "Incorrect password, please enter your current password to change it");
+                        return View("Settings", model);
+                    }
+                }
+
+                var role = _roleManager.Roles.First(r => r.Id == model.RoleId).Name;
+                var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                if(role != userRole)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, userRole);
+                    await _userManager.AddToRoleAsync(user, role);
+                }
+
+
+                await _userManager.UpdateAsync(user);
+
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Profile", new { userId = user.Id });
+                }
+                return RedirectToAction("Profile");
             }
-            return RedirectToAction("Profile"); 
+            return View("Settings", model);
+        }
+
+        public async Task<IActionResult> Deactivate(string userId)
+        {
+            ApplicationUser user;
+            if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+            {
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            else
+            {
+                user = await _userManager.GetUserAsync(User);
+            }
+
+            if(user!=null)
+            {
+                if(string.IsNullOrEmpty(userId) || !User.IsInRole("Admin"))
+                {
+                    await _signInManager.SignOutAsync();
+                    _shoppingCart.ClearCart();
+                }
+                await _userManager.DeleteAsync(user);
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Profile");
         }
 
         public IActionResult AccessDenied()
