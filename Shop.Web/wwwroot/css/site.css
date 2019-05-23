@@ -36,12 +36,12 @@
 }
 
 .navLogo {
-    background-image: url("/images/logo.png");
+    background-image: url("/images/logo1.png");
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
     padding-right: 16px;
-    width: 100px;
+    width: 140px;
     margin-right: 12px;
 }
 
@@ -455,19 +455,18 @@
     margin: 40px auto
 }
 
-    .userprofile .userpic {
-        height: 100px;
-        width: 100px;
-        clear: both;
-        margin: 0 auto;
-        display: block;
-        border-radius: 100%;
-        box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
-        -moz-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
-        -webkit-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
-        -ms-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
-        position: relative;
-    }
+.userprofile .userpic {
+    height: 100px;
+    width: 100px;
+    clear: both;
+    margin: 0 auto;
+    display: block;
+    border-radius: 100%;
+    box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+    position: relative;
+}
 
         .userprofile .userpic .userpicimg {
             height: auto;
@@ -486,14 +485,14 @@
     text-overflow: ellipsis;
 }
 
-    .username + p {
-        color: #607d8b;
-        font-size: 13px;
-        line-height: 15px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
+.username + p {
+    color: #607d8b;
+    font-size: 13px;
+    line-height: 15px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 
 .settingbtn {
     height: 30px;
@@ -510,7 +509,6 @@
     box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.15);
     -moz-box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.15);
     -webkit-box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.15);
-    -ms-box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.15);
 }
 
 .userprofile.small {
@@ -528,7 +526,6 @@
         box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
         -moz-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
         -webkit-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
-        -ms-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
         position: relative;
         float: left;
     }
@@ -721,11 +718,9 @@
     box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
     -moz-box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
     -webkit-box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
-    -ms-box-shadow: 0px 2px 10px 0 rgba(0, 0, 0, 0.05);
     transition: all ease 0.5s;
     -moz-transition: all ease 0.5s;
     -webkit-transition: all ease 0.5s;
-    -ms-transition: all ease 0.5s;
     margin-bottom: 35px;
     border-radius: 0px;
     position: relative;
@@ -748,17 +743,17 @@
     background-color: #03A9F4;
 }
 
-    .panel-red.userlist .username, .panel-green.userlist .username, .panel-yellow.userlist .username, .panel-blue.userlist .username {
-        color: #ffffff;
-    }
+.panel-red.userlist .username, .panel-green.userlist .username, .panel-yellow.userlist .username, .panel-blue.userlist .username {
+    color: #ffffff;
+}
 
-    .panel-red.userlist p, .panel-green.userlist p, .panel-yellow.userlist p, .panel-blue.userlist p {
-        color: rgba(255, 255, 255, 0.8);
-    }
+.panel-red.userlist p, .panel-green.userlist p, .panel-yellow.userlist p, .panel-blue.userlist p {
+    color: rgba(255, 255, 255, 0.8);
+}
 
-        .panel-red.userlist p a, .panel-green.userlist p a, .panel-yellow.userlist p a, .panel-blue.userlist p a {
-            color: rgba(255, 255, 255, 0.8);
-        }
+.panel-red.userlist p a, .panel-green.userlist p a, .panel-yellow.userlist p a, .panel-blue.userlist p a {
+    color: rgba(255, 255, 255, 0.8);
+}
 
 .progress-bar-success, .status.active, .panel-green, .panel-green > .panel-heading, .btn-success, .fc-event, .badge.green, .event_green {
     color: white;
@@ -781,7 +776,6 @@
     box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
     -moz-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
     -webkit-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
-    -ms-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
 }
 
 .media:first-child {
@@ -813,24 +807,24 @@
     margin: 0 auto;
 }
 
-    .dots:after, .dots:before {
-        content: " ";
-        height: 4px;
-        width: 4px;
-        position: absolute;
-        display: inline-block;
-        background: rgba(0,0,0,0.5);
-        border-radius: 2px;
-        top: -7px;
-        left: 0;
-    }
+.dots:after, .dots:before {
+    content: " ";
+    height: 4px;
+    width: 4px;
+    position: absolute;
+    display: inline-block;
+    background: rgba(0,0,0,0.5);
+    border-radius: 2px;
+    top: -7px;
+    left: 0;
+}
 
-    .dots:after {
-        content: " ";
-        top: auto;
-        bottom: -7px;
-        left: 0;
-    }
+.dots:after {
+    content: " ";
+    top: auto;
+    bottom: -7px;
+    left: 0;
+}
 
 .photolist img {
     width: 100%;

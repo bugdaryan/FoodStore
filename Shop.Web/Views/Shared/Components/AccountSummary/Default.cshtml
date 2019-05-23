@@ -9,13 +9,13 @@
         <i class="fas fa-angle-down"></i>
     </a>
     <div class="dropdown-menu account-dropdown">
-        <a class="dropdown-item" asp-action="Profile" asp-controller="Account">Profile</a>
+        <a class="dropdown-item" asp-action="Profile" asp-controller="Account">Profile <i class="fas fa-user-circle"></i></a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" asp-action="Settings" asp-controller="Account">Settings</a>
+        <a class="dropdown-item" asp-action="Settings" asp-controller="Account">Settings <i class="fas fa-cogs"></i></a>
         <div class="dropdown-divider"></div>
         <div class="dropdown-item">
             <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-                <button type="submit" class="btn-link">Log out</button>
+                <button type="submit" class="btn-link">Log out <i class="fas fa-sign-out-alt"></i></button>
             </form>
         </div>
     </div>
