@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Shop.Data;
+using Shop.Data.Extensions;
 using Shop.Data.Models;
 using Shop.Web.DataMapper;
 using Shop.Web.Models.Account;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Shop.Web.Controllers
@@ -35,7 +37,7 @@ namespace Shop.Web.Controllers
         public async Task<IActionResult> Index()
         {
             IEnumerable<ApplicationUser> users = _userManager.Users;
-            var models = await _mapper.ApplicationUsersToAccountProfileModels(users, _orderService, _userManager);
+            var models = await _mapper.ApplicationUsersToAccountProfileModelsAsync(users, _orderService, _userManager);
 
             var model = new AccountIndexModel
             {
@@ -44,6 +46,27 @@ namespace Shop.Web.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Search(string searchQuery)
+        {
+            if(string.IsNullOrWhiteSpace(searchQuery))
+            {
+                return RedirectToAction("Index");
+            }
+
+            var queries = string.IsNullOrEmpty(searchQuery) ? null : Regex.Replace(searchQuery, @"\s+", " ").Trim().ToLower().Split(" ");
+            var models = await _mapper.ApplicationUsersToAccountProfileModelsAsync(_userManager.Users.Where(user => queries.Any(query => (user.FirstName + " "+ user.LastName + " "+ user.Email).ToLower().Contains(query))),_orderService,_userManager);
+            
+            var model = new AccountIndexModel
+            {
+                Accounts = models,
+                SearchQuery = searchQuery
+            };
+
+            return View("Index",model);
+        } 
 
         [Authorize]
         public async Task<IActionResult> Profile(string userId)
@@ -122,7 +145,7 @@ namespace Shop.Web.Controllers
         {
             returnUrl = returnUrl.Replace("%2F", "/");
 
-            if (_signInManager.IsSignedIn(User))
+            if (_signInManager.IsSignedIn(User) && !User.IsInRole("Admin"))
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -252,6 +275,8 @@ namespace Shop.Web.Controllers
 
 
                 await _userManager.UpdateAsync(user);
+
+                await HttpContext.RefreshLoginAsync();
 
                 if (User.IsInRole("Admin"))
                 {
