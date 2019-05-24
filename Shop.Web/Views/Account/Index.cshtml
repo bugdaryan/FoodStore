@@ -3,80 +3,105 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12" style="margin-top:32px">
-		@foreach(var account in Model.Accounts)
-		{
-			<div class="col-md-8 col-sm-12 pull-left posttimeline">
-				<div class="panel-group" id="accordion">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<p>@account.FirstName @account.LastName</p>
-								<div>
-									<a data-toggle="collapse" data-parent="#accordion" href="#collapse-@account.GetHashCode()">
-										Details
-									</a>
-								</div>
-							</h4>
+			<div class="col-md-6" style="margin-bottom:32px">
+				<form asp-controller="Account" asp-action="Search" method="post">
+					<input asp-for="SearchQuery" type="text" class="homeSearch" placeholder="Search..." />
+				</form>
+			</div>
+			@if(!string.IsNullOrWhiteSpace(Model.SearchQuery))
+			{
+				<div class="col-md-8">
+					<h3>Search Results</h3>
+					<hr/>
+					@if(!Model.Accounts.Any())
+					{
+						<div>
+							<h4>It looks like there is no search result...</h4>
 						</div>
-						<div id="collapse-@account.GetHashCode()" class="panel-collapse collapse">
-							<div class="panel-body">
-								<div class="jumbotron">
-									<h2 class="display-4">@account.FirstName @account.LastName</h2>
-									<ul class="nav nav-pills pull-left countlist" role="tablist">
-										<li role="presentation">
-											<h3>
-												@account.BalanceFormat<br>
-												<small>Balance</small>
-											</h3>
-										</li>
-										<li role="presentation">
-											<h3>
-												@account.TotalSpentFormat<br>
-												<small>Total Spent</small>
-											</h3>
-										</li>
-										<li role="presentation">
-											<h3>
-												@account.OrderCount<br>
-												<small>Orders placed</small>
-											</h3>
-										</li>
-										<li role="presentation">
-											<h3>
-												@account.MemberSince.ToString("dd/MM/yyyy")<br>
-												<small>Member since</small>
-											</h3>
-										</li>
-									</ul>
-									<div class="panel panel-default">
-										<div class="panel-heading">
-											<h1 class="page-header small">Personal Details</h1>
-											<p class="small">Email: @account.Email</p>
-											@if(!string.IsNullOrEmpty(account.PhoneNumber))
-											{
-												<p class="small">Phone number : @account.PhoneNumber</p>
-											}
-											<p class="small">Country: @account.Country</p>
-											<p class="small">City: @account.City</p>
-											@if(!string.IsNullOrEmpty(account.AddressLine1))
-											{
-												<p class="small">Address 1: @account.AddressLine1</p>
-											}
-											@if(!string.IsNullOrEmpty(account.AddressLine2))
-											{
-												<p class="small">Address 2: @account.AddressLine2</p>
-											}
-                                            <p class="small">Role: @account.Role</p>
-										</div>
+					}
+				</div>
+			}
+			else
+			{
+				@if(!Model.Accounts.Any())
+				{
+					<p>It looks like there are no accounts...</p>
+				}	
+			}
+			@foreach(var account in Model.Accounts)
+			{
+				<div class="col-md-8 col-sm-12 pull-left posttimeline">
+					<div class="panel-group" id="accordion">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">
+									<p>@account.FirstName @account.LastName</p>
+									<div>
+										<a data-toggle="collapse" data-parent="#accordion" href="#collapse-@account.GetHashCode()">
+											Details
+										</a>
 									</div>
-									<a class="btn btn-primary btn-lg" role="button" asp-action="AdminProfile" asp-controller="Account" asp-route-userId="@account.Id">Go to profile</a>
+								</h4>
+							</div>
+							<div id="collapse-@account.GetHashCode()" class="panel-collapse collapse">
+								<div class="panel-body">
+									<div class="jumbotron">
+										<h2 class="display-4">@account.FirstName @account.LastName</h2>
+										<ul class="nav nav-pills pull-left countlist" role="tablist">
+											<li role="presentation">
+												<h3>
+													@account.BalanceFormat<br>
+													<small>Balance</small>
+												</h3>
+											</li>
+											<li role="presentation">
+												<h3>
+													@account.TotalSpentFormat<br>
+													<small>Total Spent</small>
+												</h3>
+											</li>
+											<li role="presentation">
+												<h3>
+													@account.OrderCount<br>
+													<small>Orders placed</small>
+												</h3>
+											</li>
+											<li role="presentation">
+												<h3>
+													@account.MemberSince.ToString("dd/MM/yyyy")<br>
+													<small>Member since</small>
+												</h3>
+											</li>
+										</ul>
+										<div class="panel panel-default">
+											<div class="panel-heading">
+												<h1 class="page-header small">Personal Details</h1>
+												<p class="small">Email: @account.Email</p>
+												@if(!string.IsNullOrEmpty(account.PhoneNumber))
+												{
+													<p class="small">Phone number : @account.PhoneNumber</p>
+												}
+												<p class="small">Country: @account.Country</p>
+												<p class="small">City: @account.City</p>
+												@if(!string.IsNullOrEmpty(account.AddressLine1))
+												{
+													<p class="small">Address 1: @account.AddressLine1</p>
+												}
+												@if(!string.IsNullOrEmpty(account.AddressLine2))
+												{
+													<p class="small">Address 2: @account.AddressLine2</p>
+												}
+												<p class="small">Role: @account.Role</p>
+											</div>
+										</div>
+										<a class="btn btn-primary btn-lg" role="button" asp-action="AdminProfile" asp-controller="Account" asp-route-userId="@account.Id">Go to profile</a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div> 
-			</div>
-		}
+					</div> 
+				</div>
+			}
 		</div>
 	</div>
 </div>

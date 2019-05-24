@@ -258,7 +258,8 @@ namespace Shop.Web.DataMapper
                 MostPopularFoods = FoodToFoodSummaryModel(orderService.GetUserMostPopularFoods(user.Id)),
                 OrderCount = orderService.GetByUserId(user.Id).Count(),
                 LatestOrders = OrdersToOrderIndexModels(orderService.GetUserLatestOrders(5, user.Id)),
-                Role = role
+                Role = role,
+                TotalSpent = orderService.GetByUserId(user.Id).Sum(order => order.OrderTotal)
             };
         }
 
@@ -274,7 +275,7 @@ namespace Shop.Web.DataMapper
             user.PhoneNumber = model.PhoneNumber;
         }
 
-        public async Task<IEnumerable<AccountProfileModel>> ApplicationUsersToAccountProfileModels(IEnumerable<ApplicationUser> users, IOrder orderService, UserManager<ApplicationUser> userManager)
+        public async Task<IEnumerable<AccountProfileModel>> ApplicationUsersToAccountProfileModelsAsync(IEnumerable<ApplicationUser> users, IOrder orderService, UserManager<ApplicationUser> userManager)
         {
             List<AccountProfileModel> models = new List<AccountProfileModel>(users.Count());
 
