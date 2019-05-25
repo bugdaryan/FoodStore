@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Shop.Data;
+using Shop.Data.Enums;
 using Shop.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Shop.Service
 {
@@ -47,19 +49,78 @@ namespace Shop.Service
 
         public Order GetById(int orderId)
         {
-            return _context.Orders
-                .Include(order => order.User)
-                .Include(order => order.OrderLines).ThenInclude(line => line.Food)
-                .AsNoTracking()
+            return GetAll()
                 .FirstOrDefault(order => order.Id == orderId);
         }
 
 		public IEnumerable<Order> GetByUserId(string userId)
 		{
-            return _context.Orders
-                .Include(order => order.User)
-                .Include(order => order.OrderLines).ThenInclude(line => line.Food)
+            return GetAll()
                 .Where(order => order.User.Id == userId);
+		}
+
+		public IEnumerable<Order> GetFilteredOrders(
+            string userId,
+            OrderBy orderBy = OrderBy.None, 
+            int offset = 0, int limit = 10, 
+            decimal? minimalPrice = null, 
+            decimal? maximalPrice = null, 
+            DateTime? minDate = null, 
+            DateTime? maxDate = null,
+            string zipCode = null)
+		{
+            var orders = string.IsNullOrEmpty(userId)?GetAll():GetByUserId(userId);
+
+            if(orderBy != OrderBy.None)
+            {
+                SetOrderBy(orders, orderBy);
+            }
+
+            if(minimalPrice.HasValue)
+            {
+                orders = orders.Where(order => order.OrderTotal > minimalPrice);
+            }
+
+            if(maximalPrice.HasValue)
+            {
+                orders = orders.Where(order => order.OrderTotal > maximalPrice);
+            }
+
+            if(minDate.HasValue)
+            {
+                orders = orders.Where(order => order.OrderPlaced > minDate.Value);
+            }
+
+            if(maxDate.HasValue)
+            {
+                orders = orders.Where(order => order.OrderPlaced < maxDate.Value);
+            }
+
+            if(!string.IsNullOrEmpty(zipCode))
+            {
+                orders = orders.Where(order => order.ZipCode == zipCode);
+            }
+
+            return orders.Skip(offset).Take(limit);
+		}
+
+		private void SetOrderBy(IEnumerable<Order> orders, OrderBy orderBy)
+		{
+            switch (orderBy)
+            {
+                case OrderBy.DateDesc:
+                    orders = orders.OrderByDescending(order => order.OrderPlaced);
+                    break;
+                case OrderBy.DateAsc:
+                    orders = orders.OrderBy(order => order.OrderPlaced);
+                    break;
+                case OrderBy.PriceAsc:
+                    orders = orders.OrderBy(order => order.OrderTotal);
+                    break;
+                case OrderBy.PriceDesc:
+                    orders = orders.OrderByDescending(order => order.OrderTotal);
+                    break;
+            }
 		}
 
         public IEnumerable<Order> GetUserLatestOrders(int count, string userId)
@@ -91,5 +152,13 @@ namespace Shop.Service
 
             return foods.OrderByDescending(keyValues => keyValues.Value).Select((keyValues) => keyValues.Key).Take(10);
         }
+
+		public IEnumerable<Order> GetAll()
+		{
+            return _context.Orders
+                .AsNoTracking()
+                .Include(order => order.User)
+                .Include(order => order.OrderLines).ThenInclude(line => line.Food);
+		}
 	}
 }
