@@ -1,6 +1,91 @@
 @model Shop.Web.Models.Order.OrderArchiveModel
+<style>
+	.tblack {color:#000;}
+/* Breadcum bar */
+.bg-grey {background:#efefef}
+.breadcrumb {background: none; margin: 0;font-weight: 300;padding-left: 0; font-size: 13px;}
+.breadcrumb a {color: #999;}
+.breadcrumb > .active {color: #696969;}
+.breadcrumb > li + li::before {content: "\203A";color: #999;padding: 0 8px;}
+</style>
 
-@foreach(var order in Model.Orders)
+<div class="bread-bar bg-grey my-2">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-sm-6 col-xs-8">
+				<ol class="breadcrumb">
+					<li><a asp-action="Index" asp-controller="Home">Home</a></li>
+					@if(!string.IsNullOrEmpty(Model.UserId))
+					{
+						<li><a asp-action="Profile" asp-controller="Account" asp-route-userId="@Model.UserId">Live Update</a></li>
+					}
+					else
+					{
+						<li><a asp-action="Profile" asp-controller="Account">Live Update</a></li>
+					}
+					<li class="active">Archive</li>
+				</ol>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-4">
+			</div>
+		</div>
+	</div>
+</div>
+  
+<div class="container">
+	<div class="row">
+	    <div class="col-md-3 bg-secondary">
+	       <div class="filter-sidebar">
+				<div class="row card-body py-2 mb-3 bg-dark tblack">
+					<h4><i class="fa fa-search"></i> Search Options</h4>
+				</div>    
+				<div class="form-group">
+					<select class="form-control" id="conditionsselect1">
+						<option>Conditions</option>
+					</select>
+				</div>
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="">First and last name</span>
+					</div>
+					<input type="text" class="form-control">
+					<input type="text" class="form-control">
+				</div>
+				<div class="form-group">
+					<select class="form-control" id="make1">
+						<option>Make</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="form-control" id="make1">
+						<option>Model</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="form-control" id="mileage1">
+						<option>Max Mileage</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="form-control" id="year1">
+						<option>Year</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select class="form-control" id="make1">
+						<option>Transmission</option>
+					</select>
+				</div>
+				<hr>
+				<button type="btn" class="btn btn-primary">Find Now</button>
+				<button type="btn" class="btn btn-primary">Reset All</button>
+				<div class="pb-3"
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
+<!-- @foreach(var order in Model.Orders)
 {
 	<div>
 		@order.Address
@@ -26,4 +111,4 @@
 
 		}
 	}
-</div>
+</div> -->
