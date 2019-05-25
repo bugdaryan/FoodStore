@@ -42,7 +42,7 @@
     background-position: center;
     padding-right: 16px;
     width: 140px;
-    margin-right: 12px;
+    margin-left: 16px !important;
 }
 
 .navbar li {

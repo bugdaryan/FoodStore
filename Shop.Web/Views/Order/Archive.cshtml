@@ -1,0 +1,29 @@
+@model Shop.Web.Models.Order.OrderArchiveModel
+
+@foreach(var order in Model.Orders)
+{
+	<div>
+		@order.Address
+		<br/>
+		@order.City
+		<br/>
+		@order.OrderTotalFormat
+	</div>
+	<br/>
+	<br/>
+}
+
+<div class="btn btn-group">
+	@for(int i=1;i<=Model.PageCount;i++)
+	{
+		if(i == Model.Page)
+		{
+			<a class="btn btn-primary">@i</a>
+		}
+		else
+		{
+			<a class="btn btn-secondary" asp-route-page="@i" asp-route-userId="@Model.UserId">@i</a>
+
+		}
+	}
+</div>
