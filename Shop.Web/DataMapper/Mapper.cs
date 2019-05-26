@@ -171,6 +171,7 @@ namespace Shop.Web.DataMapper
                 OrderTotal = order.OrderTotal,
                 UserId = order.UserId,
                 ZipCode = order.ZipCode,
+                UserFullName = $"{order.User.FirstName} {order.User.LastName}",
                 OrderLines = OrderDetailsToOrderDetailsListingModel(order.OrderLines)
             });
         }

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,108 +6,110 @@ using Shop.Data.Enums;
 using Shop.Data.Models;
 using Shop.Web.DataMapper;
 using Shop.Web.Models.Order;
-using Shop.Web.Models.OrderDetail;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Shop.Web.Controllers
 {
-	[Authorize]
-	public class OrderController : Controller
-	{
-		private readonly IOrder _orderService;
-		private readonly IFood _foodService;
-		private readonly ShoppingCart _shoppingCart;
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly IOrder _orderService;
+        private readonly IFood _foodService;
+        private readonly ShoppingCart _shoppingCart;
         private readonly Mapper _mapper;
         private static UserManager<ApplicationUser> _userManager;
 
 
-		public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
-		{
-			_orderService = orderService;
-			_shoppingCart = shoppingCart;
-			_userManager = userManager;
-			_foodService = foodService;
+        public OrderController(IOrder orderService, IFood foodService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        {
+            _orderService = orderService;
+            _shoppingCart = shoppingCart;
+            _userManager = userManager;
+            _foodService = foodService;
             _mapper = new Mapper();
-		}
+        }
 
-		public IActionResult Checkout()
-		{
-			var items = _shoppingCart.GetShoppingCartItems();
-			_shoppingCart.ShoppingCartItems = items;
-			if (items.Count() == 0)
-			{
-				ModelState.AddModelError("", "Your cart is empty, add some items first");
-				return RedirectToAction("Index", "Home");
-			}
-			return View();
-		}
+        public IActionResult Checkout()
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
+            if (items.Count() == 0)
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
 
-		[Authorize]
-		// [HttpPost]
-		public async Task<IActionResult> Archive(int? page = 1, string userId = null)
-		{
-			ApplicationUser user;
-			if(!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
-			{
-				user = await _userManager.FindByIdAsync(userId);
-			}
-			else
-			{
-				user = await _userManager.GetUserAsync(User);
-			}
+        [Authorize]
+        // [HttpPost]
+        public async Task<IActionResult> Archive(int? page = 1, string userId = null)
+        {
+            ApplicationUser user;
+            if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+            {
+                user = await _userManager.FindByIdAsync(userId);
+            }
+            else
+            {
+                user = await _userManager.GetUserAsync(User);
+            }
 
-			if(!page.HasValue)
-			{
-				page = 1;
-			}
+            if (!page.HasValue)
+            {
+                page = 1;
+            }
 
-			int orderInPage = 10;
-			int pageCount = (int)Math.Ceiling((double)_orderService.GetAll().Count()/orderInPage);
-			var orders = _orderService.GetFilteredOrders(user.Id,OrderBy.None,(page.Value-1)*orderInPage,orderInPage);
-			var models = _mapper.OrdersToOrderIndexModels(orders);
+            int orderInPage = 5;
+            int pageCount = (int)Math.Ceiling((double)_orderService.GetAll().Count() / orderInPage);
+            var orders = _orderService.GetFilteredOrders(user.Id, OrderBy.None, (page.Value - 1) * orderInPage, orderInPage);
+            var models = _mapper.OrdersToOrderIndexModels(orders);
 
-			var model = new OrderArchiveModel
-			{
-				Orders = models,
-				Page = page.Value,
-				PageCount = pageCount,
-				UserId = user.Id,
-			};
+            var model = new OrderArchiveModel
+            {
+                Orders = models,
+                Page = page.Value,
+                PageCount = pageCount,
+                UserId = user.Id,
+            };
 
-			return View(model);
-		}
+            return View(model);
+        }
 
-		[HttpPost]
-		public async Task<IActionResult> Checkout(OrderIndexModel model)
-		{
-			var items = _shoppingCart.GetShoppingCartItems();
-			_shoppingCart.ShoppingCartItems = items;
+        [HttpPost]
+        public async Task<IActionResult> Checkout(OrderIndexModel model)
+        {
+            var items = _shoppingCart.GetShoppingCartItems();
+            _shoppingCart.ShoppingCartItems = items;
 
-			if (items.Count() == 0)
-			{
-				ModelState.AddModelError("", "Your cart is empty, add some items first");
-				return RedirectToAction("Index", "Home");
-			}
+            if (items.Count() == 0)
+            {
+                ModelState.AddModelError("", "Your cart is empty, add some items first");
+                return RedirectToAction("Index", "Home");
+            }
 
-			if (ModelState.IsValid)
-			{
-				var userId = _userManager.GetUserId(User);
-				var user = await _userManager.FindByIdAsync(userId);
+            if (ModelState.IsValid)
+            {
+                var userId = _userManager.GetUserId(User);
+                var user = await _userManager.FindByIdAsync(userId);
 
-				model.OrderTotal = items.Sum(item => item.Amount * item.Food.Price);
-				var order = _mapper.OrderIndexModelToOrder(model, user);
+                model.OrderTotal = items.Sum(item => item.Amount * item.Food.Price);
+                var order = _mapper.OrderIndexModelToOrder(model, user);
 
-				_orderService.CreateOrder(order);
-				_shoppingCart.ClearCart();
-				return RedirectToAction("CheckoutComplete");
-			}
+                _orderService.CreateOrder(order);
+                _shoppingCart.ClearCart();
+                return RedirectToAction("CheckoutComplete");
+            }
 
-			return View(model);
-		}
+            return View(model);
+        }
 
-		public IActionResult CheckoutComplete()
-		{
-			ViewBag.CheckoutCompleteMessage = "Thanks for your order";
-			return View();
-		}
-	}
+        public IActionResult CheckoutComplete()
+        {
+            ViewBag.CheckoutCompleteMessage = "Thanks for your order";
+            return View();
+        }
+    }
 }

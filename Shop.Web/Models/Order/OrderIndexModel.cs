@@ -41,6 +41,7 @@ namespace Shop.Web.Models.Order
 		public DateTime OrderPlaced { get; set; }
 
 		public string UserId { get; set; }
-		public IEnumerable<OrderDetailListingModel> OrderLines { get; set; }
+        public string UserFullName { get; set; }
+        public IEnumerable<OrderDetailListingModel> OrderLines { get; set; }
 	}
 }
