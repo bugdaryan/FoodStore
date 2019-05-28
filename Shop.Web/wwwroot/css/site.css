@@ -1,11 +1,12 @@
 ﻿body {
     padding: 50px 0 20px 0;
     background-color: #EEE;
-    background-image: url("/images/theme/bg-01.png");
+    background-image: url("/images/theme/bg-02.jpeg");
     background-size: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+    padding-bottom: 0;
 }
 
 .navbar {
@@ -63,6 +64,12 @@
     margin-bottom: 12px;
 }
 
+.footer {
+    height: 100px;
+    background-color: #f8f8f8;
+    border-color: #e7e7e7;
+}
+
 .foodHeading {
     color: white;
     font-size: 1.1em;
@@ -76,9 +83,10 @@
 }
 
 .frontPageSplash {
-    background-image: linear-gradient(to right, rgba(255,255,255,0.1), rgba(255,255,255,0.3)), url("/images/theme/front-splash.png");
+    background-image: linear-gradient(to right, rgba(255,255,255,0.6),rgba(255,255,255,0),rgba(255,255,255,0.6)), url("/images/theme/front-splash.jpg");
     background-repeat: no-repeat;
-    background-position: right;
+    background-position: center;
+    background-size: 100%;
 }
 
 .frontPageLearn {
