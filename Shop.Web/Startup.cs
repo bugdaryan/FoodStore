@@ -34,12 +34,12 @@ namespace Shop.Web
 			if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
 				services.AddDbContext<ApplicationDbContext>(options =>
-					options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+					options.UseSqlServer(Configuration.GetConnectionString("MSSqlConnection")));
 			}
 			else
 			{
 				services.AddDbContext<ApplicationDbContext>(options =>
-					options.UseSqlite("DataSource=FoodShop.Dev.db"));
+					options.UseNpgsql(Configuration.GetConnectionString("PostgresConnection")));
 			}
 
 			services.AddIdentity<ApplicationUser, IdentityRole>(
