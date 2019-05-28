@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Runtime.InteropServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,9 +31,16 @@ namespace Shop.Web
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<ApplicationDbContext>(options =>
-				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-				//options.UseSqlite("DataSource=FoodShop.Dev.db"));
+			if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				services.AddDbContext<ApplicationDbContext>(options =>
+					options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+			}
+			else
+			{
+				services.AddDbContext<ApplicationDbContext>(options =>
+					options.UseSqlite("DataSource=FoodShop.Dev.db"));
+			}
 
 			services.AddIdentity<ApplicationUser, IdentityRole>(
 			   options =>
