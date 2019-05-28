@@ -154,11 +154,11 @@
             {
                 @if(User.IsInRole("Admin"))
                 {
-                    <a class="btn btn-info" asp-controller="Order" asp-action="Archive" asp-route-userId="@Model.Id">More</a>
+                    <a class="btn btn-info" href="/Order/Archive/page-1/@Model.Id">More</a>
                 }
                 else
                 {
-                    <a class="btn btn-info" asp-controller="Order" asp-action="Archive">More</a>
+                    <a class="btn btn-info" href="/Order/Archive/page-1" >More</a>
                 }
             }
         </div>

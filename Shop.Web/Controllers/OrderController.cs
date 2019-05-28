@@ -43,40 +43,84 @@ namespace Shop.Web.Controllers
             return View();
         }
 
-        [Authorize]
+
+        // [Authorize]
         // [HttpPost]
-        public async Task<IActionResult> Archive(int? page = 1, string userId = null)
-        {
-            ApplicationUser user;
-            if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
-            {
-                user = await _userManager.FindByIdAsync(userId);
-            }
-            else
-            {
-                user = await _userManager.GetUserAsync(User);
-            }
+        // public async Task<IActionResult> Archive(int? page, OrderArchiveModel orderModel)
+        // {
+        //     ApplicationUser user;
+        //     if (!string.IsNullOrEmpty(orderModel.UserId) && User.IsInRole("Admin"))
+        //     {
+        //         user = await _userManager.FindByIdAsync(orderModel.UserId);
+        //     }
+        //     else
+        //     {
+        //         user = await _userManager.GetUserAsync(User);
+        //     }
 
-            if (!page.HasValue)
-            {
-                page = 1;
-            }
+        //     if (!page.HasValue)
+        //     {
+        //         page = 1;
+        //     }
 
-            int orderInPage = 5;
-            int pageCount = (int)Math.Ceiling((double)_orderService.GetAll().Count() / orderInPage);
-            var orders = _orderService.GetFilteredOrders(user.Id, OrderBy.None, (page.Value - 1) * orderInPage, orderInPage);
-            var models = _mapper.OrdersToOrderIndexModels(orders);
+        //     int orderInPage = 5;
+        //     int pageCount = (int)Math.Ceiling((double)_orderService.GetAll().Count() / orderInPage);
+        //     var orders = _orderService.GetFilteredOrders(user.Id, OrderBy.None, (page.Value - 1) * orderInPage, orderInPage);
+        //     var models = _mapper.OrdersToOrderIndexModels(orders);
 
-            var model = new OrderArchiveModel
-            {
-                Orders = models,
-                Page = page.Value,
-                PageCount = pageCount,
-                UserId = user.Id,
-            };
+        //     var model = new OrderArchiveModel
+        //     {
+        //         Orders = models,
+        //         Page = page.Value,
+        //         PageCount = pageCount,
+        //         UserId = user.Id,
+        //     };
 
-            return View(model);
-        }
+        //     return View(model);
+        // }
+
+        // [Authorize]
+        // // [HttpPost]
+        // public async Task<IActionResult> Archive(
+        //     int? page = 1, 
+        //     string userId="")
+        //     // string zipCode = "", 
+        //     // string minDate="", 
+        //     // string maxDate="",
+        //     // decimal? minPrice = null,
+        //     // decimal? maxPrice = null,
+        //     // OrderBy orderBy = OrderBy.None)
+        // {
+        //     ApplicationUser user;
+        //     if (!string.IsNullOrEmpty(userId) && User.IsInRole("Admin"))
+        //     {
+        //         user = await _userManager.FindByIdAsync(userId);
+        //     }
+        //     else
+        //     {
+        //         user = await _userManager.GetUserAsync(User);
+        //     }
+
+        //     if (!page.HasValue)
+        //     {
+        //         page = 1;
+        //     }
+
+        //     int orderInPage = 5;
+        //     int pageCount = (int)Math.Ceiling((double)_orderService.GetAll().Count() / orderInPage);
+        //     var orders = _orderService.GetFilteredOrders(user.Id, OrderBy.None, (page.Value - 1) * orderInPage, orderInPage);
+        //     var models = _mapper.OrdersToOrderIndexModels(orders);
+
+        //     var model = new OrderArchiveModel
+        //     {
+        //         Orders = models,
+        //         Page = page.Value,
+        //         PageCount = pageCount,
+        //         UserId = user.Id,
+        //     };
+
+        //     return View(model);
+        // }
 
         [HttpPost]
         public async Task<IActionResult> Checkout(OrderIndexModel model)
