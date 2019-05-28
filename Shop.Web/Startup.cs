@@ -36,10 +36,15 @@ namespace Shop.Web
 				services.AddDbContext<ApplicationDbContext>(options =>
 					options.UseSqlServer(Configuration.GetConnectionString("MSSqlConnection")));
 			}
-			else
+			else if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
 			{
 				services.AddDbContext<ApplicationDbContext>(options =>
 					options.UseNpgsql(Configuration.GetConnectionString("PostgresConnection")));
+			}
+			else
+			{
+				services.AddDbContext<ApplicationDbContext>(options =>
+					options.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
 			}
 
 			services.AddIdentity<ApplicationUser, IdentityRole>(
