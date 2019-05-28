@@ -1,0 +1,200 @@
+@page "page-{pageNumber:int}/{userId?}"
+@model Shop.Web.Pages.ArchiveModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .tblack {
+        color: #000;
+    }
+    /* Breadcum bar */
+    .bg-grey {
+        background: #efefef
+    }
+
+    .breadcrumb {
+        background: none;
+        margin: 0;
+        font-weight: 300;
+        padding-left: 0;
+        font-size: 13px;
+    }
+
+    .breadcrumb a {
+        color: #999;
+    }
+
+    .breadcrumb > .active {
+        color: #696969;
+    }
+
+    .breadcrumb > li + li::before {
+        content: "\203A";
+        color: #999;
+        padding: 0 8px;
+    }
+    legend {
+        width:inherit; 
+        padding:0 5px; 
+        border-bottom:none;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        text-align: left !important;
+    }
+
+    fieldset {
+        border: 1px groove #ddd !important;
+        padding: 0 5px 5px 5px !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow:  0px 0px 0px 0px #000;
+        box-shadow:  0px 0px 0px 0px #000;
+    }
+
+    .card {
+        border:solid 1px black;
+        padding:8px;
+        margin-bottom:16px;
+        border-radius:4px;
+    }
+
+    h3 {
+        font-size:20px !important;
+    }
+</style>
+
+<form></form>
+
+
+<div class="bread-bar bg-grey my-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-6 col-xs-8">
+                <ol class="breadcrumb">
+                    <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                    @if (!string.IsNullOrEmpty(Model.Order.UserId))
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account" asp-route-userId="@Model.Order.UserId">Profile</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-action="Profile" asp-controller="Account">Profile</a></li>
+                    }
+                    <li class="active">Archive</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- <div class="col-md-4 bg-secondary">
+            <form method="POST">
+                <fieldset class="filter-sidebar border p-2">
+                    <legend class="auto-w">Filter Options</legend>
+                    <div class="form-group">
+                        <label>Sort</label>
+                        <select class="form-control">
+                            <option>-- SELECT SORT ORDER --</option>
+                            <option>Price asc</option>
+                            <option>Price desc</option>
+                            <option>Date asc</option>
+                            <option>Date desc</option>
+                        </select>
+                    </div>
+                    <fieldset class="form-group">
+                        <legend>Select date to filter</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>From</label>
+                                <input type="date" asp-for="Order.MinDate" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>To</label>
+                                <input type="date" asp-for="Order.MaxDate" class="form-control" />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <legend>Select price to filter</legend>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>From</label>
+                                <input type="number" asp-for="Order.MinPrice" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>To</label>
+                                <input type="number" asp-for="Order.MaxPrice" class="form-control" />
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="form-group">
+                        <label>Zip code</label>
+                        <input class="form-control" asp-for="Order.ZipCode"/>
+                    </div>
+                    <hr>
+                    <input type="submit" class="btn btn-primary"  value="Find Now"/>
+                    <button type="button" class="btn btn-primary">Reset All</button>
+                </fieldset>
+            </form>
+        </div> -->
+        <div class="col-md-8">
+            <div class="row" style="padding-top:13px;">
+                @foreach(var order in Model.Order.Orders)
+                {
+                 <div>
+                     <div class="card" style="background:white">
+                        <div class="card-body" >
+                            <h5 class="card-title">Order placed: @order.OrderPlaced.ToString("dd/MM/yyyy")</h5>
+                            <ul class="nav nav-pills  countlist" role="tablist">
+                                <li role="presentation">
+                                    <h3>
+                                        @order.Country<br>
+                                        <small>Country</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        @order.City<br>
+                                        <small>City</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        @order.OrderTotalFormat<br>
+                                        <small>Order total</small>
+                                    </h3>
+                                </li>
+                                <li role="presentation">
+                                    <h3>
+                                        <a asp-action="Profile" asp-controller="Account" asp-route-userId="@order.UserId">@order.UserFullName</a><br>
+                                        <small>User</small>
+                                    </h3>
+                                </li>
+                            </ul>
+                            <a class="btn btn-primary" asp-action="Detail" asp-route-id="@order.Id">Details</a>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            <!-- <div class="btn btn-group row"> -->
+                <div class="col-md-offset-5 col-md-4">
+                    @for(int i=1;i<=Model.Order.PageCount;i++)
+                    {
+                        if(i == Model.Order.Page)
+                        {
+                            <a class="btn btn-primary">@i</a>
+                        }
+                        else
+                        {
+                            <a href="/Order/Archive/page-@i" class="btn btn-secondary">@i</a>
+                        }
+                    }
+                </div>
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
