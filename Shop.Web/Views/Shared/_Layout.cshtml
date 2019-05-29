@@ -62,9 +62,61 @@
     <div class="container body-content">
         @RenderBody()
     </div>
-        <footer class="footer">
-            <p>&copy; 2019 - Shop.Web</p>
-        </footer>
+<!-- Footer -->
+  <footer id="myFooter">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <a style="width: 100%;height: 150px;margin-top: 0px;"  asp-controller="Home" asp-action="Index" class="navbar-brand navLogo footerLogo"></a>
+                </div>
+                <div class="col-sm-2">
+                    <h5>Get started</h5>
+                    <ul>
+                        <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                        @if(SignInManager.IsSignedIn(User))
+                        {
+                            <form asp-action="Logout" asp-controller="Account">
+                                <li><button type="submit" class="btn-link" style="text-decoration: none; padding:0; border:0;">Log out</button></li>
+                            </form>
+                        }
+                        else
+                        {
+                            <li><a asp-action="Login" asp-controller="Account">Sign in</a></li>
+                            <li><a asp-action="Register" asp-controller="Account">Sign up</a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-sm-2">
+                    <h5>About us</h5>
+                    <ul>
+                        <li><a href="#">Company Information</a></li>
+                        <li><a href="#">Contact us</a></li>
+                        <li><a href="#">Reviews</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-2">
+                    <h5>Support</h5>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Help desk</a></li>
+                        <li><a href="#">Forums</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <div class="social-networks">
+                        <a href="#" class="twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="google"><i class="fab fa-google-plus"></i></a>
+                    </div>
+                    <button type="button" class="btn btn-default">Contact us</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <p>© 2019 BuyNow - Online Food Shop </p>
+        </div>
+</footer>
+<!-- Footer -->
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

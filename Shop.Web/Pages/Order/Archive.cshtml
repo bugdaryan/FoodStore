@@ -181,7 +181,7 @@
                 }
             </div>
             <!-- <div class="btn btn-group row"> -->
-                <div class="col-md-offset-5 col-md-4">
+                <div class="col-md-offset-5 col-md-4" style="margin-bottom:16px">
                     @for(int i=1;i<=Model.Order.PageCount;i++)
                     {
                         if(i == Model.Order.Page)
@@ -190,7 +190,7 @@
                         }
                         else
                         {
-                            <a href="/Order/Archive/page-@i" class="btn btn-secondary">@i</a>
+                            <a href="/Order/Archive/page-@i" class="btn btn-secondary" style="background:#f9f9f9;">@i</a>
                         }
                     }
                 </div>
