@@ -56,6 +56,7 @@ namespace Shop.Web
 				   options.Password.RequireUppercase = false;
 				   options.Password.RequireNonAlphanumeric = false;
 			   }).AddEntityFrameworkStores<ApplicationDbContext>()
+			    .AddDefaultUI(Microsoft.AspNetCore.Identity.UI.UIFramework.Bootstrap4)
 			   .AddDefaultTokenProviders();
 
 			services.ConfigureApplicationCookie(
@@ -79,11 +80,8 @@ namespace Shop.Web
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IServiceProvider serviceProvider)
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
 		{
-			loggerFactory.AddConsole(LogLevel.Information);
-			var logger = loggerFactory.CreateLogger("Shop app");
-
 			if (env.IsDevelopment())
 			{
 				app.UseBrowserLink();
