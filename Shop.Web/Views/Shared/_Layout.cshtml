@@ -4,6 +4,10 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@{
+    ViewBag.BodyClass = "bg1";
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +16,8 @@
     <title>BuyNow - Online food store</title>
     <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" /> 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <!-- <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" /> -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -25,27 +30,27 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
-<body>
-    <nav class="navbar navbar-default navbar-fixed-top">
+<body class="@ViewBag.BodyClass">
+    <nav class="navbar navbar-expand navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand navLogo"></a>
+                </button> -->
+                <a asp-controller="Home" asp-action="Index" class="navbar-brand navLogo"></a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Category" asp-action="Index">Categories</a></li>
+                <ul class="navbar-nav">
+                    <li ><a  asp-controller="Category" asp-action="Index">Categories</a></li>
                     @if(User.IsInRole("Admin"))
                     {
-						<li><a asp-controller="Account" asp-action="Index">Users</a></li>
-                        <li><a asp-controller="Food" asp-action="New">New Food</a></li>
-                        <li><a asp-controller="Category" asp-action="New">New Category</a></li>
-                        <li><a asp-controller="Account" asp-action="Register">New User</a></li>
+                        <li class="nav-item"><a asp-controller="Account" asp-action="Index">Users</a></li>
+                        <li class="nav-item"><a asp-controller="Food" asp-action="New">New Food</a></li>
+                        <li class="nav-item"><a asp-controller="Category" asp-action="New">New Category</a></li>
+                        <li class="nav-item"><a asp-controller="Account" asp-action="Register">New User</a></li>
                     }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -63,7 +68,7 @@
         @RenderBody()
     </div>
 <!-- Footer -->
-  <footer id="myFooter">
+    <footer id="myFooter" >
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">
@@ -76,7 +81,7 @@
                         @if(SignInManager.IsSignedIn(User))
                         {
                             <form asp-action="Logout" asp-controller="Account">
-                                <li><button type="submit" class="btn-link" style="text-decoration: none; padding:0; border:0;">Log out</button></li>
+                                <li><button type="submit" class="btn-link" style="text-decoration: none; padding:0; border:0;background-color:transparent;">Log out</button></li>
                             </form>
                         }
                         else
@@ -115,13 +120,16 @@
         <div class="footer-copyright">
             <p>© 2019 BuyNow - Online Food Shop </p>
         </div>
-</footer>
+    </footer>
 <!-- Footer -->
 
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <!-- <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script> -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
