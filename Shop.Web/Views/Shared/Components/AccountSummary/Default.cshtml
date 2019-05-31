@@ -1,13 +1,11 @@
 @model Shop.Web.Models.Account.AccountSummaryModel
 
-<li style="display:flex;">
-    <a asp-action="Profile" asp-controller="Account" style="padding:0">
+<div class="btn-group"> 
+    <a asp-action="Profile" asp-controller="Account" style="padding:0; text-decoration: none;font-weight: bold;color:rgba(0,0,0,0.9);font-size: 18px;">
         <img src="@Model.ImageUrl" class="profile-img-summary" />
         @Model.Name
     </a>
-    <a class="dropdown-toggle dropdown-toggle-split" data-toggle="dropdown">
-        <i class="fas fa-angle-down"></i>
-    </a>
+    <a class="dropdown-toggle dropdown-toggle-split" style="padding-top:12px; font-size:20px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
     <div class="dropdown-menu account-dropdown" style="padding:8px; text-align:right;font-size:16px;">
         <a class="dropdown-item" asp-action="Profile" asp-controller="Account">Profile <i class="fas fa-user-circle"></i></a>
         <div class="dropdown-divider"></div>
@@ -15,8 +13,8 @@
         <div class="dropdown-divider"></div>
         <div class="dropdown-item">
             <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
-                <button type="submit" class="btn-link" style="padding:0;border:none;">Log out <i class="fas fa-sign-out-alt"></i></button>
+                <button type="submit" class="btn-link" style="padding:0;border:none;background-color: transparent;">Log out <i class="fas fa-sign-out-alt"></i></button>
             </form>
         </div>
     </div>
-</li>
+</div>
