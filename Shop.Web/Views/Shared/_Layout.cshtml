@@ -61,11 +61,14 @@
             }
         </ul>
         <form class="form-inline">
-            @await Html.PartialAsync("_LoginPartial")
             @if(SignInManager.IsSignedIn(User))
             {
                 @await Component.InvokeAsync("ShoppingCartSummary")
                 @await Component.InvokeAsync("AccountSummary")
+            }
+            else
+            {
+                @await Html.PartialAsync("_LoginPartial")
             }
         </form>
         </div>
@@ -86,9 +89,7 @@
                         <li><a asp-action="Index" asp-controller="Home">Home</a></li>
                         @if(SignInManager.IsSignedIn(User))
                         {
-                            <form asp-action="Logout" asp-controller="Account">
-                                <li><button type="submit" class="btn-link" style="text-decoration: none; padding:0; border:0;background-color:transparent;">Log out</button></li>
-                            </form>
+                                <li><a class="btn-link" asp-controller="Account" asp-action="Logout">Log out</a></li>
                         }
                         else
                         {

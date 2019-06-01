@@ -56,7 +56,7 @@ namespace Shop.Web
 				   options.Password.RequireUppercase = false;
 				   options.Password.RequireNonAlphanumeric = false;
 			   }).AddEntityFrameworkStores<ApplicationDbContext>()
-			    .AddDefaultUI(Microsoft.AspNetCore.Identity.UI.UIFramework.Bootstrap4)
+			    // .AddDefaultUI(Microsoft.AspNetCore.Identity.UI.UIFramework.Bsootstrap4)
 			   .AddDefaultTokenProviders();
 
 			services.ConfigureApplicationCookie(
