@@ -1,17 +1,36 @@
 ﻿body {
-    padding: 50px 0 20px 0;
+    padding: 80px 0 20px 0;
     background-color: #EEE;
     background-size: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
     padding-bottom: 0;
+    min-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
-footer {
-    /* position: absolute;
+
+.float {
+    /* border: 2px solid black; */
+    background-color: white;
+    border-radius: 8px;
+    padding:32px;
+}
+
+nav {
+    padding-left: 140px !important;
+}
+
+nav, footer {
+    flex-shrink: 0 !important;
+}
+/* footer {
+    position: absolute;
     bottom: 0;
-    width: 100%; */
-}
+    width: 100%;
+    left: 0;
+} */
 body.bg1 {
     background-image: url("/images/theme/bg-02.jpeg");
 }
@@ -226,11 +245,11 @@ body{
     margin-bottom: 12px;
 }
 
-.footer {
+/* .footer {
     height: 100px;
     background-color: #f8f8f8;
     border-color: #e7e7e7;
-}
+} */
 
 .foodHeading {
     color: white;
@@ -597,6 +616,7 @@ body{
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    flex-grow:1 !important;
 }
 
 /* Carousel */
@@ -633,7 +653,7 @@ body{
     width: 100%;
     float: left;
     clear: both;
-    margin: 40px auto
+    margin: 40px auto;
 }
 
 .userprofile .userpic {

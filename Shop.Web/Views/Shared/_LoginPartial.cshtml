@@ -4,10 +4,7 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@if (!SignInManager.IsSignedIn(User))
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Sign In <i class="fas fa-sign-in-alt"></i></a></li>
-        <li class="active"><a asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Context.Request.Path">Register <i class="fas fa-user-plus"></i></a></li>
-    </ul>
-}
+<ul class="navbar-nav">
+    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Sign In <i class="fas fa-sign-in-alt"></i></a></li>
+    <li class="active nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register" asp-route-returnUrl="@Context.Request.Path">Register <i class="fas fa-user-plus"></i></a></li>
+</ul>

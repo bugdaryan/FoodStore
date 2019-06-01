@@ -187,13 +187,15 @@ namespace Shop.Web.Controllers
             return View(register);
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
-            _shoppingCart.ClearCart();
+            if(_signInManager.IsSignedIn(User))
+            {
+                await _signInManager.SignOutAsync();
+                _shoppingCart.ClearCart();
+            }
             return RedirectToAction("Index", "Home");
         }
 

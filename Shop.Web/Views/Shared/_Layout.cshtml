@@ -31,44 +31,53 @@
     <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body class="@ViewBag.BodyClass">
-    <nav class="navbar navbar-expand navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button> -->
-                <a asp-controller="Home" asp-action="Index" class="navbar-brand navLogo"></a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="navbar-nav">
-                    <li ><a  asp-controller="Category" asp-action="Index">Categories</a></li>
-                    @if(User.IsInRole("Admin"))
-                    {
-                        <li class="nav-item"><a asp-controller="Account" asp-action="Index">Users</a></li>
-                        <li class="nav-item"><a asp-controller="Food" asp-action="New">New Food</a></li>
-                        <li class="nav-item"><a asp-controller="Category" asp-action="New">New Category</a></li>
-                        <li class="nav-item"><a asp-controller="Account" asp-action="Register">New User</a></li>
-                    }
-                </ul>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f8f8f8;">
+        <a asp-controller="Home" asp-action="Index" class="navbar-brand">
+            <img src="/images/logo.png" width="140px">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" asp-controller="Category" asp-action="Index">Categories</a>
+            </li>
+            @if(User.IsInRole("Admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Account" asp-action="Index">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Food" asp-action="New">New Food</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Category" asp-action="New">New Category</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Account" asp-action="Register">New User</a>
+                </li>
+            }
+        </ul>
+        <form class="form-inline">
+            @if(SignInManager.IsSignedIn(User))
+            {
+                @await Component.InvokeAsync("ShoppingCartSummary")
+                @await Component.InvokeAsync("AccountSummary")
+            }
+            else
+            {
                 @await Html.PartialAsync("_LoginPartial")
-                @if(SignInManager.IsSignedIn(User))
-                {
-                    <ul class="nav navbar-nav navbar-right">
-                        @await Component.InvokeAsync("ShoppingCartSummary")
-                        @await Component.InvokeAsync("AccountSummary")
-                    </ul>
-                }
-            </div>
+            }
+        </form>
         </div>
     </nav>
     <div class="container body-content">
         @RenderBody()
     </div>
 <!-- Footer -->
-    <footer id="myFooter" >
+    <footer id="myFooter" class="page-footer">
         <div class="container">
             <div class="row">
                 <div class="col-sm-3">
@@ -80,9 +89,7 @@
                         <li><a asp-action="Index" asp-controller="Home">Home</a></li>
                         @if(SignInManager.IsSignedIn(User))
                         {
-                            <form asp-action="Logout" asp-controller="Account">
-                                <li><button type="submit" class="btn-link" style="text-decoration: none; padding:0; border:0;background-color:transparent;">Log out</button></li>
-                            </form>
+                                <li><a class="btn-link" asp-controller="Account" asp-action="Logout">Log out</a></li>
                         }
                         else
                         {
