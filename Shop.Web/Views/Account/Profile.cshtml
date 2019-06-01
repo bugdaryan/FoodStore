@@ -8,7 +8,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12 text-center ">
-            <div class="panel panel-default">
+            <div class="panel">
                 <div class="userprofile social ">
                     <div class="userpic"> <img src="@Model.ImageUrl" alt="" class="userpicimg" style="height:100%;"> </div>
                     <h3 class="username">@Model.FirstName @Model.LastName</h3>
@@ -44,7 +44,7 @@
                         <a class="btn btn-primary followbtn" asp-action="Settings">Settings <i class="fas fa-cogs"></i></a>
                     }
                 </div>
-                <div class="clearfix"></div>
+                <div class="clearfix" style="background-color:#f8f8f8"></div>
             </div>
         </div>
         <!-- /.col-md-12 -->
@@ -113,7 +113,7 @@
                             </div>
                             <div id="collapse-@item.GetHashCode()" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    <table class="table table-bordered table-striped">
+                                    <table class="table table-bordered table-striped table-hover table-dark">
                                         <thead>
                                             <tr>
                                                 <th>Selected amount</th>

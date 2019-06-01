@@ -11,6 +11,13 @@
     flex-direction: column !important;
 }
 
+.float {
+    /* border: 2px solid black; */
+    background-color: white;
+    border-radius: 8px;
+    padding:32px;
+}
+
 nav {
     padding-left: 140px !important;
 }
@@ -646,7 +653,7 @@ body{
     width: 100%;
     float: left;
     clear: both;
-    margin: 40px auto
+    margin: 40px auto;
 }
 
 .userprofile .userpic {

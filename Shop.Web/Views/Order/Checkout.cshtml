@@ -1,6 +1,144 @@
 @model Shop.Web.Models.Order.OrderIndexModel
 
-<div class="row">
+<div class="container">
+        <div id="login-row" class="row justify-content-center align-items-center">
+            <div id="login-column" class="col-md-6">
+                <div class="box">
+                    <div class="float">
+    <h3 class="text-center" style="margin-bottom:32px;">You are just one step away from ordering your added items.</h3>
+                        <form asp-action="Checkout" method="post">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Country</span>
+                                </div>
+                                <input type="text" class="form-control" asp-for="Country" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"/>
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">City</span>
+                                </div>
+                                <input type="text" class="form-control" asp-for="City" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <span asp-validation-for="Country" class="text-danger"></span>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Address</span>
+                                </div>
+                                <textarea type="text" class="form-control" asp-for="Address" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"></textarea>
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">Zip code</span>
+                                </div>
+                                <input type="text" class="form-control" asp-for="ZipCode" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                <span asp-validation-for="ZipCode" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <a asp-action="Index" asp-controller="ShoppingCart" class="btn btn-danger">Cancel</a>
+                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Checkout">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        .box {
+    width: 500px;
+    margin: 50px 0;
+}
+
+.shape1{
+    position: relative;
+    height: 150px;
+    width: 150px;
+    background-color: #0074d9;
+    border-radius: 80px;
+    float: left;
+    margin-right: -50px;
+}
+.shape2 {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    background-color: #0074d9;
+    border-radius: 80px;
+    margin-top: -30px;
+    float: left;
+}
+.shape3 {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    background-color: #0074d9;
+    border-radius: 80px;
+    margin-top: -30px;
+    float: left;
+    margin-left: -31px;
+}
+.shape4 {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    background-color: #0074d9;
+    border-radius: 80px;
+    margin-top: -25px;
+    float: left;
+    margin-left: -32px;
+}
+.shape5 {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    background-color: #0074d9;
+    border-radius: 80px;
+    float: left;
+    margin-right: -48px;
+    margin-left: -32px;
+    margin-top: -30px;
+}
+.shape6 {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    background-color: #0074d9;
+    border-radius: 80px;
+    float: left;
+    margin-right: -20px;
+    margin-top: -35px;
+}
+.shape7 {
+    position: relative;
+    height: 150px;
+    width: 150px;
+    background-color: #0074d9;
+    border-radius: 80px;
+    float: left;
+    margin-right: -20px;
+    margin-top: -57px;
+}
+.float {
+    position: absolute;
+    z-index: 2;
+}
+
+.form {
+    margin-left: 145px;
+}
+    </style>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function GetFavColor() {
+//        document.body.className = "bg-login";
+    document.body.getElementsByTagName("footer")[0].style = "position: absolute;bottom: 0;width: 100%;";
+});
+</script>
+<!-- <div class="row">
     <h3 class="text-center" style="margin-bottom:32px;">You are just one step away from ordering your added items.</h3>
     <div class="col-md-8 col-md-offset-1">
         <div class="row orderForm ">
@@ -45,4 +183,4 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->
