@@ -5,12 +5,13 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<div class="container body-content">
+<div class="container body-content" style="margin-bottom:200px;">
     <div class="row foodHeader">
         <div class="foodHeading">
             <span class="foodIndexName">
                 @Model.Name
             </span>
+            <br>
             <span id="headingBtn"><a asp-controller="Category" asp-action="Topic" asp-route-id="@Model.CategoryId" class="btn btn-back">Back to @Model.CategoryName section</a></span>
         </div>
     </div>

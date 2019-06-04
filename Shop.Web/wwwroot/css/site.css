@@ -501,13 +501,14 @@ body{
     padding: 3px 5px 2px 12px;
     margin: 8px;
     background-color: #333;
-    width: 10%;
+    width: 50%;
     transition: ease .3s;
+    
 }
 
 .searchBar:focus {
     color: black;
-    width: 60%;
+    width: 80%;
     background-color: #fff;
 }
 
@@ -1210,4 +1211,62 @@ body{
     background-repeat: repeat-x;
     -webkit-box-shadow: inset 0 3px 9px rgba(0, 0, 0, .075);
             box-shadow: inset 0 3px 9px rgba(0, 0, 0, .075);
+  }
+
+  .btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+  }
+  .btn-default:focus,
+  .btn-default.focus {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #8c8c8c;
+  }
+  .btn-default:hover {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+  }
+  .btn-default:active,
+  .btn-default.active,
+  .open > .dropdown-toggle.btn-default {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+  }
+  .btn-default:active:hover,
+  .btn-default.active:hover,
+  .open > .dropdown-toggle.btn-default:hover,
+  .btn-default:active:focus,
+  .btn-default.active:focus,
+  .open > .dropdown-toggle.btn-default:focus,
+  .btn-default:active.focus,
+  .btn-default.active.focus,
+  .open > .dropdown-toggle.btn-default.focus {
+    color: #333;
+    background-color: #d4d4d4;
+    border-color: #8c8c8c;
+  }
+  .btn-default:active,
+  .btn-default.active,
+  .open > .dropdown-toggle.btn-default {
+    background-image: none;
+  }
+  .btn-default.disabled:hover,
+  .btn-default[disabled]:hover,
+  fieldset[disabled] .btn-default:hover,
+  .btn-default.disabled:focus,
+  .btn-default[disabled]:focus,
+  fieldset[disabled] .btn-default:focus,
+  .btn-default.disabled.focus,
+  .btn-default[disabled].focus,
+  fieldset[disabled] .btn-default.focus {
+    background-color: #fff;
+    border-color: #ccc;
+  }
+  .btn-default .badge {
+    color: #fff;
+    background-color: #333;
   }

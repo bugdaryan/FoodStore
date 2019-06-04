@@ -48,6 +48,80 @@
             </div>
         </div>
         <!-- /.col-md-12 -->
+        <div class=col-md-8>
+            <div clas="panel panel-default">
+                <p>Latest orders</p>
+                @if(Model.OrderCount == 0)
+                {
+                    <p>It looks like you havn't ordered anything yet...</p>
+                }
+                @foreach(var item in Model.LatestOrders)
+                {
+                    <div class="col-md-8 col-sm-12 pull-left posttimeline">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" style="background-color: rgba(248,248,248,0.7)">
+                                    <h4 class="panel-title">
+                                        <p style="color:rgb(62, 80, 89)">Order Total: @(item.OrderTotalFormat)</p>
+                                        <div>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@item.GetHashCode()">
+                                                Details
+                                            </a>
+                                        </div>
+                                    </h4>
+                                </div>
+                                <div id="collapse-@item.GetHashCode()" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <table class="table table-bordered table-striped table-hover table-dark">
+                                            <thead>
+                                                <tr>
+                                                    <th>Selected amount</th>
+                                                    <th>Product</th>
+                                                    <th class="text-right">Price</th>
+                                                    <th class="text-right">Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var line in item.OrderLines)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">@line.Amount</td>
+                                                        <td class="text-left"><a class="btn btn-info" asp-controller="Food" asp-action="Index" asp-route-id="@line.Food.Id">@(line.Food.Name)</a></td>
+                                                        <td class="text-right">@(line.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))</td>
+                                                        <td class="text-right">
+                                                            @((line.Amount * line.Price).ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3" class="text-right">Total:</td>
+                                                    <td class="text-right">
+                                                        @(item.OrderTotalFormat)
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                }
+                @if(Model.OrderCount > Model.LatestOrders.Count())
+                {
+                    @if(User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-info" href="/Order/Archive/page-1/@Model.Id">More</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-info" href="/Order/Archive/page-1" >More</a>
+                    }
+                }
+            </div>
+        </div>
         <div class="col-md-4 col-sm-12 pull-right">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -89,78 +163,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-        <div clas="panel panel-default">
-            <p>Latest orders</p>
-            @if(Model.OrderCount == 0)
-            {
-                <p>It looks like you havn't ordered anything yet...</p>
-            }
-            @foreach(var item in Model.LatestOrders)
-            {
-                <div class="col-md-8 col-sm-12 pull-left posttimeline">
-                    <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <p>Order Total: @(item.OrderTotalFormat)</p>
-                                    <div>
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-@item.GetHashCode()">
-                                            Details
-                                        </a>
-                                    </div>
-                                </h4>
-                            </div>
-                            <div id="collapse-@item.GetHashCode()" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <table class="table table-bordered table-striped table-hover table-dark">
-                                        <thead>
-                                            <tr>
-                                                <th>Selected amount</th>
-                                                <th>Product</th>
-                                                <th class="text-right">Price</th>
-                                                <th class="text-right">Subtotal</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var line in item.OrderLines)
-                                            {
-                                                <tr>
-                                                    <td class="text-center">@line.Amount</td>
-                                                    <td class="text-left"><a class="btn btn-info" asp-controller="Food" asp-action="Index" asp-route-id="@line.Food.Id">@(line.Food.Name)</a></td>
-                                                    <td class="text-right">@(line.Price.ToString("c",CultureInfo.CreateSpecificCulture("en-US")))</td>
-                                                    <td class="text-right">
-                                                        @((line.Amount * line.Price).ToString("c",CultureInfo.CreateSpecificCulture("en-US")))
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="3" class="text-right">Total:</td>
-                                                <td class="text-right">
-                                                    @(item.OrderTotalFormat)
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                </div>
-            }
-            @if(Model.OrderCount > Model.LatestOrders.Count())
-            {
-                @if(User.IsInRole("Admin"))
-                {
-                    <a class="btn btn-info" href="/Order/Archive/page-1/@Model.Id">More</a>
-                }
-                else
-                {
-                    <a class="btn btn-info" href="/Order/Archive/page-1" >More</a>
-                }
-            }
         </div>
     </div>
 </div>

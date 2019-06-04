@@ -140,11 +140,11 @@
                 </fieldset>
             </form>
         </div> -->
-        <div class="col-md-8">
+        <div class="col-md-9">
             <div class="row" style="padding-top:13px;">
                 @foreach(var order in Model.Order.Orders)
                 {
-                 <div>
+                 <div style="width:650px;">
                      <div class="card" style="background:white">
                         <div class="card-body" >
                             <h5 class="card-title">Order placed: @order.OrderPlaced.ToString("dd/MM/yyyy")</h5>
@@ -190,7 +190,7 @@
                         }
                         else
                         {
-                            <a href="/Order/Archive/page-@i" class="btn btn-secondary" style="background:#f9f9f9;">@i</a>
+                            <a href="/Order/Archive/page-@i" class="btn btn-secondary" style="background:#f9f9f9; color:#3c3d41">@i</a>
                         }
                     }
                 </div>

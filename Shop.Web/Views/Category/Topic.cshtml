@@ -6,35 +6,42 @@
 @inject UserManager<ApplicationUser> UserManager
 
 <div class="container body-content">
-    <div class="row sectionHeader">
+    <div class="sectionHeader">
         <div class="sectionHeading">
-            <span id="results">@Model.Category.Name</span>
-            <form asp-controller="Category" asp-action="Search" method="post">
-                <div class="searchForm">
-                    <input asp-for="SearchQuery" type="text" placeholder="Search..." class="searchBar" onfocus="clearThis(this)">
-                    <button type="submit" class="btn btn-categorySearch">
-                        <i class="material-icons">search</i>
-                    </button>
-                </div>
-                <input asp-for="Category.Id" name="id" type="hidden" />
-            </form>
+            <h3><span id="results">@Model.Category.Name</span><h3/>
         </div>
-        <div class="col-md-8 sectionDescription">
-            <div class="categoryLogo" style="background-image: url(@Model.Category.ImageUrl); background-size:100%"></div>
-            <p>Welcome to the <strong>@Model.Category.Name</strong> section</p>
-            <p>
-                Please read the Category Guidelines before ordering a product.
-            </p>
+        <div class="row">
+            <div class="col-md-8 sectionDescription">
+                <div class="categoryLogo" style="background-image: url(@Model.Category.ImageUrl); background-size:100%"></div>
+                <p>Welcome to the <strong>@Model.Category.Name</strong> section</p>
+                <p>
+                    Please read the Category Guidelines before ordering a product.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <form asp-controller="Category" asp-action="Search" method="post">
+                    <div class="searchForm">
+                        <input asp-for="SearchQuery" type="text" placeholder="Search..." class="searchBar" onfocus="clearThis(this)">
+                        <button type="submit" class="btn btn-categorySearch">
+                            <i class="material-icons">search</i>
+                        </button>
+                    </div>
+                    <input asp-for="Category.Id" name="id" type="hidden" />
+                </form>
+            </div>
         </div>
         @if(User.IsInRole("Admin"))
         {
-            <div class="col-md-offset-3 col-md-1">
-                <div class="row" style="margin-bottom:16px;">
-                    <a class="btn btn-default" asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Category.Id">Edit</a>
-                </div>
-                <div class="row">
-                    @Html.ActionLink("Delete", "Delete", new { id = @Model.Category.Id },
-            new { onclick = "return confirm('Are sure you want to delete category?');", @class="btn btn-danger" })
+            <div class="row">
+                <div class="col-md-11"></div>
+                <div class="col-md-1">
+                    <div class="row" style="margin-bottom:16px;">
+                        <a class="btn btn-default" asp-controller="Category" asp-action="Edit" asp-route-id="@Model.Category.Id">Edit</a>
+                    </div>
+                    <div class="row">
+                        @Html.ActionLink("Delete", "Delete", new { id = @Model.Category.Id },
+                new { onclick = "return confirm('Are sure you want to delete category?');", @class="btn btn-danger" })
+                    </div>
                 </div>
             </div>
         }

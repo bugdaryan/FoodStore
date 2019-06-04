@@ -1,32 +1,276 @@
 ﻿@model Shop.Web.Models.Account.AccountRegisterModel
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<div class="row loginForm">
-    <div class="col-md-8 col-md-offset-1">
+<style>
+    :after,:before{box-sizing:border-box}
+    .clearfix:after,.clearfix:before{content:'';display:table}
+    .clearfix:after{clear:both;display:block}
+    a{color:inherit;text-decoration:none}
+
+    .login-wrap{
+        width: 100%;
+        margin:auto;
+        margin-top: 32px;
+        margin-bottom:32px;
+        padding-bottom: 32px;
+        max-width:510px;
+        min-height:510px;
+        position:relative;
+        background:url(https://maxcdn.icons8.com/app/uploads/2016/03/material-1-1000x563.jpg) no-repeat center;
+        background-size: cover;
+        box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+        height: 1300px;
+    }
+    .login-html{
+        width:100%;
+        height:100%;
+        position:absolute;
+        padding:90px 70px 50px 70px;
+        background:rgba(0,0,0,0.5);
+    }
+    .login-html .sign-in-htm,
+    .login-html .for-pwd-htm{
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        position:absolute;
+        -webkit-transform:rotateY(180deg);
+                transform:rotateY(180deg);
+        -webkit-backface-visibility:hidden;
+                backface-visibility:hidden;
+        -webkit-transition:all .4s linear;
+        transition:all .4s linear;
+    }
+    .login-html .sign-in,
+    .login-html .for-pwd,
+    .login-form .group .check{
+        display:none;
+    }
+    .login-html .tab,
+    .login-form .group .label,
+    .login-form .group .button{
+        text-transform:uppercase;
+    }
+    .login-html .tab{
+        font-size:22px;
+        margin-right:15px;
+        padding-bottom:5px;
+        margin:0 15px 10px 0;
+        display:inline-block;
+        border-bottom:2px solid transparent;
+    }
+    .login-html .sign-in:checked + .tab,
+    .login-html .for-pwd:checked + .tab{
+        color:#fff;
+        border-color:#1161ee;
+    }
+    .login-form{
+        min-height:345px;
+        position:relative;
+        -webkit-perspective:1000px;
+                perspective:1000px;
+        -webkit-transform-style:preserve-3d;
+                transform-style:preserve-3d;
+    }
+    .login-form .group{
+        margin-bottom:15px;
+    }
+    .login-form .group .label,
+    .login-form .group .input,
+    .login-form .group .button{
+        width:100%;
+        color:#fff;
+        display:block;
+    }
+    .login-form .group .input,
+    .login-form .group .button{
+        border:none;
+        padding:15px 20px;
+        border-radius:25px;
+        background:rgba(255,255,255,.1);
+        outline: none;
+    }
+    .login-form .group input[data-type="password"]{
+        text-security:circle;
+        -webkit-text-security:circle;
+    }
+    .login-form .group .label{
+        color:#aaa;
+        font-size:12px;
+    }
+    .login-form .group .button{
+        background:#1161ee;
+    }
+    .login-form .group label .icon{
+        width:15px;
+        height:15px;
+        border-radius:2px;
+        position:relative;
+        display:inline-block;
+        background:rgba(255,255,255,.1);
+    }
+    .login-form .group label .icon:before,
+    .login-form .group label .icon:after{
+        content:'';
+        width:10px;
+        height:2px;
+        background:#fff;
+        position:absolute;
+        -webkit-transition:all .2s ease-in-out 0s;
+        transition:all .2s ease-in-out 0s;
+    }
+    .login-form .group label .icon:before{
+        left:3px;
+        width:5px;
+        bottom:6px;
+        -webkit-transform:scale(0) rotate(0);
+                transform:scale(0) rotate(0);
+    }
+    .login-form .group label .icon:after{
+        top:6px;
+        right:0;
+        -webkit-transform:scale(0) rotate(0);
+                transform:scale(0) rotate(0);
+    }
+    .login-form .group .check:checked + label{
+        color:#fff;
+    }
+    .login-form .group .check:checked + label .icon{
+        background:#1161ee;
+    }
+    .login-form .group .check:checked + label .icon:before{
+        -webkit-transform:scale(1) rotate(45deg);
+                transform:scale(1) rotate(45deg);
+    }
+    .login-form .group .check:checked + label .icon:after{
+        -webkit-transform:scale(1) rotate(-45deg);
+                transform:scale(1) rotate(-45deg);
+    }
+    .login-html .sign-in:checked + .tab + .for-pwd + .tab + .login-form .sign-in-htm{
+        -webkit-transform:rotate(0);
+                transform:rotate(0);
+    }
+    .login-html .for-pwd:checked + .tab + .login-form .for-pwd-htm{
+        -webkit-transform:rotate(0);
+                transform:rotate(0);
+    }
+
+    .hr{
+        height:2px;
+        margin:60px 0 50px 0;
+        background:rgba(255,255,255,.2);
+    }
+    .foot-lnk{
+        text-align:center;
+    }
+</style>
+
+ <div class="login-wrap">
+	<div class="login-html">
+		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign Up</label>
+		<input id="tab-2" type="hidden" name="tab" class="for-pwd"> <label for="tab-2" class="tab"></label>
+		<div class="login-form">
+            <form asp-controller="Account" asp-action="Register" method="post" class="form-horizontal" role="form">
+                <div class="sign-in-htm">
+                    <div class="group">
+                        <label for="user" class="label">*First Name</label>
+                        <input id="user" asp-for="FirstName" required type="text" class="input">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="group">
+                        <label for="user" class="label">*Last Name</label>
+                        <input id="user" asp-for="LastName" required type="text" class="input">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">*Email</label>
+                        <input id="user" asp-for="Email" required type="text" class="input">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">*Country</label>
+                        <input id="user" asp-for="Country" required type="text" class="input">
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">*City</label>
+                        <input id="user" asp-for="City" required type="text" class="input">
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">Address 1</label>
+                        <input id="user" asp-for="AddressLine1" type="text" class="input">
+                        <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">Address 2</label>
+                        <input id="user" asp-for="AddressLine2" type="text" class="input">
+                        <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">*Phone Number</label>
+                        <input id="user" asp-for="PhoneNumber" required type="text" class="input">
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="group">
+                        <label for="user" class="label">ImageUrl</label>
+                        <input id="user" asp-for="ImageUrl" type="text" class="input">
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">*Password</label>
+                        <input id="pass" type="password" required asp-for="Password" class="input" data-type="password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">*Password Confirmation</label>
+                        <input id="pass" type="password" required asp-for="PasswordConfirmation" class="input" data-type="password">
+                        <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
+                    </div>
+                    <div class="group">
+                        <input type="submit" class="button" value="Sign Up">
+                    </div>
+                </div>
+            </form>
+			<div class="for-pwd-htm">
+				<div class="group">
+					<label for="user" class="label">Username or Email</label>
+					<input id="user" type="text" class="input">
+				</div>
+				<div class="group">
+					<input type="submit" class="button" value="Reset Password">
+				</div>
+				<div class="hr"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="row loginForm" style="margin-bottom:32px;margin-top:32px;">
+    <div class="col-md-3"></div>
+    <div class="col-md-8" style="border-radius:6px; background-color:rgba(248,248,248,0.6)">
         <h2>Register now</h2>
         <form asp-controller="Account" asp-action="Register" method="post" class="form-horizontal" role="form">
             <h4>Create a new account and order your food now!</h4>
             <hr />
-                <div class="form-group">
-                <label asp-for="FirstName" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">*First and last name</span>
                 </div>
-            </div>          
-            <div class="form-group">
-                <label asp-for="LastName" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="LastName" class="form-control" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
+                <input type="text" aria-label="First name" asp-for="FirstName" required class="form-control">
+                <input type="text" aria-label="Last name" asp-for="LastName" required class="form-control">
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="addon-wrapping">*Email</span>
                 </div>
-            </div>        
-            <div class="form-group">
-                <label asp-for="Email" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-            </div>      
+                <input type="text" class="form-control" placeholder="Email" asp-for="Email" required aria-describedby="addon-wrapping">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Country" class="col-md-3 control-label"></label>
                 <div class="col-md-9">
@@ -93,4 +337,11 @@
             </div>
         </form>
     </div>
-</div>
+</div> -->
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function GetFavColor() {
+        document.body.className = "bg-login";
+   // document.body.getElementsByTagName("footer")[0].style = "position: absolute;bottom: 0;width: 100%;";
+});
+</script>

@@ -11,6 +11,7 @@
         width: 100%;
         margin:auto;
         margin-top: 32px;
+        margin-bottom:32px;
         padding-bottom: 32px;
         max-width:510px;
         min-height:510px;
@@ -173,14 +174,17 @@
 			<div class="sign-in-htm">
 				<div class="group">
 					<label for="user" class="label">Email</label>
-					<input id="user" asp-for="Email" type="text" class="input">
+					<input id="user" asp-for="Email" required type="text" class="input">
                     <span asp-validation-for="Email" class="text-danger"></span>
 				</div>
 				<div class="group">
 					<label for="pass" class="label">Password</label>
-					<input id="pass" type="password" asp-for="Password" class="input" data-type="password">
+					<input id="pass" type="password" required asp-for="Password" class="input" data-type="password">
                     <span asp-validation-for="Password" class="text-danger"></span>
 				</div>
+                <div class="group">
+                    <span asp-validation-for="IncorrectInput" class="text-danger"></span>
+                </div>
 				<div class="group">
 					<input type="submit" class="button" value="Sign In">
 				</div>
@@ -204,6 +208,6 @@
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function GetFavColor() {
         document.body.className = "bg-login";
-    document.body.getElementsByTagName("footer")[0].style = "position: absolute;bottom: 0;width: 100%;";
+   // document.body.getElementsByTagName("footer")[0].style = "position: absolute;bottom: 0;width: 100%;";
 });
 </script>
