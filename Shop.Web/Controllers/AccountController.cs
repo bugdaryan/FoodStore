@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -180,7 +181,15 @@ namespace Shop.Web.Controllers
                         Password = register.Password,
                     };
                     await _userManager.AddToRoleAsync(user, "Customer");
-                    return RedirectToAction("Login", new { login = loginModel });
+                    if(!_signInManager.IsSignedIn(User) )
+                    {
+                        await _signInManager.PasswordSignInAsync(user, register.Password, false,false);
+                    }
+                    if(!string.IsNullOrEmpty(register.ReturnUrl))
+                    {
+                        return Redirect(register.ReturnUrl);
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
