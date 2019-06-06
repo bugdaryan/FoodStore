@@ -188,7 +188,9 @@
 				<div class="group">
 					<input type="submit" class="button" value="Sign In">
 				</div>
-				<div class="hr"></div>
+				<div class="hr">
+                    <p style="color:#f8f8f8; margin:8px">Not a member yet?<a asp-action="Register" asp-route-returnUrl = "@Model.ReturnUrl"> Join Now</a></p>
+                </div>
 			</div>
         </form>
 			<div class="for-pwd-htm">

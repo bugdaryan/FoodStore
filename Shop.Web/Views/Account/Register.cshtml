@@ -19,7 +19,7 @@
         background:url(https://maxcdn.icons8.com/app/uploads/2016/03/material-1-1000x563.jpg) no-repeat center;
         background-size: cover;
         box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
-        height: 1300px;
+        height: 1400px;
     }
     .login-html{
         width:100%;
@@ -232,6 +232,9 @@
                     <div class="group">
                         <input type="submit" class="button" value="Sign Up">
                     </div>
+                    <div class="hr">
+                        <p style="color:#f8f8f8; padding:8px;">Already have an account?<a asp-action="Login" asp-route-returnUrl = "@Model.ReturnUrl"> Sign In Here!</a></p>
+                    </div>
                 </div>
             </form>
 			<div class="for-pwd-htm">
@@ -247,98 +250,6 @@
 		</div>
 	</div>
 </div>
-
-<!-- <div class="row loginForm" style="margin-bottom:32px;margin-top:32px;">
-    <div class="col-md-3"></div>
-    <div class="col-md-8" style="border-radius:6px; background-color:rgba(248,248,248,0.6)">
-        <h2>Register now</h2>
-        <form asp-controller="Account" asp-action="Register" method="post" class="form-horizontal" role="form">
-            <h4>Create a new account and order your food now!</h4>
-            <hr />
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">*First and last name</span>
-                </div>
-                <input type="text" aria-label="First name" asp-for="FirstName" required class="form-control">
-                <input type="text" aria-label="Last name" asp-for="LastName" required class="form-control">
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="addon-wrapping">*Email</span>
-                </div>
-                <input type="text" class="form-control" placeholder="Email" asp-for="Email" required aria-describedby="addon-wrapping">
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Country" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="Country" class="form-control" />
-                    <span asp-validation-for="Country" class="text-danger"></span>
-                </div>
-            </div>   
-            <div class="form-group">
-                <label asp-for="City" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="City" class="form-control" />
-                    <span asp-validation-for="City" class="text-danger"></span>
-                </div>
-            </div>      
-            <div class="form-group">
-                <label asp-for="AddressLine1" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="AddressLine1" class="form-control" />
-                    <span asp-validation-for="AddressLine1" class="text-danger"></span>
-                </div>
-            </div>        
-            <div class="form-group">
-                <label asp-for="AddressLine2" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="AddressLine2" class="form-control" />
-                    <span asp-validation-for="AddressLine2" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="PhoneNumber" class="form-control" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="ImageUrl" class="form-control" />
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="PasswordConfirmation" class="col-md-3 control-label"></label>
-                <div class="col-md-9">
-                    <input asp-for="PasswordConfirmation" class="form-control" />
-                    <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group formPullRightButton">
-                <div class="col-md-offset-3 col-md-2">
-                    <a class="btn btn-danger" asp-action="Cancel" asp-route-returnUrl="@Model.ReturnUrl" >Cancel</a>
-                </div>
-                <div class="col-md-offset-5 col-md-2">
-                    <input type="submit" class="btn btn-success" style="float:right" value="Register" />
-                </div>
-            </div>
-        </form>
-    </div>
-</div> -->
-
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function GetFavColor() {
         document.body.className = "bg-login";
