@@ -154,13 +154,16 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
      <script type="text/javascript">
-         function changeValue(target, num) {
+         function changeValue(target, output,total,  num) {
              let val = parseInt(target.value);
              if (num < 0 && val <= 1) {
                  return;
              }
              val += num;
              target.value = val;
+
+             let totalInt = val * parseFloat(total.substring(1));
+             output.value = ('$' + totalInt).substring(0,6);
             }
 
         function readUrl(input, id) {  
